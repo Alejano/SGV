@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<title>Vehiculos</title>
+<head>
+	<meta charset="utf-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
+	<link href="favicon.html" rel="icon">
+	<link rel="stylesheet" th:href="@{/assets/css/estilos.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
+	<script src="/assets/js/jquery-3.4.1.min.js"></script>
+	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>	
+</head>
+<body>
+	<header>
+		<div class="heades">
+			<img th:src="@{/images/pgj.png}" style="width: 20%">			
+		</div>
+                <div class="TituloCon">
+                </div>
+		<div class="form-group last col-sm-12 form-nav" >		    		
+			<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/home}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-home fa-2x" style="margin-top: 10%;"></i></a>
+			<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/Vehiculos}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="far fa-arrow-alt-circle-left fa-2x" style="margin-top: 10%"></i></a>
+			
+			<div id="button" class="form-group last col-sm-4 " style="margin-bottom: 5px;margin-top: 5px;"> 
+				<div class="container col-sm-4">
+  							 				 					 			
+	 				<div class="dropdown col-sm-4"  >
+						  
+						  <a class="btn btn-secondary dropdown-toggle btn-stilo" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #337ab7;">						   
+						  MENU
+						  </a>
+						
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						  	
+						    <form th:action="@{/Viajes}" style="margin-bottom: 3px; margin-left: 5px;" >
+						        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Viajes</button>					    	
+				    		</form>						    
+						    <form th:action="@{/Vehiculos}" style="margin-bottom: 3px; margin-left: 5px;" >
+								        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Vehiculo</button>					    	
+						    </form>
+						     <form th:action="@{/Seguros}" style="margin-bottom: 3px; margin-left: 5px;" >
+								        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Seguros</button>					    	
+						    </form>
+						      <form th:action="@{/Conductores}" style="margin-bottom: 3px; margin-left: 5px;" >
+								        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Conductores</button>					    	
+						    </form>	
+						    <form th:action="@{/Mantenimientos}" style="margin-bottom: 3px; margin-left: 5px;" >
+								        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Mantenimiento</button>					    	
+						    </form>						 
+						   		
+						  </div>
+					</div>			
+ 				</div>
+ 			</div> 			
+		</div>
+		<h1 class="item-title text-right StituloCon">Vehiculos</h1>
+	</header>
+<section>
+	 <div class="tab-content">
+	      <div class="form-group last col-sm-12 formfondo">
+	                <div class="row">
+	                    <div class="tab-content">
+	                        <div class="col-sm-12">
+	                            <div class="item-wrap">
+	                                <div class="row">
+	                                    <div class="col-md-12">
+	                                        <form th:action="@{/formVehi}" th:object="${vehiculo}" method="post" id="formulario"  data-toggle="validator" class="popup-form">
+	                                            <div class="row">
+	                                            <!--Numero de placa-->
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<input th:field="*{placa}" name="fname" id="N_Placa" placeholder="Placa" class="form-control" type="text" required data-error="Ingrese El Numero de Placa">
+														<div class="input-group-icon"><i class="fa fa-user"></i></div>
+													</div>
+
+													<!--distancia recorrida-->
+													<div class="form-group col-sm-2">
+														<div class="help-block with-errors"></div>
+														<input th:field="*{kilometraje}" id="D_re" placeholder="Distancia Recorrida" class="form-control" type="number" min="0" max="100000000000000" required data-error="Ingrese La Distancia Recorrida">
+														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
+													</div>
+													<div class="form-group col-sm-2">
+														
+														<input placeholder="Kilometros" class="form-control" disabled>
+														
+													</div>
+																								
+											
+													<!--Marca-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<input th:field="*{marca}"  id="Marca" placeholder="Marca" class="form-control" type="text" required data-error="Ingrese La Marca">
+														<div class="input-group-icon"><i class="fas fa-car-side"></i></div>
+													</div>
+
+													<!--Modelo-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<input th:field="*{modelo}"  id="modelo" placeholder="Modelo" class="form-control" type="text" required data-error="Ingrese El Modelo">
+														<div class="input-group-icon"><i class="fas fa-car"></i></div>
+													</div> 		
+
+													<!--Clase-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<select th:field="*{clase}"  id="clase" class="form-control" style="height: 34px;" required data-error="Ingree la clase">
+														<option value="">-Clase-</option>
+														<option th:value="*{clase}" th:utext="*{clase}"/>														
+														<option th:value="Monovulemen">-Monovulemen</option>
+														<option th:value="'Berlin o Sedan'">-Berlin o Sedan</option>
+														<option th:value="Cupé">-Cupé</option>
+														<option th:value="Hatchback">-Hatchback</option>
+														<option th:value="'Descapotable,cabrio o cabriolet'">-Descapotable,cabrio o cabriolet</option>
+														<option th:value="Roadster">-Roadster</option>
+														<option th:value="'Familia,ranchera,break o tourer'">-Familia,ranchera,break o tourer</option>
+														<option th:value="Todoterreno">-Todoterreno</option>
+														<option th:value="Crossover">-Crossover</option>
+														<option th:value="SUV">-SUV</option>
+														<option th:value="Deportivos">-Deportivos</option>
+														</select>											
+													  <div class="input-group-icon"><i class="fas fa-ad"></i>
+													   </div>
+												    </div>
+
+													<!--Año-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<input th:field="*{ano}"  id="año" placeholder="Año"  min="1960" max="2040" class="form-control" type="number" required data-error="Ingrese El Año">
+														<div class="input-group-icon"><i class="fas fa-car-side"></i></div>
+													</div>
+
+													<!--Tipo-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<input th:field="*{tipo}"  id="tipo" placeholder="Tipo" class="form-control" type="text" required data-error="Ingrese El Tipo">
+														<div class="input-group-icon"><i class="fas fa-car-side"></i></div>
+													</div>
+
+
+													<!--Numero de serie-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<input th:field="*{no_serie}"  id="N_serie" placeholder="Numero de Serie" class="form-control" type="text" required data-error="Ingrese El Numero de Serie">
+														<div class="input-group-icon"><i class="fas fa-ad"></i></div>
+													</div>
+
+													<!--numero de poliza-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<select th:field="*{no_poliza}"  id="N_poliza" class="form-control" style="height: 34px;" required data-error="Ingrese El Numero de Poliza">
+																<option value=""> Numero de poliza </option>
+										                         <option th:each="seg : ${seguroslist}"
+										                            th:value="${seg.poliza}"
+										                            th:utext="${seg.poliza}" />
+										                 </select>
+														<div class="input-group-icon"><i class="fas fa-ad"></i></div>
+													</div>
+
+													<!--Numero de factura-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<input th:field="*{no_factura}"  id="N_factura" placeholder="Numero de Factura" class="form-control" type="text" required data-error="Ingrese El Numero de Factura">
+														<div class="input-group-icon"><i class="fas fa-file-invoice"></i></div>
+													</div>
+													
+													<!--Valor de factura-->
+
+													<div class="form-group col-sm-2">
+														<div class="help-block with-errors"></div>
+														<div style="display: inline-block;">
+														<input th:field="*{valor_factura}"  id="N_factura" placeholder="Valor Factura" class="form-control" type="number" required data-error="Ingrese El Valor de la Factura">
+														</div>														
+														<div class="input-group-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+													</div>
+													
+													<div class="form-group col-sm-2">														
+														<div  style="display: inline-block;">
+														<input placeholder="Valor Factura" class="form-control" type="text" disabled>
+														</div>														
+													</div>
+
+													<!--Estado Vehiculo-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<select th:field="*{estado}"  id="estado" class="form-control" style="height: 34px;">
+														<option value="">Estado de Vehiculo</option>
+														<option th:value="*{estado}" th:utext="*{estado}"></option>														
+														<option th:value="Disponible">DISPONIBLE</option>
+														<option th:value="'No Disponible'">NO DISPONIBLE</option>
+														</select>											
+													  <div class="input-group-icon"><i class="fas fa-car-side"></i>
+													  </div>
+												    </div>
+
+												<!--Tipo de combustible-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<select th:field="*{tipo_combustible}" id="T_com" class="form-control" style="height: 34px;">
+														<option value="*{tipo_combustible}">Tipo de combustible</option>
+														<option value="Disel">-Disel</option>
+														<option value="Gas">-Gas</option>
+														<option value="Gasolina">-Gasolina</option>
+														</select>											
+													    <div class="input-group-icon"><i class="fas fa-gas-pump"></i>
+													    </div>
+												    </div>
+
+												<!--Adscripción-->
+
+													<div class="form-group col-sm-12">
+														<select th:field="*{adscripcion}" class="form-control" style=" height: 34px;" required data-error="Ingrese la Adscripcion">
+										                         <option value=""> -- </option>
+										                         <option th:each="adss : ${adslist}"
+										                            th:value="${adss.id_adscripcion}"
+										                            th:utext="${adss.nombre_adscripcion}" />
+										                    </select>
+										                    <div class="input-group-icon"><i class="far fa-building"></i></div>
+													</div>		
+												
+												
+													<!--Comentario
+
+													<div class="form-group col-sm-12">
+														<div class="help-block with-errors"></div>
+														<textarea rows="3"  id="Com" placeholder="Ingresa algun comentario" class="form-control" ></textarea>
+														<div class="textarea input-group-icon"><i class="fas fa-map-marked-alt"></i></div>
+													</div>-->
+
+													<!--Boton de guardar-->
+
+													<div  class="text-center form-group col-sm-12">
+														<button type="submit" id="guardar"  class="btn btn-custom btn-stilo" style="float:right"><i class='fa fa-envelope'></i> Guardar</button>
+													<div class="clearfix"></div>
+													<br>
+												    </div>
+	                                            		
+	                                            	
+	                                            </div>
+	                                        </form>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+			</div>
+			
+		</div>
+	</section>
+	
+	
+	<!-- jQuery Library -->
+	<script src="/assets/js/jquery-3.4.1.min.js"></script>
+	<!-- Popper js -->
+	<script src="/assets/js/popper.min.js"></script>
+	<!-- Bootstrap Js -->
+	<script src="/assets/js/bootstrap.min.js"></script>
+	<!-- Form Validator -->
+	<script src="/assets/js/validator.min.js"></script>
+	<!-- Contact Form Js -->
+	<script src="/assets/js/contact-form.js"></script>
+ 
+</body>
+</html>

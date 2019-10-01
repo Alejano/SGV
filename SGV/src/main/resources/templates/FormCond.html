@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<title>Conductores</title>
+<head>
+	<meta charset="utf-8">
+	<meta content="IE=edge" http-equiv="X-UA-Compatible">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
+	<link href="favicon.html" rel="icon">
+	<link rel="stylesheet" th:href="@{/assets/css/estilos.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
+	<script src="/assets/js/jquery-3.4.1.min.js"></script>
+	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+
+</head>
+<body>
+	<header>
+		<div class="heades">
+			<img th:src="@{/images/pgj.png}" style="width: 20%">			
+		</div>
+                <div class="TituloCon">              
+                </div>
+		<div class="form-group last col-sm-12 form-nav" >		    		
+			<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/home}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-home fa-2x" style="margin-top: 10%;"></i></a>
+			<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/Conductores}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="far fa-arrow-alt-circle-left fa-2x" style="margin-top: 10%"></i></a>
+			
+			<div id="button" class="form-group last col-sm-4 " style="margin-bottom: 5px;margin-top: 5px;"> 
+				<div class="container col-sm-4">
+  							 				 					 			
+	 				<div class="dropdown col-sm-4"  >
+						  
+						  <a class="btn btn-secondary dropdown-toggle btn-stilo" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #337ab7;">						   
+						  MENU
+						  </a>
+						
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						  	
+						    <form th:action="@{/Viajes}" style="margin-bottom: 3px; margin-left: 5px;" >
+						        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Viajes</button>					    	
+				    		</form>						    
+						    <form th:action="@{/Vehiculos}" style="margin-bottom: 3px; margin-left: 5px;" >
+								        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Vehiculo</button>					    	
+						    </form>
+						     <form th:action="@{/Seguros}" style="margin-bottom: 3px; margin-left: 5px;" >
+								        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Seguros</button>					    	
+						    </form>
+						      <form th:action="@{/Conductores}" style="margin-bottom: 3px; margin-left: 5px;" >
+								        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Conductores</button>					    	
+						    </form>	
+						    <form th:action="@{/Mantenimientos}" style="margin-bottom: 3px; margin-left: 5px;" >
+								        <button class="btn btn-outline-success btn-menu" type="submit" value="enviar" >Mantenimiento</button>					    	
+						    </form>						 
+						   		
+						  </div>
+					</div>			
+ 				</div>
+ 			</div> 			
+		</div>
+		<h1 class="item-title text-right StituloCon">Conductores</h1>
+	</header>
+<section>
+	 <div class="tab-content">
+	      <div class="form-group last col-sm-12 formfondo">
+	                <div class="row">
+	                    <div class="tab-content">
+	                        <div class="col-sm-12">
+	                            <div class="item-wrap">
+	                                <div class="row">
+	                                    <div class="col-md-12">
+	                                        <form th:action="@{/FormCond}" th:object="${conductor}" method="post" id="formulario"  name="visitas" data-toggle="validator" class="popup-form">
+	                                            <div class="row">		                                         
+	
+														<!--Numero de Empleado-->
+														<div class="form-group col-sm-3">
+															<div class="help-block with-errors"></div>
+															<input th:field="*{no_empleado}" name="fname" id="N_em" placeholder="Numero de Empleado" class="form-control" type="text" required data-error="Ingrese su Numero de Empleado">
+															<div class="input-group-icon"><i class="fa fa-user"></i></div>
+														</div>														
+	
+														<div class="form-group col-sm-10">
+															<div class="help-block with-errors"></div>
+															<input th:field="*{nombre}" name="Ap_Pa" id="Ap_Pa" placeholder="Nombre" class="form-control" type="text" required data-error="Ingrese el Nombre">
+															<div class="input-group-icon"><i class="fa fa-user"></i></div>
+														</div>
+	
+														<div class="form-group col-sm-10">
+															<div class="help-block with-errors"></div>
+															<input th:field="*{apellido1}" name="Ap_Ma" id="Ap_Ma" placeholder="Primer Apellido" class="form-control" type="text" required data-error="Ingrese el primer apellido">
+															<div class="input-group-icon"><i class="fa fa-user"></i></div>
+														</div>
+	
+														<div class="form-group col-sm-10">
+															<div class="help-block with-errors"></div>
+															<input th:field="*{apellido2}" name="Nombre" id="No" placeholder="Segundo Apellido" class="form-control" type="text" required data-error="Ingrese el segundo apellido">
+															<div class="input-group-icon"><i class="fa fa-user"></i></div>
+														</div>
+														
+															<div class="form-group col-sm-4">
+																<div class="help-block with-errors"></div>														
+																<select th:field="*{enabled}" id="estado" class="form-control" style="height: 34px;" required data-error="Ingrese el estado del usuario">																												
+																<option value=0>-Inactivo</option>
+																<option value=1>-Activo</option>
+																</select>	
+																<div class="input-group-icon"><i class="fa fa-user-tag"></i></div>
+															</div>
+	
+														<div class="form-group col-sm-10">
+															<div class="help-block with-errors"></div>
+															<select th:field="*{adscripcion}" class="form-control" style=" height: 33px;" required data-error="Ingrese la Adscripcion">
+										                         
+										                         <option th:each="adss : ${adslist}"
+										                            th:value="${adss.id_adscripcion}"
+										                            th:utext="${adss.nombre_adscripcion}" />
+										                    </select>
+										                    <div class="input-group-icon"><i class="far fa-building"></i></div>
+														</div>
+																										
+														<!--Boton Guardar-->
+														<div class="form-group last col-sm-12">
+															<button type="submit" id="guardar" class="btn btn-custom btn-stilo"><i class='fa fa-envelope'></i> Guardar</button>
+														</div>
+														<div class="clearfix"></div>														                                                    
+	                                            </div>
+	                                        </form>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+			</div>
+			
+		</div>
+	</section>
+	
+	
+	<!-- jQuery Library -->
+	<script src="/assets/js/jquery-3.4.1.min.js"></script>
+	<!-- Popper js -->
+	<script src="/assets/js/popper.min.js"></script>
+	<!-- Bootstrap Js -->
+	<script src="/assets/js/bootstrap.min.js"></script>
+	<!-- Form Validator -->
+	<script src="/assets/js/validator.min.js"></script>
+	<!-- Contact Form Js -->
+	<script src="/assets/js/contact-form.js"></script>
+ 
+</body>
+</html>
