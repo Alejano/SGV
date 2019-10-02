@@ -132,7 +132,7 @@ public class ConductorController {
 			}
 		}else{
 																
-				if( empleado.equals(conductor.getNo_empleado())) {		
+				if( !empleado.equals(conductor.getNo_empleado())) {		
 					//System.out.println(conductor.getNo_empleado()+" "+ empleado);
 					return "redirect:/idDuplicadoConCrea/"+conductor.getNo_empleado()+"/"+empleado;
 				}									

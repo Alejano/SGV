@@ -140,7 +140,7 @@
 														<!--Contraseña-->
 														<div class="form-group col-sm-4">
 															<div class="help-block with-errors"></div>
-															<input th:field="*{contrasena}" pattern=".{6,}" min=6 max=10 name="pass1"  id="contrasena" onkeypress="Pvalor()" onchange="coincidencia()"  placeholder="Contraseña" class="form-control" type="password" required data-error="Ingrese la Contraseña">
+															<input th:field="*{contrasena}" pattern=".{6,}" min=6 max=10 name="pass1"  id="contrasena" onkeypress="Pvalor()" onchange="coincidencia()" onkeyup="vlidar()"  placeholder="Contraseña" class="form-control" type="password" required data-error="Ingrese la Contraseña">
 															<div class="input-group-icon"><i class="fa fa-key"></i></div>
 														</div>
 	
@@ -148,7 +148,7 @@
 														
 														<div class="form-group col-sm-4">															
 															<div class="help-block with-errors"></div>
-															<input  id="contrasenaCP" pattern=".{6,}" min=6 max=10 name="pass2" placeholder="Vuelva a escribir la contraseña" onkeypress="Svalor()" onchange="coincidencia()"  class="form-control" type="password" required data-error="Ingrese la Contraseña">
+															<input  id="contrasenaCP" pattern=".{6,}" min=6 max=10 name="pass2" placeholder="Vuelva a escribir la contraseña" onkeypress="Svalor()" onchange="coincidencia()" onkeyup="vlidar()"  class="form-control" type="password" required data-error="Ingrese la Contraseña">
 															<div class="input-group-icon"><i class="fa fa-key"></i></div>
 															
 														</div>
@@ -230,6 +230,16 @@
 				$("#guardar").hide();
 				limpiar();
 			}else{confirmar();};
+		};
+	}
+	
+	function vlidar(){
+		valor1 = document.getElementById("contrasena").value;
+		valor2 = document.getElementById("contrasenaCP").value;	
+		if((valor2.length<6) || (valor2.length>10) && (valor1.length<6) || (valor1.length>10)){
+			if(valor1 == valor2){
+				validartamañoeigualdad();
+				};				
 		};
 	}
 		

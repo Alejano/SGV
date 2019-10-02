@@ -111,8 +111,7 @@
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
 														<select th:field="*{clase}"  id="clase" class="form-control" style="height: 34px;" required data-error="Ingree la clase">
-														<option value="">-Clase-</option>
-														<option th:value="*{clase}" th:utext="*{clase}"/>														
+														<option value="*{clase}">Clase de vehiculo</option>																											
 														<option th:value="Monovulemen">-Monovulemen</option>
 														<option th:value="'Berlin o Sedan'">-Berlin o Sedan</option>
 														<option th:value="Cupé">-Cupé</option>
@@ -196,8 +195,7 @@
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
 														<select th:field="*{estado}"  id="estado" class="form-control" style="height: 34px;">
-														<option value="">Estado de Vehiculo</option>
-														<option th:value="*{estado}" th:utext="*{estado}"></option>														
+														<option th:value="*{estado}">Estado de Vehiculo</option>																											
 														<option th:value="Disponible">DISPONIBLE</option>
 														<option th:value="'No Disponible'">NO DISPONIBLE</option>
 														</select>											
@@ -223,7 +221,7 @@
 
 													<div class="form-group col-sm-12">
 														<select th:field="*{adscripcion}" class="form-control" style=" height: 34px;" required data-error="Ingrese la Adscripcion">
-										                         <option value=""> -- </option>
+										                         <option value=""> Seleccione una adscripcion </option>
 										                         <option th:each="adss : ${adslist}"
 										                            th:value="${adss.id_adscripcion}"
 										                            th:utext="${adss.nombre_adscripcion}" />

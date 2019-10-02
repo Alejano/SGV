@@ -134,14 +134,16 @@ public class SeguroController {
 	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model) {
 
 		Seguro seguro = null;
-
+		String documento = "existe";
 		if (!id.equals(null)) {
 			seguro = seguroService.findOne(id);
+			if(seguro.getDocumento().isBlank()) {documento = "";};
 		} else {
 			return "redirect:/Seguros";
 		}
 
 		model.put("vehiculo", vehiculos);
+		model.put("documento", documento);
 		model.put("seguro", seguro);
 		model.put("titulo", "Ver Seguro");
 		return "verSeguro";

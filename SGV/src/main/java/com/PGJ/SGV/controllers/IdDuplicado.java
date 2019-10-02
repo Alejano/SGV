@@ -46,7 +46,7 @@ public class IdDuplicado {
 		
 		model.addAttribute("titulo","Lo sentimos pero el numero de empleado");
 		model.addAttribute("cuerpo",no_empleado);
-		model.addAttribute("complemento","Ya se encuentra asignado a otra persona, prueba con otra.");
+		model.addAttribute("complemento","Debe ser el mismo numero de empleado para poder editar");
 		model.addAttribute("URL","/formUsu/"+empleado);
 		return "idDuplicado";
 	}
@@ -66,7 +66,7 @@ public class IdDuplicado {
 		
 		model.addAttribute("titulo","Lo sentimos pero el ID de la Adscripcion:");
 		model.addAttribute("cuerpo",no_adscripcion);
-		model.addAttribute("complemento","Ya se encuentra asignada a otra unidad, prueba con otra.");
+		model.addAttribute("complemento","Debe ser el mismo numero de Adscripcion para poder editar");
 		model.addAttribute("URL","/formAds/"+ID);
 		return "idDuplicado";
 	}
@@ -76,7 +76,7 @@ public class IdDuplicado {
 		
 		model.addAttribute("titulo","Lo sentimos pero La placa del vehiculo:");
 		model.addAttribute("cuerpo",no_vehiculo);
-		model.addAttribute("complemento","Ya se encuentra asignada a otra unidad, prueba con otra.");
+		model.addAttribute("complemento","Debe ser la misma placa de empleado para poder editar");
 		model.addAttribute("URL","/formVehi/"+coche);
 		return "idDuplicado";
 	}
@@ -86,7 +86,7 @@ public class IdDuplicado {
 		
 		model.addAttribute("titulo","Lo sentimos:");
 		model.addAttribute("cuerpo",no_empleado);
-		model.addAttribute("complemento","Ya se encuentra ese numero de empleado, prueba con otra.");
+		model.addAttribute("complemento","Debe ser el mismo numero de empleado para poder editar");
 		model.addAttribute("URL","/FormCond/"+empleado);
 		return "idDuplicado";
 	}
