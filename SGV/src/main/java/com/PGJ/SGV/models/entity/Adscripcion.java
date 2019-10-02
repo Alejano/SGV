@@ -32,7 +32,7 @@ public class Adscripcion implements Serializable {
 	@OneToMany(mappedBy = "adscripcion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Conductor> conductores;
 	
-	@OneToMany(mappedBy = "adscripcion", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "adscripcion", fetch = FetchType.EAGER)
 	private List<Usuario> usuarios;
 	
 	@OneToMany(mappedBy = "adscripcion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -40,7 +40,7 @@ public class Adscripcion implements Serializable {
 	
 	
 
-	//Terminan relaciones a las tablas SQL
+
 
 	// Inicio de metodos
 	public Adscripcion() {
