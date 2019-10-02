@@ -14,7 +14,8 @@ public class MvcConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// TODO Auto-generated method stub
 		WebMvcConfigurer.super.addResourceHandlers(registry);
-		registry.addResourceHandler("/upload/**").addResourceLocations("file:c:/opt/upload/");
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:/opt/upload/")
+		.addResourceLocations("file:/opt/import/");
 	}
 	
 	@Bean

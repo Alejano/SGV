@@ -20,8 +20,8 @@ public class UploadFileServiceImplement implements IUploadFileService {
 	@Autowired
 	private IUploadDao uploadService;
 
-	private final static String ruta = "c://opt//upload";
-	private final static String rutaImportar = "c://opt//import";
+	private final static String ruta = "//opt//upload";
+	private final static String rutaImportar = "//opt//import";
 
 	@Override
 	public Model load(String filename) {
