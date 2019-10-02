@@ -91,7 +91,8 @@ public class VehiculoController {
 		
 		Page<Vehiculo> vehiculopage = vehiculoService.findAllPage(pageRequest);
 		PageRender<Vehiculo> pageRender = new PageRender<>("/Vehiculos", vehiculopage);
-		if(vehiculoService.totalVehiculo()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+		int tamaño = 7;
+		if(vehiculoService.totalVehiculo()>= tamaño) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
 		
 		model.addAttribute("titulo","Listado de Vehiculos");
 		//model.addAttribute("vehiculos",vehiculo);
@@ -105,7 +106,8 @@ public class VehiculoController {
 	
 	@RequestMapping(value="/formVehi")
 	public String crear(Map<String,Object> model) {
-	
+		adscripcionlist = adscripService.findAll();
+		seguros = seguroService.findAll();
 	
 		Vehiculo vehi = new Vehiculo();
 		model.put("seguroslist", seguros);

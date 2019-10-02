@@ -105,7 +105,7 @@ public class SeguroController {
 	@RequestMapping(value = "/formSeg")
 	public String crear(Map<String, Object> model) {
 		Seguro seguro = new Seguro();
-
+		vehiculos = vehiculoService.findAll();
 		model.put("vehiculos", vehiculos);
 		model.put("seguros", seguro);
 		model.put("titulo", "Formulario de Seguros");
