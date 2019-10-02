@@ -49,7 +49,7 @@ public class AdscripcionController {
 		
 		if(id_adscripcion != 0) {
 			adscripcion = adscripService.findOne(id_adscripcion);
-			ID = id_adscripcion;
+			ID = adscripcion.getId_adscripcion();
 		}else {
 			return "redirect:/Adscripcion";
 		}
@@ -71,7 +71,7 @@ public class AdscripcionController {
 			}
 		}else{
 																
-				if( ID.equals(adscripcion.getId_adscripcion())) {		
+				if( !ID.equals(adscripcion.getId_adscripcion())) {		
 					//System.out.println(usuario.getNo_empleado()+" "+ empleado);
 					return "redirect:/idDuplicadoAdsCrea/"+adscripcion.getId_adscripcion()+"/"+ID;
 				}									

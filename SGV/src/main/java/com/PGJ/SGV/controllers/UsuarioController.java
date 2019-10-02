@@ -91,7 +91,7 @@ public class UsuarioController {
 		
 		if(!no_empleado.equals(null)) {
 			usuario = usuarioService.findOne(no_empleado);
-			empleado = no_empleado;
+			empleado = usuario.getNo_empleado();
 		}else {
 			return "redirect:/Usuarios";
 		}
@@ -120,7 +120,7 @@ public class UsuarioController {
 			}
 		}else{
 																
-				if( empleado.equals(usuario.getNo_empleado())) {		
+				if( !empleado.equals(usuario.getNo_empleado())) {		
 					//System.out.println(usuario.getNo_empleado()+" "+ empleado);
 					return "redirect:/idDuplicadoUsuCrea/"+usuario.getNo_empleado()+"/"+empleado;
 				}									
