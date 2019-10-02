@@ -166,10 +166,17 @@ public class SeguroController {
 		
 		if(id != null) {
 			seguroService.delete(id);	
-			
-			if (uploadFileService.delete(documento)) {
-				System.out.println("Archiuvo eliminado con exito");
+			if(documento != "") {
+				uploadFileService.delete(documento);
 			}
+		}
+		return "redirect:/Seguros";
+	}
+	@RequestMapping(value="/elimSeg/{id}/")
+	public String eliminar (@PathVariable(value="id")Long id) {
+		
+		if(id != null) {
+			seguroService.delete(id);				
 		}
 		return "redirect:/Seguros";
 	}
