@@ -77,7 +77,7 @@ public class VehiculoController {
 			//vehiculoArea = vehiculoService.findVehiculosArea(usus.getAdscripcion().getId_adscripcion());
 			Page<Vehiculo> vehiculoPageAra = vehiculoService.findVehiculosAreaPage(usus.getAdscripcion().getId_adscripcion(), pageRequest);
 			PageRender<Vehiculo> pageRender = new PageRender<>("/Vehiculos", vehiculoPageAra);
-			if(vehiculoService.totalVehiculo()<=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+			if(vehiculoService.totalVehiculo()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
 			//model.addAttribute("vehiculos",vehiculoArea);
 			model.addAttribute("vehiculos",vehiculoPageAra);
 			model.addAttribute("page",pageRender);

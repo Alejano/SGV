@@ -113,7 +113,7 @@
 													<th class="celda">Poliza</th>
 													<th class="celda">Aseguradora</th>
 													<th class="celda">Cobertura</th>
-													<th class="celda">Documento Adjunto</th>													
+													<th class="celda" th:if="${usuario} == 'ROLE_USER' ">Documento Adjunto</th>													
 													<th class="celda" th:if="${usuario} == 'ROLE_ADMIN' ">Opciones</th>		
 													<th style="width:10px" th:if="${tamano} == 'mostrar'"></th>											
 												</tr>
