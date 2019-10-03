@@ -41,5 +41,7 @@ public interface IMantenimientoDao extends PagingAndSortingRepository<Mantenimie
 	@Query("select count(m) from Mantenimiento m")
 	public Long totalMantenimiento();
 	
+	@Query("select MAX(m.id_mantenimiento) from Mantenimiento m")
+	public Long ultimoRegistroMant();
 	
 }

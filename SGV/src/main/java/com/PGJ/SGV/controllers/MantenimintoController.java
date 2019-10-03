@@ -35,7 +35,7 @@ import com.PGJ.SGV.util.paginador.PageRender;
 public class MantenimintoController {
 	List<Mantenimiento> mantenimiento = new ArrayList<Mantenimiento>();
 	List<Vehiculo> vehiculo = new ArrayList<Vehiculo>();
-	
+	static boolean Editar = false;
 	@Autowired
 	private IMantenimientoService mantService;
 
@@ -139,25 +139,28 @@ public class MantenimintoController {
 	
 	@RequestMapping(value="/VehiMant/{placa}")
 	public String crear(@PathVariable(value="placa") String placa,Map<String,Object> model) {	
-		Mantenimiento mantenimiento = new Mantenimiento();
-	
+			
+		long lugar=0;
 		if(!placa.equals(null)) {
 			
 				Double kilometraje= vehiculoService.kilometraje(placa);
-				
-		
+				lugar = mantService.ultimoRegistroMant();
+				Mantenimiento mantenimiento = new Mantenimiento();
+				mantenimiento.setId_mantenimiento(lugar+1);
+				mantenimiento.setVehiculo(vehiculoService.findOne(placa));
+				mantenimiento.setKilometraje(kilometraje);
 		model.put("mantenimiento",mantenimiento );
 		model.put("placa",placa);
-		model.put("kilometraje",kilometraje);	
+		//model.put("kilometraje",kilometraje);	
 		model.put("titulo", "Formulario de Mantenimiento");					
 		return "formMant";
 		}
-		return "/Mantenimientos/"+placa;
+		return "Mantenimientos/"+placa;
 	}
 	
 	@RequestMapping(value="/formMant/{id_mantenimiento}")
 	public String editar(@PathVariable(value="id_mantenimiento") Long id_mantenimiento,Map<String,Object>model) {	
-					
+		Editar = true;			
 		Mantenimiento mant = null;
 		
 		if(id_mantenimiento != null) {
@@ -174,22 +177,27 @@ public class MantenimintoController {
 	
 	
 	@RequestMapping(value="/formMant",method = RequestMethod.POST)
-	public String guardar(Mantenimiento mantenimiento){
-			Mantenimiento mant = null;
-			vehiculo = vehiculoService.findAll();
-			
-			mant = mantService.findOne(mantenimiento.getId_mantenimiento());					
-			
-			for(Vehiculo v:vehiculo) {
-					if(mant.getVehiculo().getPlaca().equals(v.getPlaca())) {
-						mantenimiento.setKilometraje(v.getKilometraje());
-						mantenimiento.setVehiculo(v);
-					};											
-			};
-			mantService.save(mantenimiento);	
+	public String guardar(Mantenimiento mantenimiento){			
+			Vehiculo vehiculoselect =new Vehiculo();										
 		
+			if(Editar == true) {
+				
+			
+				vehiculoselect = vehiculoService.findOne(mantenimiento.getVehiculo().getPlaca());	
+				mantenimiento.setKilometraje(vehiculoselect.getKilometraje());
+				mantenimiento.setVehiculo(vehiculoselect);
+				mantService.save(mantenimiento);
+				Editar = false;	
+				return "redirect:/Mantenimientos";
+			}
+			
+			vehiculoselect = vehiculoService.findOne(mantenimiento.getVehiculo().getPlaca());							
+			mantenimiento.setVehiculo(vehiculoselect);
+			mantenimiento.setKilometraje(vehiculoselect.getKilometraje());
+						
+			mantService.save(mantenimiento);	
 											
-		return "redirect:/Mantenimientos/"+mant.getVehiculo().getPlaca();
+		return "redirect:/Mantenimientos/"+mantenimiento.getVehiculo().getPlaca();
 	}
 	
 	@RequestMapping(value="/elimMant/{id_mantenimiento}")
@@ -295,7 +303,6 @@ public class MantenimintoController {
 		}
 		return false;
 	}
-	
-	
+			
 
 }

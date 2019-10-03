@@ -100,7 +100,11 @@ public class IMantenimientoServiceImpl implements IMantenimientoService {
 		// TODO Auto-generated method stub
 		return imantDao.totalMantenimiento();
 	}
-	
-	
+
+	@Override
+	public Long ultimoRegistroMant() {
+		// TODO Auto-generated method stub
+		return imantDao.ultimoRegistroMant();
+	}
 
 }

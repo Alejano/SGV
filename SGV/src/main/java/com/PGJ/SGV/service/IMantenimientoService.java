@@ -36,5 +36,5 @@ public interface IMantenimientoService {
 	
 	public Long totalMantenimiento();
 	
-
+	public Long ultimoRegistroMant();
 }
