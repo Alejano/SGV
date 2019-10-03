@@ -80,5 +80,19 @@ public class IConductorServiceImpl implements IConductorService {
 		// TODO Auto-generated method stub
 		return conductorDao.totalConductor();
 	}
+	
+
+	@Override
+	public List<Conductor> findConductorAreaEstado(Long id_adscripcion) {
+		// TODO Auto-generated method stub
+		return conductorDao.findConductorAreaEstado(id_adscripcion);
+	}
+
+	@Override
+	public List<Conductor> findConductorEstado() {
+		// TODO Auto-generated method stub
+		return conductorDao.findConductorEstado();
+	}
+
 
 }

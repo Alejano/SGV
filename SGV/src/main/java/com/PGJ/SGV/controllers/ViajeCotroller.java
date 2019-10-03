@@ -96,9 +96,11 @@ public class ViajeCotroller {
 		
 	
 	@RequestMapping(value="/VehiViaj/{placa}")
-	public String crear(@PathVariable(value="placa") String placa,Map<String,Object> model) {
-		conductores = conductorService.findAll();			
-		vehiculos = vehiculoService.findAll();
+	public String crear(@PathVariable(value="placa") String placa,Map<String,Object> model, Authentication authentication) {
+			
+		String ads = ""; 
+		ads = authentication.getName();
+		rolaction(ads);
 		
 		Viaje viaje = new Viaje();	
 		
@@ -124,9 +126,13 @@ public class ViajeCotroller {
 	}
 	
 	@RequestMapping(value="/formViajEditar/{id_viaje}")
-	public String editar(@PathVariable(value="id_viaje") Long id_viaje,Map<String,Object>model) {	
+	public String editar(@PathVariable(value="id_viaje") Long id_viaje,Map<String,Object>model, Authentication authentication) {	
 		Viaje viaje = null;
 		editar = true;
+		String ads = ""; 
+		ads = authentication.getName();
+		rolaction(ads);
+		
 		if(!id_viaje.equals(null)) {
 			viaje = viajeService.findOne(id_viaje);
 			
@@ -282,7 +288,21 @@ public class ViajeCotroller {
 		return false;
 	}
 	
-	
+	public void rolaction(String ads) {
+		if(hasRole("ROLE_ADMIN")) {
+			conductores = conductorService.findConductorEstado();			
+			vehiculos = vehiculoService.findAll();		
+			
+		}else {
+			if(hasRole("ROLE_USER")) {
+				Usuario usus = new Usuario();
+				usus = usuarioService.findbyAdscripcion(ads);
+			conductores = conductorService.findConductorAreaEstado(usus.getAdscripcion().getId_adscripcion());	
+						
+			}
+		}
+		
+	}
 	
 	
 	

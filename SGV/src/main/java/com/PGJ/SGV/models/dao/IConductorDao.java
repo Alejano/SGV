@@ -26,4 +26,10 @@ public interface IConductorDao extends PagingAndSortingRepository<Conductor, Str
 	
 	@Query("select count(c) from Conductor c")
 	public Long totalConductor();
+	
+	@Query("select p from Conductor p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion where a.id_adscripcion like ?1 and p.enabled = '1'")
+	public List<Conductor> findConductorAreaEstado(Long id_adscripcion);
+	
+	@Query("select p from Conductor p where p.enabled = '1'")
+	public List<Conductor> findConductorEstado();
 }

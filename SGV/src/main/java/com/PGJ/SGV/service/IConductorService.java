@@ -27,4 +27,8 @@ public interface IConductorService {
 	public Page<Conductor> findCondElemAreaPage(Long id_adscripcion,String elemento,Pageable pageable);
 	
 	public Long totalConductores();
+	
+public List<Conductor> findConductorAreaEstado(Long id_adscripcion);
+	
+	public List<Conductor> findConductorEstado();
 }
