@@ -162,18 +162,15 @@ public class ServiciosController {
 	@RequestMapping(value = "/Servicios/upload", method = RequestMethod.POST)
 	public String Subir(@RequestParam("file") MultipartFile documento) {
 		
-		if (!documento.isEmpty()) {
+		
+		try {
+			uploadFileService.deleteImport("catalogo_servicios.csv");
 			uploadFileService.deleteall();
-			try {
-				uploadFileService.deleteall();
-				uploadFileService.copyImport(documento);
-				uploadFileService.importarServicios();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
+			uploadFileService.copyImport(documento);
+			uploadFileService.importarServicios();
+		} catch (IOException e) {
+			e.printStackTrace();
+	}
 		
 		return "redirect:/Servicios";
 	}
