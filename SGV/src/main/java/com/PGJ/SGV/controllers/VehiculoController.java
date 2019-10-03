@@ -105,7 +105,32 @@ public class VehiculoController {
 		
 	
 	@RequestMapping(value="/formVehi")
-	public String crear(Map<String,Object> model) {
+	public String crear(Authentication authentication,Map<String,Object> model) {
+		
+		var ads="";						
+		ads = authentication.getName();
+		var user="";
+		
+		
+		if(hasRole("ROLE_ADMIN")) {user ="ROLE_ADMIN";model.put("usuario",user);}else {if(hasRole("ROLE_USER")) {user = "ROLE_USER";model.put("usuario",user);};};
+		if(user.equals("ROLE_USER")) {
+			Usuario usus = new Usuario();
+			usus = usuarioService.findbyAdscripcion(ads);
+			
+			Vehiculo vehi = new Vehiculo();
+			vehi.setAdscripcion(usus.getAdscripcion());
+			
+			List<Seguro> segu = new ArrayList<Seguro>();
+			segu = seguroService.FindSeguroArea(usus.getAdscripcion().getId_adscripcion());
+			model.put("seguroslist", segu);
+			model.put("nombreAds",usus.getAdscripcion().getNombre_adscripcion() );
+			model.put("adscripcion",vehi.getAdscripcion());
+			model.put("vehiculo", vehi);
+			model.put("titulo", "Formulario de Vehiculos");
+								
+			return "formVehi";
+		};
+		
 		adscripcionlist = adscripService.findAll();
 		seguros = seguroService.findAll();
 	

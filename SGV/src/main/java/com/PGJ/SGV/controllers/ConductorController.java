@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -89,10 +90,38 @@ public class ConductorController {
 		
 	
 	@RequestMapping(value="/FormCond")
-	public String crear(Map<String,Object> model) {
+	public String crear(Map<String,Object> model,Authentication authentication) {
+		
+		var user="";
+		var ads="";
+		ads = authentication.getName();
+		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";						
+			model.put("usuario",user);
+		}else {
+			if(hasRole("ROLE_USER")) {
+				user = "ROLE_USER";
+				model.put("usuario",user);				
+			}
+		};
+		
+		if(user.equals("ROLE_USER")) {
+			 
+			Usuario usus = new Usuario();
+			usus = usuarioService.findbyAdscripcion(ads);
+			Conductor cond = new Conductor();	
+			cond.setAdscripcion(usus.getAdscripcion());
+			model.put("nombreAds",usus.getAdscripcion().getNombre_adscripcion());
+			model.put("adscripcion",cond.getAdscripcion());
+			model.put("conductor", cond);
+			model.put("titulo", "Formulario de Conductores");
+								
+			return "FormCond";
+		};
+		
+		
 		adscripcion = adscripService.findAll();
-		
-		
 		Conductor cond = new Conductor();	
 		model.put("adslist",adscripcion );
 		model.put("conductor", cond);
@@ -108,7 +137,7 @@ public class ConductorController {
 		editar = true;
 		if(!no_empleado.equals("")) {
 			conductor = conductorService.findOne(no_empleado);		
-			empleado = conductor.getNo_empleado();			;
+			empleado = conductor.getNo_empleado();
 		}else {
 			return "redirect:/Conductores";
 		}
@@ -120,9 +149,10 @@ public class ConductorController {
 	
 	
 	@RequestMapping(value="/FormCond",method = RequestMethod.POST)
-	public String guardar(Conductor conductor){
-		conductores = conductorService.findAll();		
-	
+	public String guardar(Conductor conductor,Authentication authentication){
+		conductores = conductorService.findAll();	
+		adscripcion = adscripService.findAll();
+		
 		
 		if(editar==false) {
 			for(Conductor usu:conductores) {

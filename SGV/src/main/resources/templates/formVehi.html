@@ -70,6 +70,12 @@
 	                                    <div class="col-md-12">
 	                                        <form th:action="@{/formVehi}" th:object="${vehiculo}" method="post" id="formulario"  data-toggle="validator" class="popup-form">
 	                                            <div class="row">
+	                                            		<div class="form-group col-sm-11" th:if="${usuario} == 'ROLE_USER'" style="background: #f8f8e5; text-align: center;">																																								                
+															<h4 th:text="${nombreAds}" style="margin-left: 43px;"></h4>													    										                        
+										                    <div class="input-group-icon"><i class="far fa-building fa-2x"></i></div>
+										                    <input type="hidden" th:field="*{adscripcion}">
+														</div>	
+														
 	                                            <!--Numero de placa-->
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
@@ -196,8 +202,8 @@
 														<div class="help-block with-errors"></div>
 														<select th:field="*{estado}"  id="estado" class="form-control" style="height: 34px;">
 														<option th:value="*{estado}">Estado de Vehiculo</option>																											
-														<option th:value="Disponible">DISPONIBLE</option>
-														<option th:value="'No Disponible'">NO DISPONIBLE</option>
+														<option th:value="DISPONIBLE">DISPONIBLE</option>
+														<option th:value="'NO DISPONIBLE'">NO DISPONIBLE</option>
 														</select>											
 													  <div class="input-group-icon"><i class="fas fa-car-side"></i>
 													  </div>
@@ -219,7 +225,7 @@
 
 												<!--Adscripción-->
 
-													<div class="form-group col-sm-12">
+													<div class="form-group col-sm-12" th:if="${usuario} == 'ROLE_ADMIN'">
 														<select th:field="*{adscripcion}" class="form-control" style=" height: 34px;" required data-error="Ingrese la Adscripcion">
 										                         <option value=""> Seleccione una adscripcion </option>
 										                         <option th:each="adss : ${adslist}"
