@@ -96,15 +96,7 @@ public class ConductorController {
 		var ads="";
 		ads = authentication.getName();
 		
-		if(hasRole("ROLE_ADMIN")) {
-			user ="ROLE_ADMIN";						
-			model.put("usuario",user);
-		}else {
-			if(hasRole("ROLE_USER")) {
-				user = "ROLE_USER";
-				model.put("usuario",user);				
-			}
-		};
+		if(hasRole("ROLE_ADMIN")) {user ="ROLE_ADMIN";model.put("usuario",user);}else {if(hasRole("ROLE_USER")) {user = "ROLE_USER";model.put("usuario",user);}};
 		
 		if(user.equals("ROLE_USER")) {
 			 
@@ -135,9 +127,12 @@ public class ConductorController {
 		Conductor conductor = null;	
 		adscripcion = adscripService.findAll();
 		editar = true;
+		var user="";			
+		if(hasRole("ROLE_ADMIN")) {user ="ROLE_ADMIN";model.put("usuario",user);}else {if(hasRole("ROLE_USER")) {user = "ROLE_USER";model.put("usuario",user);}};
+		
 		if(!no_empleado.equals("")) {
 			conductor = conductorService.findOne(no_empleado);		
-			empleado = conductor.getNo_empleado();
+			empleado = no_empleado;
 		}else {
 			return "redirect:/Conductores";
 		}

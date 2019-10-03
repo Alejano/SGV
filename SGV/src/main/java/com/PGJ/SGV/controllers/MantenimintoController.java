@@ -138,19 +138,21 @@ public class MantenimintoController {
 		
 	
 	@RequestMapping(value="/VehiMant/{placa}")
-	public String crear(@PathVariable(value="placa") String placa,Map<String,Object> model) {
+	public String crear(@PathVariable(value="placa") String placa,Map<String,Object> model) {	
 		Mantenimiento mantenimiento = new Mantenimiento();
-		Vehiculo vehi = null;
-		if(placa != null) {
-			vehi = vehiculoService.findOne(placa);
-			mantenimiento.setVehiculo(vehi);
-		}else {
-			return "redirect: /Vehiculos";
-		}
-		model.put("placa", mantenimiento.getVehiculo().getPlaca());					
-		model.put("mantenimiento", mantenimiento);
+	
+		if(!placa.equals(null)) {
+			
+				Double kilometraje= vehiculoService.kilometraje(placa);
+				
+		
+		model.put("mantenimiento",mantenimiento );
+		model.put("placa",placa);
+		model.put("kilometraje",kilometraje);	
 		model.put("titulo", "Formulario de Mantenimiento");					
 		return "formMant";
+		}
+		return "/Mantenimientos/"+placa;
 	}
 	
 	@RequestMapping(value="/formMant/{id_mantenimiento}")

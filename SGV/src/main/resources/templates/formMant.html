@@ -109,7 +109,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{vehiculo.kilometraje}" name="fname" id="kilo" placeholder="Kilometraje" class="form-control" type="number" required data-error="Ingrese El Kilometraje final" disabled>
+														<input th:value="${kilometraje}" name="fname" id="kilo" placeholder="Kilometraje" class="form-control" type="number" required data-error="Ingrese El Kilometraje final" disabled>
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
 													</div>
 																																				
@@ -128,7 +128,7 @@
 													<div class="form-group col-sm-4" style="    height: 35px;">
 														<div class="form-group col-sm-5" >
 															<div class="help-block with-errors" style=" width: 393px;"></div>
-																<input th:field="*{vehiculo.placa}" th:value="${placa}"  name="fname" id="kilo" class="form-control" type="text" required data-error="Ingrese El Kilometraje final" disabled>
+																<input th:value="${placa}"  name="fname" id="kilo" class="form-control" type="text" required data-error="Ingrese El Kilometraje final" disabled>
 										                    <div class="input-group-icon"><i class="fas fa-car-side"></i></div>
 														</div>
 													</div>
@@ -161,7 +161,7 @@
 														<div class="textarea input-group-icon"><i class="fas fa-map-marked-alt"></i></div>
 													</div>
 													
-													<input type="hidden" th:field="*{id_mantenimiento}"/>
+													<input type="hidden" th:field="*{id_mantenimiento}" th:value="*{id_mantenimiento}"/>
 
 													<!--Boton de guardar-->
 
@@ -184,6 +184,29 @@
 			</div>			
 		</div>
 	</section>
+	<script type="text/javascript">
+	function validarFfin()
+	{
+	   var fechainicial = document.getElementById("H_re").value;
+	   var fechafinal = document.getElementById("H_fin").value;
+
+	   if(Date.parse(fechafinal) < Date.parse(fechainicial)) {
+		   document.getElementById("H_fin").value = fechainicial; 
+	   alert("La fecha de salida debe ser mayor a la fecha de regreso");
+		};
+	}
+
+	function validarFRe()
+	{
+	   var fechainicial = document.getElementById("H_re").value;
+	   var fechafinal = document.getElementById("H_fin").value;
+	
+	   if(Date.parse(fechafinal) < Date.parse(fechainicial)) {
+		   document.getElementById("H_re").value = fechafinal; 
+	   alert("La fecha de salida debe ser mayor a la fecha de regreso");
+		};
+	}
+	</script>
 				
 	
 	<!-- jQuery Library -->

@@ -40,4 +40,6 @@ public interface IMantenimientoDao extends PagingAndSortingRepository<Mantenimie
 	
 	@Query("select count(m) from Mantenimiento m")
 	public Long totalMantenimiento();
+	
+	
 }

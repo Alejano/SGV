@@ -100,5 +100,7 @@ public class IMantenimientoServiceImpl implements IMantenimientoService {
 		// TODO Auto-generated method stub
 		return imantDao.totalMantenimiento();
 	}
+	
+	
 
 }

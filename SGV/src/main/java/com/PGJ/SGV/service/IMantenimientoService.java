@@ -35,4 +35,6 @@ public interface IMantenimientoService {
 	public Page<Mantenimiento> FindMantelemntAreaPage(Long id_adscripcion,String elemento,Pageable pageable);
 	
 	public Long totalMantenimiento();
+	
+
 }

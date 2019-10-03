@@ -27,4 +27,6 @@ public interface IVehiculoService {
 	public Page<Vehiculo> findVehElemAreaPage(Long id_adscripcion,String elemento,Pageable pageable);
 	
 	public Long totalVehiculo();
+	
+	public Double kilometraje(String placa);
 }

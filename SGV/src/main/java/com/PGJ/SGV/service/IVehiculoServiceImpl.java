@@ -88,4 +88,10 @@ public class IVehiculoServiceImpl implements IVehiculoService {
 		return vehiculoDao.TotalVehiculos();
 	}
 	
+	@Override
+	public Double kilometraje(String placa) {
+		// TODO Auto-generated method stub
+		return vehiculoDao.kilometraje(placa);
+	}
+	
 }
