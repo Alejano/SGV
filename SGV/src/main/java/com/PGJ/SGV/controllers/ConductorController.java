@@ -132,7 +132,7 @@ public class ConductorController {
 		
 		if(!no_empleado.equals("")) {
 			conductor = conductorService.findOne(no_empleado);		
-			empleado = no_empleado;
+			empleado =conductor.getNo_empleado();
 		}else {
 			return "redirect:/Conductores";
 		}

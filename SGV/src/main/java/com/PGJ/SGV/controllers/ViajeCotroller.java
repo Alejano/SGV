@@ -174,7 +174,7 @@ public class ViajeCotroller {
 			viaje.setConductor(con);
 			kilometraje = kilometraje + Di;
 			DR = Df - Di ;		
-			
+			if(kilometraje == 0) {kilometraje = DR;};
 			viaje.setKilometraje_inicial(Di);
 			viaje.setDistancia_recorrida(DR);			
 			vehi.setKilometraje(kilometraje);
