@@ -174,10 +174,7 @@ public class ViajeCotroller {
 			viaje.setConductor(con);
 			kilometraje = kilometraje + Di;
 			DR = Df - Di ;		
-			System.out.println("Distancia recorrida "+DR);
-			System.out.println("Distancia inicial "+Di);
-			System.out.println("Distancia final "+Di);
-			System.out.println("El auto termino con "+kilometraje + " kilometros");
+			
 			viaje.setKilometraje_inicial(Di);
 			viaje.setDistancia_recorrida(DR);			
 			vehi.setKilometraje(kilometraje);
