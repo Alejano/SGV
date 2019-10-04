@@ -41,7 +41,7 @@ public class ViajeCotroller {
 	List<Viaje> viajeslist = new ArrayList<Viaje>();
 	@Autowired
 	private IViajeService viajeService;
-	boolean editar;
+	boolean editar = false;
 	@Autowired
 	private IConductorService conductorService;
 	@Autowired
@@ -98,29 +98,30 @@ public class ViajeCotroller {
 	@RequestMapping(value="/VehiViaj/{placa}")
 	public String crear(@PathVariable(value="placa") String placa,Map<String,Object> model, Authentication authentication) {
 			
-		String ads = ""; 
+		String ads = ""; 	
 		ads = authentication.getName();
-		rolaction(ads);
+		
+		 rolaction(ads);
 		
 		Viaje viaje = new Viaje();	
-		
+		Vehiculo vehi= new Vehiculo();
 		
 		if(!placa.equals(null)) {
-	    for(Vehiculo vh:vehiculos) {
-	    	if(vh.getPlaca().equals(placa)){
-	    		viaje.setVehiculo(vh);
-	    		viaje.setKilometraje_inicial(vh.getKilometraje());
-	    	};
-	    }		
+		
+				vehi= vehiculoService.findOne(placa);							
+					viaje.setKilometraje_inicial(vehiculoService.kilometraje(placa));		 	
+		    		viaje.setVehiculo(vehi);  	
+		    		model.put("conductores", conductores);
+		    		model.put("viaje", viaje);
+		    		model.put("Kmin", vehiculoService.kilometraje(placa));
+		    		model.put("titulo", "Formulario de Adscripciones");						    
 		
 		}else {
 			return "redirect:/Vehiculos";
 		};
 				
 		
-		model.put("conductores", conductores);
-		model.put("viaje", viaje);
-		model.put("titulo", "Formulario de Adscripciones");
+		
 							
 		return "formViaj";
 	}
@@ -151,34 +152,39 @@ public class ViajeCotroller {
 	@RequestMapping(value="/formViaj",method = RequestMethod.POST)
 	public String guardar(Viaje viaje){		
 		
-		double Di=0;
-		double Df = viaje.getKilometraje_final();
-		double Dt=0;
 		
-		
-		for(Vehiculo v:vehiculos) {
-			if(v.getPlaca().equals(viaje.getVehiculo().getPlaca())) {
-				Di = v.getKilometraje();
-				viaje.setVehiculo(v);				
-			};			
-		}
-		
-		for(Conductor con:conductores) {
-			if(con.getNo_empleado().equals(viaje.getConductor().getNo_empleado())) {
-				viaje.setConductor(con);
-			};
-		}
-		
-		Dt = Df - Di ;
-		viaje.setKilometraje_inicial(Di);
-		viaje.setDistancia_recorrida(Dt);
-		
-		viajeService.save(viaje);			
-		if(editar) {			
-			editar = true;
+		if(editar) {
+			viajeService.save(viaje);
+					
+			editar = false;
 		return "redirect:Viajes";
 		}else {
-			editar = true;
+			Vehiculo vehi= new Vehiculo();
+			Conductor con = new Conductor();
+			double Di=0;
+			double Df = viaje.getKilometraje_final();
+			double DR=0;
+			double kilometraje= 0;
+			
+			vehi = vehiculoService.findOne(viaje.getVehiculo().getPlaca());
+			Di = vehi.getKilometraje();
+			kilometraje= vehi.getKilometraje();
+			viaje.setVehiculo(vehi);		
+			con = conductorService.findOne(viaje.getConductor().getNo_empleado());
+			viaje.setConductor(con);
+			kilometraje = kilometraje + Di;
+			DR = Df - Di ;		
+			System.out.println("Distancia recorrida "+DR);
+			System.out.println("Distancia inicial "+Di);
+			System.out.println("Distancia final "+Di);
+			System.out.println("El auto termino con "+kilometraje + " kilometros");
+			viaje.setKilometraje_inicial(Di);
+			viaje.setDistancia_recorrida(DR);			
+			vehi.setKilometraje(kilometraje);
+			viajeService.save(viaje);	
+			vehiculoService.save(vehi);
+			
+			
 		return "redirect:Vehiculos";	
 		}
 	}
@@ -289,19 +295,16 @@ public class ViajeCotroller {
 	}
 	
 	public void rolaction(String ads) {
+		Usuario usus = new Usuario();
+		usus = usuarioService.findbyAdscripcion(ads);
 		if(hasRole("ROLE_ADMIN")) {
-			conductores = conductorService.findConductorEstado();			
-			vehiculos = vehiculoService.findAll();		
-			
+			conductores = conductorService.findConductorEstado();								
 		}else {
-			if(hasRole("ROLE_USER")) {
-				Usuario usus = new Usuario();
-				usus = usuarioService.findbyAdscripcion(ads);
-			conductores = conductorService.findConductorAreaEstado(usus.getAdscripcion().getId_adscripcion());	
-						
+			if(hasRole("ROLE_USER")) {				
+			conductores = conductorService.findConductorAreaEstado(usus.getAdscripcion().getId_adscripcion());				
 			}
 		}
-		
+	
 	}
 	
 	

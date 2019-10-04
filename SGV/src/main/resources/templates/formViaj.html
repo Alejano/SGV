@@ -140,7 +140,7 @@
 													   
 															<div class="help-block with-errors"></div>
 														    <div class="col-sm-2" style="padding-right: 3px;">
-																<input th:field="*{kilometraje_final}" name="K_fin"  id="K_fin" onchange="kilometer()" class="form-control" th:min="${viaje.kilometraje_inicial}" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese El kilometraje final ">																
+																<input th:field="*{kilometraje_final}" name="K_fin"  id="K_fin" onchange="kilometer()" class="form-control" th:min="${Kmin}+0.1" type="number" pattern="[0-9]{10}"  step="0.1" required data-error="Ingrese El kilometraje final ">																
 															</div>
 													 															
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -217,6 +217,12 @@
 		};
 	}
 	
+	function kilometer(){
+		
+		var kilometrajeF = document.getElementById("K_fin").value;		
+		document.setElementById("K_fin").value=kilometrajeF + 0.0;
+		
+	}
 	
 	
 	
