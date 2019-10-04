@@ -219,6 +219,7 @@ public class SeguroController {
 									elemento = elemento.replaceAll(",","");	
 							};
 			
+							
 					if(user.equals("ROLE_USER")) {
 						 Usuario usus = new Usuario();
 							usus = usuarioService.findbyAdscripcion(ads);
