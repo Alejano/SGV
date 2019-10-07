@@ -56,6 +56,9 @@
 						    <form th:action="@{/Adscripciones}" th:if="${usuario} == 'ROLE_ADMIN' " style="margin-bottom: 3px; margin-left: 5px;">
 						        <button class="btn btn-outline-success" type="submit" value="enviar" style="color:green !important">Adscripciones</button>					    	
 						    </form>
+						    <form th:action="@{/Dashboard}" th:if="${usuario} == 'ROLE_ADMIN' " style="margin-bottom: 3px; margin-left: 5px;">
+						        <button class="btn btn-outline-success" type="submit" value="enviar" style="color:green !important">Dashboard</button>					    	
+						    </form>
 					  </div>
 					</li>								 	
 			   </ul>		        
