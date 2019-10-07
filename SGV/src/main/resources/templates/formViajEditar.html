@@ -10,10 +10,9 @@
 	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
-	<script src="http://code.code.jquery.com/jquery-lastert.js"></script>
+	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-	<script src="/SGV/assets/js/main.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>	
 </head>
 <body>
 	<header>
@@ -102,7 +101,7 @@
 														<div class="help-block with-errors"></div>
 
 														<div style=" width:40%;display: inline-block;">
-														<input th:field="*{fecha_salida}" name="H_re" id="H_re"  placeholder="Hora de Registro" class="form-control" type="date" required data-error="Ingrese Hora de Registro"  pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+														<input th:field="*{fecha_salida}" name="H_re" id="H_re" onchange="validarFRe()"  placeholder="Fecha de Registro" class="form-control" type="date" required data-error="Ingrese Fecha de Registro"  pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
 														<div class="input-group-icon"> <i class="fa fa-user"> </i></div>
 														</div>
 
@@ -116,7 +115,7 @@
 														<div class="help-block with-errors"></div>
 
 														<div style=" width:44%;display: inline-block;">
-															<input th:field="*{fecha_regreso}" name="H_fin"  id="H_re" placeholder="Hora de Regreso" class="form-control" type="date" required data-error="Ingrese Hora de Registro"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} !important">
+															<input th:field="*{fecha_regreso}" name="H_fin"  id="H_re" placeholder="Fecha de Regreso" onchange="validarFfin()" class="form-control" type="date" required data-error="Ingrese la Fecha de Registro"  pattern="[0-9]{2}-[0-9]{2}-[0-9]{4} !important">
 															<div class="input-group-icon"><i class="fa fa-user"></i></div>
 														</div>
 
@@ -144,7 +143,7 @@
 													<div class="form-group col-sm-5">
 														<div class="help-block with-errors"></div>
 														<div style=" width:44%;display: inline-block;">
-														<input th:field="*{kilometraje_final}" name="K_fi"  id="K_fin" placeholder="Kilometraje final" class="form-control" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese Kilometraje Final">
+														<input th:field="*{kilometraje_final}" name="K_fi"  id="K_fin" placeholder="Kilometraje final"  class="form-control" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese Kilometraje Final">
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
 														</div>
 														<div style=" width:43%;display: inline-block;">
@@ -219,6 +218,41 @@
 			</div>			
 		</div>
 	</section>
+	
+	<script type="text/javascript"  th:inline="javascript">		
+			
+			var kilometrajeT="";
+	function validarFfin()
+		{
+		   var fechainicial = document.getElementById("H_re").value;
+		   var fechafinal = document.getElementById("H_fin").value;
+	
+		   if(Date.parse(fechafinal) < Date.parse(fechainicial)) {
+			   document.getElementById("H_fin").value = fechainicial; 
+		   alert("La fecha de salida debe ser mayor a la fecha de regreso");
+			};
+		}
+	
+	function validarFRe()
+	{
+	   var fechainicial = document.getElementById("H_re").value;
+	   var fechafinal = document.getElementById("H_fin").value;
+
+	   if(Date.parse(fechafinal) < Date.parse(fechainicial)) {
+		   document.getElementById("H_re").value = fechafinal; 
+	   alert("La fecha de salida debe ser mayor a la fecha de regreso");
+		};
+	}
+	
+	function kilometer(){
+		
+		var kilometrajeF = document.getElementById("K_fin").value;		
+		document.setElementById("K_fin").value=kilometrajeF + 0.0;
+		
+	}
+		
+	
+	</script>
 	
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>

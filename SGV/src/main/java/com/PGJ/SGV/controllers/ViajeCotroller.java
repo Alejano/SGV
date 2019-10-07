@@ -136,7 +136,7 @@ public class ViajeCotroller {
 		
 		if(!id_viaje.equals(null)) {
 			viaje = viajeService.findOne(id_viaje);
-			
+			vehiculos = vehiculoService.findAll();
 		}else {
 			return "redirect:/Viajes";
 		}
