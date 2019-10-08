@@ -56,9 +56,7 @@ public class VehiculoController {
 		//List<Vehiculo> vehiculoArea = new ArrayList<Vehiculo>();		
 		var ads="";						
 		ads = authentication.getName();
-		var user="";
-		
-		
+		var user="";			
 		if(hasRole("ROLE_ADMIN")) {
 			user ="ROLE_ADMIN";						
 			model.addAttribute("usuario",user);
@@ -146,10 +144,22 @@ public class VehiculoController {
 	@RequestMapping(value="/formVehi/{placa}")
 	public String editar(@PathVariable(value="placa") String placa,Map<String,Object>model) {		
 		Vehiculo vehiculo = null;
+		
+		var user="";			
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";						
+			model.put("usuario",user);
+		}else {
+			if(hasRole("ROLE_USER")) {
+				user = "ROLE_USER";
+				model.put("usuario",user);				
+			}
+		}
+		
 		editar = true;
 		if(!placa.equals("")) {
 			vehiculo = vehiculoService.findOne(placa);	
-			coche = placa;
+			coche = vehiculo.getPlaca();
 		}else {
 			return "redirect:/Adscripcion";
 		}
@@ -162,10 +172,10 @@ public class VehiculoController {
 	
 	
 	@RequestMapping(value="/formVehi",method = RequestMethod.POST)
-	public String guardar(Vehiculo vehiculox){
+	public String guardar(Authentication authentication,Vehiculo vehiculox){
 		String fecha = vehiculox.getAno().toString();
 		vehiculox.setAno(fecha);
-		
+	
 		if(editar == false) {
 			for(Vehiculo v:vehiculo) {
 				if(v.getPlaca().equals(vehiculox.getPlaca())) {
@@ -173,12 +183,22 @@ public class VehiculoController {
 				};
 			}
 		}else{
-				if(coche.equals(vehiculox.getPlaca())) {
+				if(!coche.equals(vehiculox.getPlaca())) {
 						return "redirect:/idDuplicadoVehiCrea/"+vehiculox.getPlaca()+"/"+coche;
 				};
 		};
+			if(hasRole("ROLE_USER")) {
+						String ad = authentication.getName();
+						Usuario A =new Usuario();
+						A= usuarioService.findbyAdscripcion(ad);
+						vehiculox.setAdscripcion(A.getAdscripcion());
+						vehiculoService.save(vehiculox);			
+						editar = false;						
+						return "redirect:Vehiculos";
+			}
 		
-			for(Adscripcion ads:adscripcionlist) {
+				adscripcionlist = adscripService.findAll();
+					for(Adscripcion ads:adscripcionlist) {
 				if(vehiculox.getAdscripcion().getId_adscripcion()==ads.getId_adscripcion()) {
 					vehiculox.setAdscripcion(ads);
 				};
