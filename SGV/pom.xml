@@ -10,8 +10,7 @@
 	</parent>
 	
 	<groupId>com.PGJ</groupId>
-	<artifactId>SGV</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>SGV</artifactId>	
 	<packaging>war</packaging>
 	<name>SGV</name>
 	<description>PGJ SGV</description>
