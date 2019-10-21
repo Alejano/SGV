@@ -27,4 +27,6 @@ public interface IViajeService {
 	public Page<Viaje> ViajesElemAreaPage(Long id_adscripcion,String elemento,Pageable pageable);
 	
 	public Long viajestotales(); 
+	
+	public int TotalViajesArea(Long id_adscipcion);
 }

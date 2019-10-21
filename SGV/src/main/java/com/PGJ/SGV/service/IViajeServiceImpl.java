@@ -87,5 +87,11 @@ public class IViajeServiceImpl implements IViajeService {
 		// TODO Auto-generated method stub
 		return viajeDao.viajestotales();
 	}
+	
+	@Override
+	public int TotalViajesArea(Long id_adscipcion) {
+		// TODO Auto-generated method stub
+		return viajeDao.TotalViajesArea(id_adscipcion);
+	}
 
 }

@@ -94,4 +94,10 @@ public class IVehiculoServiceImpl implements IVehiculoService {
 		return vehiculoDao.kilometraje(placa);
 	}
 	
+	@Override
+	public int totalVehiculoArea(Long id_adscripcion) {
+		// TODO Auto-generated method stub
+		return vehiculoDao.TotalVehiculosArea(id_adscripcion);
+	}
+	
 }

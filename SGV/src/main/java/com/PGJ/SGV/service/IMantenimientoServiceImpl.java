@@ -106,5 +106,11 @@ public class IMantenimientoServiceImpl implements IMantenimientoService {
 		// TODO Auto-generated method stub
 		return imantDao.ultimoRegistroMant();
 	}
+	
+	@Override
+	public int TotalMantenimientoArea(Long id_adscripcion) {
+		// TODO Auto-generated method stub
+		return imantDao.TotalMantenimientoArea(id_adscripcion);
+	}
 
 }

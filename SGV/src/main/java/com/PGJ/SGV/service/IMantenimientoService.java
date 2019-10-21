@@ -36,5 +36,7 @@ public interface IMantenimientoService {
 	
 	public Long totalMantenimiento();
 	
+	public int TotalMantenimientoArea(Long id_adscripcion);
+	
 	public Long ultimoRegistroMant();
 }

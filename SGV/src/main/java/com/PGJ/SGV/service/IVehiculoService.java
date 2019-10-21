@@ -28,5 +28,7 @@ public interface IVehiculoService {
 	
 	public Long totalVehiculo();
 	
+	public int totalVehiculoArea(Long id_adscripcion);
+	
 	public Double kilometraje(String placa);
 }

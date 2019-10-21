@@ -27,6 +27,9 @@ public interface IVehiculoDao extends PagingAndSortingRepository<Vehiculo,String
 	@Query("select count(v) from Vehiculo v")
 	public Long TotalVehiculos();
 	
+	@Query("select count(p) from Vehiculo p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion where a.id_adscripcion like ?1")
+	public int TotalVehiculosArea(Long id_adscripcion);
+	
 	@Query("select v.kilometraje from Vehiculo v where v.placa like %?1%")
 	public Double kilometraje(String placa);
 	
