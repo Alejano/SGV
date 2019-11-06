@@ -14,6 +14,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
 		<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
+		<script src="/webjars/stomp-websocket/stomp.min.js"></script>
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">		
    
                 
@@ -162,8 +163,117 @@
 		</section>		
 		</div>
 </div>
+
+<div th:if="${usuario} == 'ROLE_ADMIN'" id="Notify" style="word-wrap: break-word;position: fixed;z-index: 2;bottom: 18px;background: white;width: 50px;float: right;">       
+    <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                    <a href="#" id="cerrar" onclick="cerraer()" class="badge badge-danger" style="float: right; display:none;">X</a>
+                    <a href="#" id="abrir" onclick="abrir()" class="badge badge-danger" style="float: right; "><i class="fas fa-bell fa-2x"></i></a>
+                    <div id="MantRegistros" class="notifytext" style="display:none; color: black;">
+                    <br>
+                    	<!--  <h6>Mantenimientos: </h6>
+                    	<h6>Altas: <span th:text="${EntroMant}"></span> </h6>
+                    	<h6>Salidas: <span th:text="${SalioMant}"></span> </h6>
+                    	-->
+                    </div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="greetings">
+                </tbody>                
+            </table>            
+</div>
+
+<script type="text/javascript">
+
+function setConnected(connected) {
+    $("#connect").prop("disabled", connected);
+    $("#disconnect").prop("disabled", !connected);
+    if (connected) {
+        $("#conversation").show();
+    }
+    else {
+        $("#conversation").hide();
+    }
+    $("#greetings").html("");
+}
+
+function connect() {
+    var socket = new SockJS('/gs-guide-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        setConnected(true);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/greetings', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).content);
+        });
+        stompClient.subscribe('/topic/MantTimeReal', function (greeting) {
+            showMantRegistros(JSON.parse(greeting.body).content);
+        });
+    });
+    
+  
+}
+
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log("Disconnected");
+}
+
+function sendName2() {
+    stompClient.send("/app/MantTimeReal", {}, JSON.stringify({'name': '110690'}));
+}
+
+function sendName() {
+	sendName2();
+    stompClient.send("/app/hello", {}, JSON.stringify({'name': '110690'}));
+}
+
+function showMantRegistros(message2) {
+	
+    $("#Notify").show();
+	$("#MantRegistros").append("<div class='mensaje2'>" + message2 + "</div>");
+	$("#Notify").css("width"," 200px");
+	$("#abrir").hide();	
+	$("#cerrar").show();
+	$(".notifytext").show();
+}
+
+function showGreeting(message) {
+	 $(".mensaje").remove();
+   $("#Notify").show();
+	$("#greetings").append("<tr><td class='mensaje'>" + message + "</td></tr>");
+	$("#Notify").css("width"," 200px");
+	$("#abrir").hide();	
+	$("#cerrar").show();
+	$(".notifytext").show();
+}
+function cerraer(){
+	 $(".mensaje2").remove();
+	  $(".mensaje").hide();	
+	  $("#cerrar").hide();	
+	  $("#abrir").show();
+	  $("#Notify").css("width"," 50px");
+	  $(".notifytext").hide();
+}
+function abrir(){
+		sendName2();
+	 $(".mensaje").show();	
+	  $("#abrir").hide();	
+	  $("#cerrar").show();
+	  $("#Notify").css("width"," 200px");
+	  $(".notifytext").show();
+}
+
+</script>
 	
 		<!-- Scripts -->
+			<script src="assets/js/sockjs.js"></script>
 			<script src="/SGV/assets/js/jquery.min.js"></script>
 			<script src="/SGV/assets/js/jquery.scrollex.min.js"></script>
 			<script src="/SGV/assets/js/jquery.scrolly.min.js"></script>

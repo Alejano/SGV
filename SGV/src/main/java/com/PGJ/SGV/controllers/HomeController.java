@@ -3,6 +3,8 @@ package com.PGJ.SGV.controllers;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -12,8 +14,12 @@ import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.util.HtmlUtils;
 
+import com.PGJ.SGV.models.entity.Greeting;
+import com.PGJ.SGV.models.entity.MessageNotify;
 import com.PGJ.SGV.models.entity.Usuario;
+import com.PGJ.SGV.service.IMantenimientoService;
 import com.PGJ.SGV.service.IUsuarioService;
 
 @Controller
@@ -22,6 +28,8 @@ public class HomeController {
 	Usuario usuario=new Usuario();	
 	@Autowired
 	private IUsuarioService usuarioService;
+	@Autowired
+	private IMantenimientoService mantenimientoService;
 
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
@@ -88,6 +96,27 @@ public class HomeController {
 		}
 		return false;
 	}
+	
+
+	@MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public Greeting greeting(MessageNotify message) throws Exception {
+        Thread.sleep(1000); // simulated delay
+        Long NotificacionMant = mantenimientoService.NotificacionMant();
+        return new Greeting("El vehiculo con placa: "+HtmlUtils.htmlEscape(message.getName())+" Se le a asignado un nuevo mantenimiento, "
+        		+ "Mantenimientos Registrados el dia de hoy: " + HtmlUtils.htmlEscape(NotificacionMant.toString()) + " "  );
+    }
+	
+	@MessageMapping("/MantTimeReal")
+    @SendTo("/topic/MantTimeReal")
+    public Greeting MantTimeReal(MessageNotify message) throws Exception {
+       String titulo = "Mantenimientos del Dia";
+       String valor1 = "Altas:";
+       String valor2 = "Salidas:";
+        Long MantRegistro = mantenimientoService.NotificacionMant();
+		Long MantEntrega = mantenimientoService.NotificacionMantEntrega();
+        return new Greeting(titulo+"<br>"+valor1+HtmlUtils.htmlEscape(MantRegistro.toString())+ valor2 + HtmlUtils.htmlEscape(MantEntrega.toString()) );
+    }
 
 /*
 	

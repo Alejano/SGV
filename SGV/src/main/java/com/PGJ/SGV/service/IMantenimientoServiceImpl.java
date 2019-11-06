@@ -112,5 +112,17 @@ public class IMantenimientoServiceImpl implements IMantenimientoService {
 		// TODO Auto-generated method stub
 		return imantDao.TotalMantenimientoArea(id_adscripcion);
 	}
+	
+	@Override
+	public Long NotificacionMant() {
+		// TODO Auto-generated method stub
+		return imantDao.NotificacionMant();
+	}
+	
+	@Override
+	public Long NotificacionMantEntrega() {
+		// TODO Auto-generated method stub
+		return imantDao.NotificacionMantEntrega();
+	}
 
 }
