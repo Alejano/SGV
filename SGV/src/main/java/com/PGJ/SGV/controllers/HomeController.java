@@ -98,8 +98,8 @@ public class HomeController {
 	}
 	
 
-	@MessageMapping("/hello")
-    @SendTo("/topic/greetings")
+	@MessageMapping("/SGV/app/hello")
+    @SendTo("/SGV/topic/greetings")
     public Greeting greeting(MessageNotify message) throws Exception {
         Thread.sleep(1000); // simulated delay
         Long NotificacionMant = mantenimientoService.NotificacionMant();
@@ -107,15 +107,15 @@ public class HomeController {
         		+ "Mantenimientos Registrados el dia de hoy: " + HtmlUtils.htmlEscape(NotificacionMant.toString()) + " "  );
     }
 	
-	@MessageMapping("/MantTimeReal")
-    @SendTo("/topic/MantTimeReal")
+	@MessageMapping("/SGV/app/TimeReal")
+    @SendTo("/SGV/topic/MantTimeReal")
     public Greeting MantTimeReal(MessageNotify message) throws Exception {
        String titulo = "Mantenimientos del Dia";
        String valor1 = "Altas:";
        String valor2 = "Salidas:";
         Long MantRegistro = mantenimientoService.NotificacionMant();
 		Long MantEntrega = mantenimientoService.NotificacionMantEntrega();
-        return new Greeting(titulo+"<br>"+valor1+HtmlUtils.htmlEscape(MantRegistro.toString())+ valor2 + HtmlUtils.htmlEscape(MantEntrega.toString()) );
+        return new Greeting(titulo+"<br>"+valor1+HtmlUtils.htmlEscape(MantRegistro.toString())+"   "+ valor2 + HtmlUtils.htmlEscape(MantEntrega.toString()) );
     }
 
 }

@@ -14,7 +14,7 @@
 	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>	
 </head>
-<body>
+<body >
 	<header>
 		<div class="heades">
 			<img th:src="@{/images/pgj.png}" style="width: 20%">			
@@ -140,7 +140,7 @@
 													   
 															<div class="help-block with-errors"></div>
 														    <div class="col-sm-2" style="padding-right: 3px;">
-																<input th:field="*{kilometraje_final}" name="K_fin"  id="K_fin" onchange="kilometer()" class="form-control" th:min="${Kmin}+0.1" type="number" pattern="[0-9]{10}"  step="0.1" required data-error="Ingrese El kilometraje final ">																
+																<input th:field="*{kilometraje_final}" name="K_fin" onchange="kilometerfinal()"  id="K_fin" class="form-control" th:min="${Kmin}+0.1" type="number" pattern="[0-9]{10}"  step="0.1" required data-error="Ingrese El kilometraje final ">																
 															</div>
 													 															
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
@@ -151,7 +151,7 @@
 														
 														<div class="help-block with-errors"></div>
 														    <div class="col-sm-2" style="padding-right: 3px;">
-																<input th:field="*{kilometraje_inicial}" id="KActual" class="form-control" disabled>																
+																<input th:field="*{kilometraje_inicial}" id="KActual" onchange="kilometerInicial()" class="form-control" disabled>																
 															</div>															
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
 														
@@ -217,10 +217,23 @@
 		};
 	}
 	
-	function kilometer(){
+	function kilometerInicial(){
 		
+		var kilometrajeI = document.getElementById("KActual").value;		
+		var kilometrajeF = document.getElementById("K_fin").value;	
+		if(kilometrajeI <= kilometrajeF ){
+			alert("El kilimetraje inicial debe ser mayor al final");
+			document.getElementById("KActual").value = "";
+		}
+	}
+	
+function kilometerfinal(){
+		var kilometrajeI = document.getElementById("KActual").value;
 		var kilometrajeF = document.getElementById("K_fin").value;		
-		document.setElementById("K_fin").value=kilometrajeF + 0.0;
+		if(kilometrajeF <= kilometrajeI ){
+			alert("El kilimetraje inicial debe ser mayor al final");
+			document.getElementById("K_fin").value = "";
+		}
 		
 	}
 	

@@ -221,15 +221,15 @@
 	}
 	
 	function connect() {
-	    var socket = new SockJS('/gs-guide-websocket');
+	    var socket = new SockJS('/SGV/gs-guide-websocket');
 	    stompClient = Stomp.over(socket);
 	    stompClient.connect({}, function (frame) {
 	        setConnected(true);
 	        console.log('Connected: ' + frame);
-	        stompClient.subscribe('/topic/greetings', function (greeting) {
+	        stompClient.subscribe('/SGV/topic/greetings', function (greeting) {
 	            showGreeting(JSON.parse(greeting.body).content);
 	        });
-	        stompClient.subscribe('/topic/MantTimeReal', function (greeting) {
+	        stompClient.subscribe('/SGV/topic/MantTimeReal', function (greeting) {
 	            showMantRegistros(JSON.parse(greeting.body).content);
 	        });
 	    });
@@ -246,11 +246,11 @@
 	}
 	
 	function sendName() {
-	    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#placa").val()}));
+	    stompClient.send("/SGV/app/hello", {}, JSON.stringify({'name': $("#placa").val()}));
 	    disconnect()
 	}
 	function sendName2() {
-	    stompClient.send("/app/MantTimeReal", {}, JSON.stringify({'name': '110690'}));
+	    stompClient.send("/SGV/app/TimeReal", {}, JSON.stringify({'name': '110690'}));
 	}
 	</script>
 				

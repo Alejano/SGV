@@ -10,7 +10,7 @@ import com.PGJ.SGV.models.entity.Usuario;
 
 public interface IUsuarioDao extends PagingAndSortingRepository<Usuario, String> {
 	
-	@Query("select p,a from Usuario p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion where p.no_empleado like %?1%")
+	@Query("select p,a from Usuario p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion where p.no_empleado = ?1")
 	public Usuario findByid_adscripcion(String no_empleado);
 	
 	@Query("select p,a from Usuario p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion where p.no_empleado like %?1%")
