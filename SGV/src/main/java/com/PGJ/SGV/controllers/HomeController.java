@@ -118,14 +118,4 @@ public class HomeController {
         return new Greeting(titulo+"<br>"+valor1+HtmlUtils.htmlEscape(MantRegistro.toString())+ valor2 + HtmlUtils.htmlEscape(MantEntrega.toString()) );
     }
 
-/*
-	
-	@GetMapping({"/home","/"})	
-	public String login() {
-		
-		
-				
-		return "home";
-	}
-*/
 }
