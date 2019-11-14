@@ -221,7 +221,7 @@ public class VehiculoController {
 		return "redirect:/Vehiculos";
 	}
 	
-	@RequestMapping(value="/estadoVehi/{placa}/{estado}")
+	@RequestMapping(value="/estadoVehi/{placa}/{estado}/{Corddocu}/{Cordtabla}")
 	public String estado (@PathVariable(value="placa")String placa,@PathVariable(value="estado")String estado,
 			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page) {
 		Vehiculo v = new Vehiculo();

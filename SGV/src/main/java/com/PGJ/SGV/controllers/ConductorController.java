@@ -189,7 +189,7 @@ public class ConductorController {
 		return "redirect:/Conductores";
 	}	
 	
-	@RequestMapping(value="/estadoCond/{no_empleado}/{enabled}")
+	@RequestMapping(value="/estadoCond/{no_empleado}/{enabled}/{Corddocu}/{Cordtabla}")
 	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")Integer enabled,
 			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page) {
 		Conductor cond = new Conductor();

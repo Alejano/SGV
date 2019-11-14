@@ -65,7 +65,7 @@ public class ServiciosController {
 		return "Servicios";
 	}
 	
-	@RequestMapping(value="/estado/{campo}/{id}/{enabled}")
+	@RequestMapping(value="/estado/{campo}/{id}/{enabled}/{Corddocu}/{Cordtabla}")
 	public String estado (@PathVariable(value="id")Long id,@PathVariable(value="enabled")boolean enabled,@PathVariable(value="campo")String campo,
 			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page) {
 		CatalogoServicio uss = new CatalogoServicio();
