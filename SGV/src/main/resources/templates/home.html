@@ -206,10 +206,10 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/SGV/topic/greetings', function (greeting) {
+        stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
-        stompClient.subscribe('/SGV/topic/MantTimeReal', function (greeting) {
+        stompClient.subscribe('/topic/MantTimeReal', function (greeting) {
             showMantRegistros(JSON.parse(greeting.body).content);
         });
     });
@@ -226,16 +226,16 @@ function disconnect() {
 }
 
 function sendName2() {
-    stompClient.send("/SGV/app/MantTimeReal", {}, JSON.stringify({'name': '110690'}));
+    stompClient.send('/app/TimeReal', {}, JSON.stringify({'name': '110690'}));
 }
 
 function sendName() {
 	sendName2();
-    stompClient.send("/SGV/app/hello", {}, JSON.stringify({'name': '110690'}));
+    stompClient.send('/app/hello', {}, JSON.stringify({'name': '110690'}));
 }
 
 function showMantRegistros(message2) {
-	
+
     $("#Notify").show();
 	$("#MantRegistros").append("<div class='mensaje2'>" + message2 + "</div>");
 	$("#Notify").css("width"," 200px");
@@ -272,7 +272,7 @@ function abrir(){
 
 </script>
 	
-		<!-- Scripts -->
+		<!-- Scripts -->			
 			<script src="/SGV/assets/js/sockjs.js"></script>
 			<script src="/SGV/assets/js/jquery.min.js"></script>
 			<script src="/SGV/assets/js/jquery.scrollex.min.js"></script>

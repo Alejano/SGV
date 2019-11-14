@@ -98,8 +98,8 @@ public class HomeController {
 	}
 	
 
-	@MessageMapping("/SGV/app/hello")
-    @SendTo("/SGV/topic/greetings")
+	@MessageMapping("/hello")
+    @SendTo("/topic/greetings")
     public Greeting greeting(MessageNotify message) throws Exception {
         Thread.sleep(1000); // simulated delay
         Long NotificacionMant = mantenimientoService.NotificacionMant();
@@ -107,9 +107,9 @@ public class HomeController {
         		+ "Mantenimientos Registrados el dia de hoy: " + HtmlUtils.htmlEscape(NotificacionMant.toString()) + " "  );
     }
 	
-	@MessageMapping("/SGV/app/TimeReal")
-    @SendTo("/SGV/topic/MantTimeReal")
-    public Greeting MantTimeReal(MessageNotify message) throws Exception {
+	@MessageMapping("/TimeReal")
+    @SendTo("/topic/MantTimeReal")
+    public Greeting MantTimeReal(MessageNotify message) throws Exception {		
        String titulo = "Mantenimientos del Dia";
        String valor1 = "Altas:";
        String valor2 = "Salidas:";

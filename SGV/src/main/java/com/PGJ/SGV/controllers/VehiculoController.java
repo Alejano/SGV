@@ -40,7 +40,8 @@ public class VehiculoController {
 	List<Vehiculo> vehiculo = new ArrayList<Vehiculo>();
 	boolean editar = false;
 	String coche="";
-	
+	static int 	Corddocu = 0;
+	static int 	Cordtabla = 0;
 	@Autowired
 	private IVehiculoService vehiculoService;	
 	@Autowired
@@ -92,6 +93,8 @@ public class VehiculoController {
 		int tamaño = 7;
 		if(vehiculoService.totalVehiculo()>= tamaño) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
 		
+		model.addAttribute("Corddocu",Corddocu);
+		model.addAttribute("Cordtabla",Cordtabla);
 		model.addAttribute("titulo","Listado de Vehiculos");
 		//model.addAttribute("vehiculos",vehiculo);
 		model.addAttribute("vehiculos",vehiculopage);
@@ -219,9 +222,12 @@ public class VehiculoController {
 	}
 	
 	@RequestMapping(value="/estadoVehi/{placa}/{estado}")
-	public String estado (@PathVariable(value="placa")String placa,@PathVariable(value="estado")String estado) {
+	public String estado (@PathVariable(value="placa")String placa,@PathVariable(value="estado")String estado,
+			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page) {
 		Vehiculo v = new Vehiculo();
 		var seteo = "";
+		Corddocu =docu;
+		Cordtabla = tabla;
 		if(placa != "") {
 			v = vehiculoService.findOne(placa);
 			switch (estado) {

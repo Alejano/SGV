@@ -31,6 +31,9 @@ import com.PGJ.SGV.util.paginador.PageRender;
 
 @Controller
 public class UsuarioController {
+	static int 	Corddocu = 0;
+	static int 	Cordtabla = 0;
+	
 	@Autowired
 	private IUsuarioService usuarioService;
 	@Autowired
@@ -59,7 +62,8 @@ public class UsuarioController {
 	
 		model.addAttribute("usuarios",usuarioPage);
 		model.addAttribute("page",usuarioRender);
-		
+		model.addAttribute("Corddocu",Corddocu);
+		model.addAttribute("Cordtabla",Cordtabla);
 		//model.addAttribute("autoridad",autoridad);
 		//model.addAttribute("adslist",adscripcion);
 		model.addAttribute("titulo","Listado de Usuarios");
@@ -141,11 +145,14 @@ public class UsuarioController {
 	}	
 	
 	@RequestMapping(value="/estadoUsu/{no_empleado}/{enabled}")
-	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")boolean enabled) {
+	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")boolean enabled,
+			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page) {
 		Usuario uss = new Usuario();
 		boolean seteo = false;
 		
 		uss = usuarioService.findOne(no_empleado);
+		Corddocu =docu;
+		Cordtabla = tabla;
 		if(enabled) {
 			seteo=false;
 			uss.setEnabled(seteo);

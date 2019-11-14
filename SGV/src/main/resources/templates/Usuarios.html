@@ -15,7 +15,7 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
 	
 </head>
-<body>
+<body th:onload="'Scrol(\''+${Corddocu}+'\',\'' +${Cordtabla}+'\');'">
 	<header>
 		<div>
 		<div class="heades" >
@@ -128,8 +128,8 @@
 													<td th:text="${usuariosql.apellido2}" class="celda"></td>
 													<td th:text="${usuariosql.adscripcion.nombre_adscripcion}"class="celda"></td>
 													<td th:switch="${usuariosql.enabled} == true" class="celda">															
-															<a th:case="true" class="btn btn-success btn-xs " th:href="@{/estadoUsu/} +${usuariosql.no_empleado}+'/'+${usuariosql.enabled}" onclick="return confirm('Seguro que desea cambiar el estado del Conductor?');" th:text="Activo" style="width: 70px;"></a>
-															<a th:case="false" class="btn btn-danger btn-xs " th:href="@{/estadoUsu/} +${usuariosql.no_empleado}+'/'+${usuariosql.enabled}" onclick="return confirm('Seguro que desea cambiar el estado del Conductor?');" th:text="Inactivo" style="width: 70px;"></a>																								
+															<a th:id="estaUsu+${usuariosql.no_empleado}" th:case="true" class="btn btn-success btn-xs " th:href="@{/estadoUsu/} +${usuariosql.no_empleado}+'/'+${usuariosql.enabled}" onclick="scroller(this.id);" th:text="Activo" style="width: 70px;"></a>
+															<a th:id="estaUsu+${usuariosql.no_empleado}" th:case="false" class="btn btn-danger btn-xs " th:href="@{/estadoUsu/} +${usuariosql.no_empleado}+'/'+${usuariosql.enabled}" onclick="scroller(this.id);" th:text="Inactivo" style="width: 70px;"></a>																								
 													</td>
 													<td th:switch="${usuariosql.authority.authority} == ROLE_ADMIN" class="celda">
 															<p th:case="true">Administrador</p>															
@@ -248,7 +248,7 @@
     	} 
     </script>
     
-    
+     <script src="/SGV/assets/js/CambiosEstado.js"></script>
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- Popper js -->

@@ -17,5 +17,7 @@ public interface ICatalogoServicioService {
 	public void delete(Long id);
 	
 	public Long totalCatalogoServicios();
+	
+	public Page<CatalogoServicio> finCatElemntPage(String elemento,Pageable pageable);
 
 }

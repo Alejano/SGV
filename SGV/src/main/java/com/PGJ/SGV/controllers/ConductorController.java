@@ -32,6 +32,8 @@ import com.PGJ.SGV.util.paginador.PageRender;
 
 @Controller
 public class ConductorController {	
+	static int 	Corddocu = 0;
+	static int 	Cordtabla = 0;	
 	
 	@Autowired
 	private IConductorService conductorService;
@@ -82,6 +84,8 @@ public class ConductorController {
 		Page<Conductor> conductorPage = conductorService.findAll(pageRequest);
 		PageRender<Conductor> pageRender = new PageRender<>("/Conductores",conductorPage);
 		if(conductorService.totalConductores()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};		
+		model.addAttribute("Corddocu",Corddocu);
+		model.addAttribute("Cordtabla",Cordtabla);
 		model.addAttribute("conductores",conductorPage);
 		model.addAttribute("page",pageRender);	
 				
@@ -186,11 +190,14 @@ public class ConductorController {
 	}	
 	
 	@RequestMapping(value="/estadoCond/{no_empleado}/{enabled}")
-	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")Integer enabled) {
+	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")Integer enabled,
+			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page) {
 		Conductor cond = new Conductor();
 		Integer seteo = 0;
 		
 			cond = conductorService.findOne(no_empleado);
+			Corddocu =docu;
+			Cordtabla = tabla;
 			switch (enabled) {
 			case 1:
 								seteo=0;

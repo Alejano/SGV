@@ -1,7 +1,10 @@
 package com.PGJ.SGV.controllers;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +33,9 @@ public class ServiciosController {
 	
 	@Autowired
 	private IUploadFileService uploadFileService;
-		
+	static int 	Corddocu = 0;
+	static int 	Cordtabla = 0;
+	
 	@RequestMapping(value="/Servicios", method = RequestMethod.GET)
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page,Model model, Authentication authentication) {				
 	
@@ -52,6 +57,8 @@ public class ServiciosController {
 		PageRender<CatalogoServicio> catalogorender = new PageRender<>("/Servicios",catalogoPage);
 		
 		if(catalogoServicio.totalCatalogoServicios()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+		model.addAttribute("Corddocu",Corddocu);
+		model.addAttribute("Cordtabla",Cordtabla);
 		model.addAttribute("servicios",catalogoPage);
 		model.addAttribute("page", catalogorender);
 		
@@ -59,10 +66,13 @@ public class ServiciosController {
 	}
 	
 	@RequestMapping(value="/estado/{campo}/{id}/{enabled}")
-	public String estado (@PathVariable(value="id")Long id,@PathVariable(value="enabled")boolean enabled,@PathVariable(value="campo")String campo) {
+	public String estado (@PathVariable(value="id")Long id,@PathVariable(value="enabled")boolean enabled,@PathVariable(value="campo")String campo,
+			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page) {
 		CatalogoServicio uss = new CatalogoServicio();
 		boolean seteo = false;			
 		uss = catalogoServicio.findOne(id);
+		Corddocu =docu;
+		Cordtabla = tabla;
 		switch (campo) {
 		case "Auto":
 				if(enabled) {seteo=false; uss.setAuto(seteo);}else {seteo=true;uss.setAuto(seteo);	}
@@ -196,5 +206,61 @@ public class ServiciosController {
 		}
 		return false;
 	}
+	
+	@RequestMapping(value="/formServBuscar")
+	public String Buscartabla(@RequestParam(name="page", defaultValue = "0") int page,
+			@RequestParam(value="elemento") String elemento,Model model, Authentication authentication){	
+		Pageable pageRequest = PageRequest.of(page, 100);
+		 Double Dato;
+		 
+		 if(!elemento.isBlank()) {			
+				if(isValidDouble(elemento)) {
+						Dato = Double.parseDouble(elemento);
+						DecimalFormat formt = new DecimalFormat("0");
+						elemento = formt.format(Dato);
+						elemento = elemento.replaceAll(",","");	
+				};
+		 
+		 Page<CatalogoServicio> usuariospage = catalogoServicio.finCatElemntPage(elemento, pageRequest);
+		 PageRender<CatalogoServicio> renderpage = new PageRender<>("/formServBuscar",usuariospage);
+		 
+		 model.addAttribute("servicios",usuariospage);
+		 model.addAttribute("page",renderpage);
+		 model.addAttribute("elemento",elemento);
+		 return "Servicios";
+		 }
+		 
+		return "redirect:/Servicios";
+	}
+	
+	private static boolean isValidDouble(String s) {
+		final String Digits     = "(\\p{Digit}+)";
+		  final String HexDigits  = "(\\p{XDigit}+)";
+		
+		  final String Exp        = "[eE][+-]?"+Digits;
+		  final String fpRegex    =
+		      ("[\\x00-\\x20]*"+  
+		       "[+-]?(" + // Optional sign character		       		           
+		       // Digitos ._opt Digits_opt ExponentPart_opt FloatTypeSuffix_opt
+		       "((("+Digits+"(\\.)?("+Digits+"?)("+Exp+")?)|"+
+
+		       // . Digitos ExponentPart_opt FloatTypeSuffix_opt
+		       "(\\.("+Digits+")("+Exp+")?)|"+
+
+		       // Hexadecimal strings
+		       "((" +
+		        // 0[xX] HexDigits ._opt BinaryExponent FloatTypeSuffix_opt
+		        "(0[xX]" + HexDigits + "(\\.)?)|" +
+
+		        // 0[xX] HexDigits_opt . HexDigits BinaryExponent FloatTypeSuffix_opt
+		        "(0[xX]" + HexDigits + "?(\\.)" + HexDigits + ")" +
+
+		        ")[pP][+-]?" + Digits + "))" +
+		       "[fFdD]?))" +
+		       "[\\x00-\\x20]*");
+
+		  return Pattern.matches(fpRegex, s);
+	}
+
 
 }
