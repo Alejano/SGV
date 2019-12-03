@@ -111,9 +111,9 @@
 											</div>
 											
 											<div style=" width: 100%;">
-												<h2 class="titulotabla" id="autotitulo">Listado de Vehiculos</h2>
-												<h2 class="titulotabla" id="blindadotitulo">Listado de Autos Blindados</h2>
-												<h2 class="titulotabla" id="mototitulo">Listado de Motos</h2>
+												<h2 class="titulotabla" id="autotitulo" >Listado de Vehiculos</h2>
+												<h2 class="titulotabla" id="blindadotitulo" style="display:none">Listado de Autos Blindados</h2>
+												<h2 class="titulotabla" id="mototitulo" style="display:none">Listado de Motos</h2>
 												<div class="col-md-6"></div>
 												<div class="row justify-content-end  col-md-6">      													
 	        										<div class="col-md-1">
@@ -324,13 +324,7 @@
     function Scrol(documento, tabla){
       	 $(document).scrollTop(documento);
       	 $(".fixed_header tbody").scrollTop(tabla);
-      		$("#auto").prop('disabled', true);
-   		$("#blindado").prop('disabled', false);
-   		$("#moto").prop('disabled', false);
-   		
-   	 	$("#autotitulo").show();
-   	   	$("#blindadotitulo").hide();
-   	   	$("#mototitulo").hide();	
+      	 auto();
       }
       function scroller(id){
       	//alert("id: "+ id);
