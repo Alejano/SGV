@@ -81,25 +81,25 @@
 														<!--Numero de Empleado-->
 														<div class="form-group col-sm-3">
 															<div class="help-block with-errors"></div>
-															<input th:field="*{no_empleado}" name="fname" id="N_em" placeholder="Numero de Empleado" class="form-control" type="text" required data-error="Ingrese su Numero de Empleado">
+															<input th:field="*{no_empleado}" name="fname" id="N_em" placeholder="Numero de Empleado" class="form-control signos" type="text" required data-error="Ingrese su Numero de Empleado">
 															<div class="input-group-icon"><i class="fa fa-user"></i></div>
 														</div>														
 	
 														<div class="form-group col-sm-10">
 															<div class="help-block with-errors"></div>
-															<input th:field="*{nombre}" name="Ap_Pa" id="Ap_Pa" placeholder="Nombre" class="form-control" type="text" required data-error="Ingrese el Nombre">
+															<input th:field="*{nombre}" name="Ap_Pa" id="Ap_Pa" placeholder="Nombre" class="form-control soloLetras" type="text" required data-error="Ingrese el Nombre">
 															<div class="input-group-icon"><i class="fa fa-user"></i></div>
 														</div>
 	
 														<div class="form-group col-sm-10">
 															<div class="help-block with-errors"></div>
-															<input th:field="*{apellido1}" name="Ap_Ma" id="Ap_Ma" placeholder="Primer Apellido" class="form-control" type="text" required data-error="Ingrese el primer apellido">
+															<input th:field="*{apellido1}" name="Ap_Ma" id="Ap_Ma" placeholder="Primer Apellido" class="form-control soloLetras" type="text" required data-error="Ingrese el primer apellido">
 															<div class="input-group-icon"><i class="fa fa-user"></i></div>
 														</div>
 	
 														<div class="form-group col-sm-10">
 															<div class="help-block with-errors"></div>
-															<input th:field="*{apellido2}" name="Nombre" id="No" placeholder="Segundo Apellido" class="form-control" type="text" required data-error="Ingrese el segundo apellido">
+															<input th:field="*{apellido2}" name="Nombre" id="No" placeholder="Segundo Apellido" class="form-control soloLetras" type="text" required data-error="Ingrese el segundo apellido">
 															<div class="input-group-icon"><i class="fa fa-user"></i></div>
 														</div>
 														
@@ -143,7 +143,7 @@
 	</section>
 	
 	
-	
+	<script src="/SGV/assets/js/CambiosEstado.js"></script>	
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- Popper js -->

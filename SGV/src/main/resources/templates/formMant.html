@@ -119,7 +119,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{costo_mantenimiento}" name="fname" id="Placa" placeholder="Costo de Mantenimiento" class="form-control" type="number" required data-error="Ingrese Costo de Mantenimiento">
+														<input th:field="*{costo_mantenimiento}" name="fname" id="Placa" placeholder="Costo de Mantenimiento" class="form-control signos" type="number" required data-error="Ingrese Costo de Mantenimiento">
 														<div class="input-group-icon"><i class="fas fa-ad"></i></div>
 													</div>
 													
@@ -157,7 +157,7 @@
 
 													<div class="form-group col-sm-12">
 														<div class="help-block with-errors"></div>
-														<textarea th:field="*{observaciones}" rows="3" name="message" id="Com" placeholder="Ingresa el destino" class="form-control" required data-error="observaciones"></textarea>
+														<textarea th:field="*{observaciones}" rows="3" name="message" id="Com" placeholder="Ingresa el destino" class="form-control soloLetras" required data-error="observaciones"></textarea>
 														<div class="textarea input-group-icon"><i class="fas fa-map-marked-alt"></i></div>
 													</div>
 													
@@ -226,10 +226,10 @@
 	    stompClient.connect({}, function (frame) {
 	        setConnected(true);
 	        console.log('Connected: ' + frame);
-	        stompClient.subscribe('/SGV/topic/greetings', function (greeting) {
+	        stompClient.subscribe('/topic/greetings', function (greeting) {
 	            showGreeting(JSON.parse(greeting.body).content);
 	        });
-	        stompClient.subscribe('/SGV/topic/MantTimeReal', function (greeting) {
+	        stompClient.subscribe('/topic/MantTimeReal', function (greeting) {
 	            showMantRegistros(JSON.parse(greeting.body).content);
 	        });
 	    });
@@ -253,8 +253,8 @@
 	    stompClient.send("/SGV/app/TimeReal", {}, JSON.stringify({'name': '110690'}));
 	}
 	</script>
-				
-	<script src="/assets/js/sockjs.js"></script>
+	<script src="/SGV/assets/js/CambiosEstado.js"></script>		
+	<script src="/SGV/assets/js/sockjs.js"></script>
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- jQuery Library -->

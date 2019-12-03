@@ -167,9 +167,9 @@
 													<td class="celda" th:text="${vehiculossql.valor_factura}"></td>
 													<td class="celda" th:text="${vehiculossql.no_poliza}"></td>
 													<td class="celda">													
-															<a th:if="${vehiculossql.estado} == 'DISPONIBLE'" class="btn btn-success btn-xs " th:href="@{/estadoVehi/} +${vehiculossql.placa}+'/'+${vehiculossql.estado}" onclick="return confirm('Seguro que desea cambiar el estado del vehiculo?');" th:text="SI" style="width: 50px;"></a>
-															<a th:if="${vehiculossql.estado} == 'NO DISPONIBLE'" class="btn btn-danger btn-xs " th:href="@{/estadoVehi/} +${vehiculossql.placa}+'/'+${vehiculossql.estado}" onclick="return confirm('Seguro que desea cambiar el estado del vehiculo?');" th:text="'No'" style="width: 50px;"></a>
-														
+															<a th:id="estadoV+${vehiculossql.placa}" th:if="${vehiculossql.estado} == 'DISPONIBLE'" class="btn btn-success btn-xs Sel" th:href="@{/estadoVehi/} +${vehiculossql.placa}+'/'+${vehiculossql.estado}" onclick="scroller(this.id,'No Disponible');" th:text="SI" style="width: 50px;"></a>
+															<a th:id="estadoV+${vehiculossql.placa}" th:if="${vehiculossql.estado} == 'NO DISPONIBLE'" class="btn btn-danger btn-xs Sel" th:href="@{/estadoVehi/} +${vehiculossql.placa}+'/'+${vehiculossql.estado}" onclick="scroller(this.id,'Disponible');" th:text="'No'" style="width: 50px;"></a>														
+															<a th:if="${vehiculossql.estado} == 'EN VIAJE'"  th:href="@{/TerminarViaj/} +${vehiculossql.placa}"   class="btn btn-danger btn-xs" onclick="return confirm('¿Deseas entregar el vehiculo y terminar el viaje?')" style="width: 50px;"><i class="fas fa-car-side"></i></a>																													
 													</td>
 													<td class="celda" th:text="${vehiculossql.tipo_combustible}"></td>
 													<td class="celda" th:text="${vehiculossql.kilometraje}"></td>
@@ -181,8 +181,8 @@
 																<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="1" class="option "><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formVehi/} +${vehiculossql.placa}" th:text="editar" style="width: 100px;"></a></li>
 																<!--<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="2" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimVehi/} +${vehiculossql.placa}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar" style="width: 100px;"></a></li>-->
 																<li data-value="3" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/Combustibles/?placa=} +${vehiculossql.placa}" th:text="Combustible" style="width: 100px;"></a></li>
-																<li data-value="4" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{Mantenimientos/} +${vehiculossql.placa}" th:text="Mantenimiento" style="width: 108px;"></a></li>
-																<li th:if="${vehiculossql.estado} == 'DISPONIBLE'" data-value="1" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/VehiViaj/} +${vehiculossql.placa}" th:text="'Agregar Viaje'" style="width: 108px;"></a></li>
+																<li th:if="${vehiculossql.estado} != 'EN VIAJE'" data-value="4" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{Mantenimientos/} +${vehiculossql.placa}" th:text="Mantenimiento" style="width: 108px;"></a></li>
+																<li th:if="${vehiculossql.estado} == 'DISPONIBLE'" data-value="5" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/VehiViaj/} +${vehiculossql.placa}" th:text="'Agregar Viaje'" style="width: 108px;"></a></li>																
 															</ul>
 														</div>																									  																																																																																																			
 													</td>												
@@ -365,6 +365,9 @@
    	        }
    	    }
    	};
+    $('.Sel').click(function(event) {
+        event.preventDefault();
+     });
     </script>   
      <script src="/SGV/assets/js/CambiosEstado.js"></script>
     <!-- api nice-select -->

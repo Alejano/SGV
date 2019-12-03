@@ -68,7 +68,7 @@
 	                            <div class="item-wrap">
 	                                <div class="row">
 	                                    <div class="col-md-12">
-	                                        <form th:action="@{/formViaj}" th:object="${viaje}" method="post" id="formulario"  name="visitas" data-toggle="validator" class="popup-form">
+	                                         <form th:action="@{/formViaj}" th:object="${viaje}" method="post" id="formulario"  name="visitas" data-toggle="validator" class="popup-form">
 	                                            
 												<div class="row" style="    margin-right: -10px; margin-left: -10px;">
 
@@ -129,7 +129,7 @@
 													<div class="form-group col-sm-5">
 														<div class="help-block with-errors"></div>
 														<div style=" width:40%;display: inline-block;">
-														<input th:field="*{kilometraje_inicial}" name="K_fi"  id="K_fin" placeholder="Kilometraje inicial" class="form-control" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese Kilometraje Inicial">
+														<input th:field="*{kilometraje_inicial}" name="K_fi"  id="K_fin" placeholder="Kilometraje inicial" class="form-control signos" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese Kilometraje Inicial">
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
 														</div>
 														<div style=" width:40%;display: inline-block;">
@@ -143,7 +143,7 @@
 													<div class="form-group col-sm-5">
 														<div class="help-block with-errors"></div>
 														<div style=" width:44%;display: inline-block;">
-														<input th:field="*{kilometraje_final}" name="K_fi"  id="K_fin" placeholder="Kilometraje final"  class="form-control" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese Kilometraje Final">
+														<input th:field="*{kilometraje_final}" name="K_fi"  id="K_fin" placeholder="Kilometraje final"  class="form-control signos" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese Kilometraje Final">
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
 														</div>
 														<div style=" width:43%;display: inline-block;">
@@ -156,7 +156,7 @@
 													<div class="form-group col-sm-5" style="    height: 34px;">
 														<div class="help-block with-errors"></div>
 														<div style=" width:40%;display: inline-block;">
-														<input th:field="*{distancia_recorrida}" name="K_fi"  id="K_fin" placeholder="Distancia recorrida" class="form-control" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese Kilometraje Final">
+														<input th:field="*{distancia_recorrida}" name="K_fi"  id="K_fin" placeholder="Distancia recorrida" class="form-control signos" type="number" pattern="[0-9]{10}"  step="1" required data-error="Ingrese Kilometraje Final">
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
 														</div>
 														<div style=" width:40%;display: inline-block;">
@@ -195,7 +195,7 @@
 
 													<div class="form-group col-sm-12">
 														<div class="help-block with-errors"></div>
-														<textarea th:field="*{destino}" rows="3" name="message" id="Com" placeholder="Ingresa tu destino aquí" class="form-control" required data-error="Ingrese un Comentario"></textarea>
+														<textarea th:field="*{destino}" rows="3" name="message" id="Com" placeholder="Ingresa tu destino aquí" class="form-control soloLetras" required data-error="Ingrese un Comentario"></textarea>
 														<div class="textarea input-group-icon"><i class="fa fa-pencil"></i></div>
 													</div>
 													<input type="hidden" th:field="*{id_viaje}"/>													
@@ -253,7 +253,7 @@
 		
 	
 	</script>
-	
+	<script src="/SGV/assets/js/CambiosEstado.js"></script>	
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- Popper js -->

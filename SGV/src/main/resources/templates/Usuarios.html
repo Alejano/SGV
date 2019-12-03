@@ -128,8 +128,8 @@
 													<td th:text="${usuariosql.apellido2}" class="celda"></td>
 													<td th:text="${usuariosql.adscripcion.nombre_adscripcion}"class="celda"></td>
 													<td th:switch="${usuariosql.enabled} == true" class="celda">															
-															<a th:id="estaUsu+${usuariosql.no_empleado}" th:case="true" class="btn btn-success btn-xs " th:href="@{/estadoUsu/} +${usuariosql.no_empleado}+'/'+${usuariosql.enabled}" onclick="scroller(this.id);" th:text="Activo" style="width: 70px;"></a>
-															<a th:id="estaUsu+${usuariosql.no_empleado}" th:case="false" class="btn btn-danger btn-xs " th:href="@{/estadoUsu/} +${usuariosql.no_empleado}+'/'+${usuariosql.enabled}" onclick="scroller(this.id);" th:text="Inactivo" style="width: 70px;"></a>																								
+															<a th:id="estaUsu+${usuariosql.no_empleado}" th:case="true" class="btn btn-success btn-xs sel" th:href="@{/estadoUsu/} +${usuariosql.no_empleado}+'/'+${usuariosql.enabled}" onclick="scroller(this.id,'Inactivo');" th:text="Activo" style="width: 70px;"></a>
+															<a th:id="estaUsu+${usuariosql.no_empleado}" th:case="false" class="btn btn-danger btn-xs sel" th:href="@{/estadoUsu/} +${usuariosql.no_empleado}+'/'+${usuariosql.enabled}" onclick="scroller(this.id,'Activo');" th:text="Inactivo" style="width: 70px;"></a>																								
 													</td>
 													<td th:switch="${usuariosql.authority.authority} == ROLE_ADMIN" class="celda">
 															<p th:case="true">Administrador</p>															
@@ -246,6 +246,9 @@
     	  tecla = (document.all) ? e.keyCode :e.which;
     	  return (tecla!=13);
     	} 
+    $('.sel').click(function(event) {
+        event.preventDefault();
+     });
     </script>
     
      <script src="/SGV/assets/js/CambiosEstado.js"></script>

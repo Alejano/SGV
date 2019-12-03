@@ -68,6 +68,7 @@ public class ViajeCotroller {
 		
 		if(user.equals("ROLE_USER")){
 			Usuario usus = new Usuario();
+			//System.out.println("variable:  "+ ads );
 			usus = usuarioService.findbyAdscripcion(ads);	
 			
 			//viajesArea = viajeService.ViajesArea(usus.getAdscripcion().getId_adscripcion());	
@@ -162,28 +163,75 @@ public class ViajeCotroller {
 			Vehiculo vehi= new Vehiculo();
 			Conductor con = new Conductor();
 			double Di=0;
-			double Df = viaje.getKilometraje_final();
-			double DR=0;
+			
+			double Df = 0;
+			double DR=0;			
 			double kilometraje= 0;
 			
 			vehi = vehiculoService.findOne(viaje.getVehiculo().getPlaca());
-			Di = vehi.getKilometraje();
-			kilometraje= vehi.getKilometraje();
-			viaje.setVehiculo(vehi);		
-			con = conductorService.findOne(viaje.getConductor().getNo_empleado());
-			viaje.setConductor(con);
-			kilometraje = kilometraje + Di;
-			DR = Df - Di ;		
-			if(kilometraje == 0) {kilometraje = DR;};
-			viaje.setKilometraje_inicial(Di);
-			viaje.setDistancia_recorrida(DR);			
-			vehi.setKilometraje(kilometraje);
+			
+			if(vehi.getEstado().equals("DISPONIBLE")) {
+				Di = vehi.getKilometraje();
+				//kilometraje= vehi.getKilometraje();			
+				viaje.setVehiculo(vehi);		
+				con = conductorService.findOne(viaje.getConductor().getNo_empleado());
+				viaje.setConductor(con);				
+				//DR = Df - Di ;		
+				//kilometraje = kilometraje + DR;	
+				//if(kilometraje == 0) {kilometraje = DR;};
+				//System.out.println("Distancia recorrida "+DR);
+				//System.out.println("Distancia inicial "+Di);
+				//System.out.println("Distancia final "+Di);
+				//System.out.println("El auto termino con "+kilometraje + " kilometros");
+				viaje.setKilometraje_inicial(Di);
+				viaje.setKilometraje_final(Df);
+				
+				viaje.setDistancia_recorrida(DR);			
+				//vehi.setKilometraje(kilometraje);
+				vehi.setEstado("EN VIAJE");
+			}else {
+				if(vehi.getEstado().equals("EN VIAJE")) {
+					Df = viaje.getKilometraje_final();
+					Di = vehi.getKilometraje();
+					kilometraje= vehi.getKilometraje();			
+					viaje.setVehiculo(vehi);		
+					con = conductorService.findOne(viaje.getConductor().getNo_empleado());
+					viaje.setConductor(con);				
+					DR = Df - Di ;		
+					kilometraje = kilometraje + DR;	
+					if(kilometraje == 0) {kilometraje = DR;};
+					
+					viaje.setKilometraje_inicial(Di);
+					viaje.setKilometraje_final(Df);
+					
+					viaje.setDistancia_recorrida(DR);			
+					vehi.setKilometraje(kilometraje);
+					vehi.setEstado("DISPONIBLE");
+				};
+			}
+			
 			viajeService.save(viaje);	
 			vehiculoService.save(vehi);
 			
 			
 		return "redirect:Vehiculos";	
 		}
+	}
+	
+	@RequestMapping(value="/TerminarViaj/{placa}")
+	public String Terminar(@PathVariable(value="placa") String placa,Map<String,Object>model, Authentication authentication) {	
+		Viaje viaje = new Viaje();	
+		Vehiculo v = null;
+		if(!placa.equals(null)) {			
+			viaje = viajeService.viajependiente(placa);								 				
+		}else {
+			return "redirect:/Viajes";
+		}
+						
+		v = vehiculoService.findOne(placa);		
+		model.put("vehiculo", v);		
+		model.put("viaje",viaje);
+		return "formTerminarViaj";
 	}
 	
 	@RequestMapping(value="/elimViaj/{id_viaje}")

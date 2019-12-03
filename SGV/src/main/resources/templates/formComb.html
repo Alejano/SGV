@@ -10,10 +10,10 @@
 	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
-	<script src="http://code.code.jquery.com/jquery-lastert.js"></script>
+	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-	<script src="/SGV/assets/js/main.js"></script>
+	
 </head>
 <body>
 	<header>
@@ -69,63 +69,66 @@
 	                            <div class="item-wrap">
 	                                <div class="row">
 	                                    <div class="col-md-12">
-	                                        <form th:action="@{/formComb}" th:object="${combustible}" method="post" id="formulario"  name="visitas" data-toggle="validator" class="popup-form">
-	                                            <div class="row">
+	                                        <form th:action="@{/FormCond}" th:object="${conductor}" method="post" id="formulario"  name="visitas" data-toggle="validator" class="popup-form">
+	                                            <div class="row">	
 	                                            
-	                                            <!--placa-->
-	                                                    <div class="form-group col-sm-5" style="height: 34px;">
-														<div class="form-group col-sm-5" >
-															<div class="help-block with-errors" style=" width: 393px;"></div>
-															<input th:field="*{vehiculo.placa}" name="fname" id="A_pa" placeholder="" class="form-control" type="text" disabled>
-										                    <div class="input-group-icon"><i class="fas fa-car-side"></i></div>
-														</div>
-													</div>
+	                                            		<div class="form-group col-sm-11" th:if="${usuario} == 'ROLE_USER'" style="background: #f8f8e5; text-align: center;">																																								                
+															<h4 th:text="${nombreAds}" style="margin-left: 43px;"></h4>													    										                        
+										                    <div class="input-group-icon"><i class="far fa-building fa-2x"></i></div>
+										                    <input type="hidden" th:field="*{adscripcion}">
+														</div>	                                         
 	
-	                                                    <!--mes-->
-	                                                    <div class="form-group col-sm-4" style="height: 34px;">
-														<div class="help-block with-errors"></div>
-														<select th:field="*{mes}" id="T_com" class="form-control" style="height: 34px;" required data-error="Ingrese El Mes">
-														<option value="*{mes}">--</option>
-														<option value="Enero">-Enero</option>
-														<option value="Febrero">-Febrero</option>
-														<option value="Gasolina">-Marzo</option>
-														<option value="Marzo">-Abril</option>
-														<option value="Mayo">-Mayo</option>
-														<option value="Junio">-Junio</option>
-														<option value="Julio">-Julio</option>
-														<option value="Agosto">-Agosto</option>
-														<option value="Septiembre">-Septiembre</option>
-														<option value="Octubre">-Octubre</option>
-														<option value="Noviembre">-Noviembre</option>
-														<option value="Diciembre">-Diciembre</option>
-														</select>											
-													    <div class="input-group-icon"><i class="far fa-calendar-alt"></i>
-													    </div>
-												    </div>
-	                                                    <!--año-->
-	
-	                                                    <div class="form-group col-sm-4">
+														<!--Numero de Empleado-->
+														<div class="form-group col-sm-3">
 															<div class="help-block with-errors"></div>
-															<input th:field="*{ano}"  id="año" placeholder="Año"  min="1960" max="2040" class="form-control" type="number" required data-error="Ingrese El Año">
-															<div class="input-group-icon"><i class="far fa-calendar-alt"></i></div>
+															<input th:field="*{no_empleado}" name="fname" id="N_em" placeholder="Numero de Empleado" class="form-control signos" type="text" required data-error="Ingrese su Numero de Empleado">
+															<div class="input-group-icon"><i class="fa fa-user"></i></div>
+														</div>														
+	
+														<div class="form-group col-sm-10">
+															<div class="help-block with-errors"></div>
+															<input th:field="*{nombre}" name="Ap_Pa" id="Ap_Pa" placeholder="Nombre" class="form-control soloLetras" type="text" required data-error="Ingrese el Nombre">
+															<div class="input-group-icon"><i class="fa fa-user"></i></div>
 														</div>
 	
-	                                                    <!--presupuesto-->
-	                                                    <div class="form-group col-sm-9">
-	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{presupuesto}"  id="Num" placeholder="Cantidad de Presupuesto" class="form-control" type="number" required data-error="Ingrese un Presupuesto"/>
-	                                                            <div class="input-group-icon"><i class="fas fa-hashtag"></i></div>
-	                                                    </div>
+														<div class="form-group col-sm-10">
+															<div class="help-block with-errors"></div>
+															<input th:field="*{apellido1}" name="Ap_Ma" id="Ap_Ma" placeholder="Primer Apellido" class="form-control soloLetras" type="text" required data-error="Ingrese el primer apellido">
+															<div class="input-group-icon"><i class="fa fa-user"></i></div>
+														</div>
 	
-	                                                    
-	                                                    
-	                                                    <input type="hidden" th:field="*{id_asignacion}"/>
-														   <input type="hidden" th:field="*{vehiculo}"/>
-	                                                    <!--Boton Guardar-->
-	                                                    <div class="form-group last col-sm-12">
-	                                                            <button type="submit" id="guardar" class="btn btn-custom"><i class='fa fa-envelope'></i> Guardar</button>
-	                                                    </div>
-	                                                    <div class="clearfix"></div>
+														<div class="form-group col-sm-10">
+															<div class="help-block with-errors"></div>
+															<input th:field="*{apellido2}" name="Nombre" id="No" placeholder="Segundo Apellido" class="form-control soloLetras" type="text" required data-error="Ingrese el segundo apellido">
+															<div class="input-group-icon"><i class="fa fa-user"></i></div>
+														</div>
+														
+															<div class="form-group col-sm-4">
+																<div class="help-block with-errors"></div>														
+																<select th:field="*{enabled}" id="estado" class="form-control" style="height: 34px;" required data-error="Ingrese el estado del usuario">																												
+																<option value=0>-Inactivo</option>
+																<option value=1>-Activo</option>
+																</select>	
+																<div class="input-group-icon"><i class="fa fa-user-tag"></i></div>
+															</div>
+	
+														<div class="form-group col-sm-10" th:if="${usuario} == 'ROLE_ADMIN'">
+															<div class="help-block with-errors"></div>
+															<select th:field="*{adscripcion}" class="form-control" style=" height: 33px;" required data-error="Ingrese la Adscripcion">
+										                         
+										                         <option th:each="adss : ${adslist}"
+										                            th:value="${adss.id_adscripcion}"
+										                            th:utext="${adss.nombre_adscripcion}" />
+										                    </select>
+										                    <div class="input-group-icon"><i class="far fa-building"></i></div>
+														</div>
+														
+																										
+														<!--Boton Guardar-->
+														<div class="form-group last col-sm-12">
+															<button type="submit" id="guardar" class="btn btn-custom btn-stilo"><i class='fa fa-envelope'></i> Guardar</button>
+														</div>
+														<div class="clearfix"></div>														                                                    
 	                                            </div>
 	                                        </form>
 	                                    </div>
@@ -139,7 +142,7 @@
 		</div>
 	</section>
 	
-	
+	<script src="/SGV/assets/js/CambiosEstado.js"></script>	
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- Popper js -->

@@ -77,13 +77,13 @@
 	                            <div class="item-wrap">
 	                                <div class="row">
 	                                    <div class="col-md-12">
-	                                        <form th:action="@{/formUsu}" th:object="${usuarios}" method="post" id="formulario"  data-toggle="validator" class="popup-form">
+	                                         <form th:action="@{/formUsu}" th:object="${usuarios}" method="post" id="formulario"  data-toggle="validator" class="popup-form">
 	                                            <div class="row">
 														<!--Numero de empleado-->
 													<div class="col-sm-12">
 														<div class="form-group col-sm-4">
 															<div class="help-block with-errors"></div>
-															<input th:field="*{no_empleado}" name="fname" id="N_Em" placeholder="Numero de Empleado" class="form-control" type="text" required data-error="Ingrese El Numero de Empleado">																
+															<input th:field="*{no_empleado}" name="fname" id="N_Em" placeholder="Numero de Empleado" class="form-control signos" type="text" required data-error="Ingrese El Numero de Empleado">																
 															<div class="input-group-icon"><i class="fas fa-id-badge"></i></div>
 														</div>
 													</div>
@@ -91,19 +91,19 @@
 													<!--Nombre-->
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{nombre}" name="fname" id="A_pa" placeholder="Nombre" class="form-control" type="text" required data-error="Ingrese El Nombre">
+														<input th:field="*{nombre}" name="fname" id="A_pa" placeholder="Nombre" class="form-control soloLetras" type="text" required data-error="Ingrese El Nombre">
 														<div class="input-group-icon"><i class="fa fa-user"></i></div>
 													</div>
 													<!--Apellido1-->
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{apellido1}" name="fname" id="A_ma" placeholder="Apellido Materno" class="form-control" type="text" required data-error="Ingrese El primer Apellido">
+														<input th:field="*{apellido1}" name="fname" id="A_ma" placeholder="Apellido Materno" class="form-control soloLetras" type="text" required data-error="Ingrese El primer Apellido">
 														<div class="input-group-icon"><i class="fa fa-user"></i></div>
 													</div>
 													<!--Apellido2-->
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{apellido2}" name="fname" id="Nombre" placeholder="Apellido Paterno" class="form-control" type="text" required data-error="Ingrese El segundo Apellido">
+														<input th:field="*{apellido2}" name="fname" id="Nombre" placeholder="Apellido Paterno" class="form-control soloLetras" type="text" required data-error="Ingrese El segundo Apellido">
 														<div class="input-group-icon"><i class="fa fa-user"></i></div>
 													</div>
 													<!--Adscripción-->
@@ -148,7 +148,7 @@
 														
 														<div class="form-group col-sm-4">															
 															<div class="help-block with-errors"></div>
-															<input  id="contrasenaCP" pattern=".{6,}" min=6 max=10 name="pass2" placeholder="Vuelva a escribir la contraseña" onkeypress="Svalor()" onchange="coincidencia()" onkeyup="vlidar()"  class="form-control" type="password" required data-error="Ingrese la Contraseña">
+															<input  id="contrasenaCP" pattern=".{6,}" min=6 max=10 name="pass2" placeholder="Vuelva a escribir la contraseña" onkeypress="Svalor()" onchange="coincidencia()" onkeyup="vlidar()" class="form-control" type="password" required data-error="Ingrese la Contraseña">
 															<div class="input-group-icon"><i class="fa fa-key"></i></div>
 															
 														</div>
@@ -260,7 +260,7 @@
     }
 	
 	</script>
-	
+	<script src="/SGV/assets/js/CambiosEstado.js"></script>	
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- Popper js -->

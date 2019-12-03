@@ -29,4 +29,7 @@ public interface IViajeDao extends PagingAndSortingRepository<Viaje, Long> {
 	@Query("select count(v) from Viaje v inner join Vehiculo e on v.vehiculo.placa = e.placa inner join Adscripcion a on e.adscripcion.id_adscripcion=a.id_adscripcion where a.id_adscripcion like ?1")
 	public int TotalViajesArea(Long id_adscripcion);
 		
+	@Query("select v,e,c from Viaje v inner join Vehiculo e on v.vehiculo.placa = e.placa inner join Conductor c on v.conductor.no_empleado=c.no_empleado where v.vehiculo.placa like %?1% and v.fecha_regreso like ''")
+	public Viaje viajependiente(String placa);
+
 }

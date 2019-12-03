@@ -129,19 +129,19 @@
 											</thead>
 											<tbody>
 												<tr th:each="viajessql: ${viajes}" >
-													<!--<td th:text="${viajessql.id_viaje}"></td>-->
-													<td th:text="${viajessql.conductor.nombre}+' '+${viajessql.conductor.apellido1}+' '+${viajessql.conductor.apellido2}" class="celda" style="width: 205px;"></td>												
+													<!--<td th:text="${viajessql.id_viaje}"></td>-->													
+													<td th:text="${viajessql.conductor.nombre}+' '+${viajessql.conductor.apellido1}+' '+${viajessql.conductor.apellido2}" class="celda" style="width: 205px;"></td>																									
 													<td th:text="${viajessql.fecha_salida}" class="celda"></td>
-													<td  th:text="${viajessql.fecha_regreso}"class="celda"></td>
-													<td th:text="${viajessql.kilometraje_inicial}" class="celda"></td>
-													<td th:text="${viajessql.kilometraje_final}" class="celda"></td>	
-													<td th:text="${viajessql.distancia_recorrida}" class="celda"></td>	
+													<td colspan="4" th:if="${viajessql.fecha_regreso} == ''" style="text-align: center; vertical-align: middle;"> Viaje en proceso </td>													
+													<td th:if="${viajessql.fecha_regreso} != ''"  th:text="${viajessql.fecha_regreso}"class="celda"></td>
+													<td th:if="${viajessql.fecha_regreso} != ''" th:text="${viajessql.kilometraje_inicial}" class="celda"></td>
+													<td th:if="${viajessql.fecha_regreso} != ''" th:text="${viajessql.kilometraje_final}" class="celda"></td>	
+													<td th:if="${viajessql.fecha_regreso} != ''" th:text="${viajessql.distancia_recorrida}" class="celda"></td>	
 												    <td th:text="${viajessql.vehiculo.placa}" class="celda"></td>													
 													<td th:text="${viajessql.destino}" class="celda" style="width: 300px;"></td>																																																	
-													<td class="noSearch celda"  th:if="${usuario} == 'ROLE_ADMIN' ">
+													<td class="noSearch celda"  th:if="${usuario} == 'ROLE_ADMIN'">
 															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formViajEditar/} +${viajessql.id_viaje}" th:text="editar" ></a>
-															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimViaj/} +${viajessql.id_viaje}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar" ></a>
-													
+															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimViaj/} +${viajessql.id_viaje}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar" ></a>													
 													</td>
 												</tr>
 	

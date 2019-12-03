@@ -10,10 +10,10 @@
 	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
-	<script src="http://code.code.jquery.com/jquery-lastert.js"></script>
+	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-	<script src="/SGV/assets/js/main.js"></script>
+	
 </head>
 <body>
 	<header>
@@ -94,21 +94,21 @@
 	                                                    <!--Poliza-->
 	                                                    <div class="form-group col-sm-9">
 	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{poliza}"  id="Nom_Ads" placeholder="Numero de Poliza" class="form-control" type="text" required data-error="Ingrese El Numero De Poliza"/>
+	                                                            <input th:field="*{poliza}"  id="Nom_Ads" placeholder="Numero de Poliza" class="form-control signos" type="text" required data-error="Ingrese El Numero De Poliza"/>
 	                                                            <div class="input-group-icon"><i class="fa fa-user"></i></div>
 	                                                    </div>
 	                                                    <!--Aseguradora-->
 	
 	                                                    <div class="form-group col-sm-9">
 	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{aseguradora}"  id="Calle" placeholder="Aseguradora" class="form-control" type="text" required data-error="Ingrese El Nombre de la Aseguradora"/>
+	                                                            <input th:field="*{aseguradora}"  id="Calle" placeholder="Aseguradora" class="form-control soloLetras" type="text" required data-error="Ingrese El Nombre de la Aseguradora"/>
 	                                                            <div class="input-group-icon"><i class="fas fa-file-invoice"></i></div>
 	                                                    </div>
 	
 	                                                    <!--Cobertura-->
 	                                                    <div class="form-group col-sm-9">
 	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{cobertura}"  id="Num" placeholder="Cobertura" class="form-control" type="text" required data-error="Ingrese La Cobertura"/>
+	                                                            <input th:field="*{cobertura}"  id="Num" placeholder="Cobertura" class="form-control soloLetras" type="text" required data-error="Ingrese La Cobertura"/>
 	                                                            <div class="input-group-icon"><i class="fas fa-globe-americas"></i></div>
 	                                                    </div>
 	                                                    
@@ -145,7 +145,7 @@
 		</div>
 	</section>	
 	
-	
+	<script src="/SGV/assets/js/CambiosEstado.js"></script>	
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- Popper js -->

@@ -130,8 +130,8 @@
 													<td th:text="${conductoressql.adscripcion.nombre_adscripcion}" style="width:300px" class="celda"></td>																																																
 													<td class="celda">													
 															<div th:if="${usuario} == 'ROLE_ADMIN'">
-																<a th:id="estCon+${conductoressql.no_empleado}"  th:if="${conductoressql.enabled} == 1" class="btn btn-success btn-xs " th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id);" th:text="Activo" style="width: 100px;"></a>
-																<a th:id="estCon+${conductoressql.no_empleado}" th:if="${conductoressql.enabled} == 0" class="btn btn-danger btn-xs " th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id);" th:text="'Bloqueado'" style="width: 100px;"></a>
+																<a th:id="estCon+${conductoressql.no_empleado}"  th:if="${conductoressql.enabled} == 1" class="btn btn-success btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Bloqueado');" th:text="Activo" style="width: 100px;"></a>
+																<a th:id="estCon+${conductoressql.no_empleado}" th:if="${conductoressql.enabled} == 0" class="btn btn-danger btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Activo');" th:text="'Bloqueado'" style="width: 100px;"></a>
 															</div>													
 																													
 															<div th:if="${usuario} == 'ROLE_USER'">
@@ -245,6 +245,9 @@
     	  tecla = (document.all) ? e.keyCode :e.which;
     	  return (tecla!=13);
     	} 
+    $('.sel').click(function(event) {
+        event.preventDefault();
+     });
     </script>
 	 <script src="/SGV/assets/js/CambiosEstado.js"></script>
 	<!-- jQuery Library -->

@@ -29,4 +29,6 @@ public interface IViajeService {
 	public Long viajestotales(); 
 	
 	public int TotalViajesArea(Long id_adscipcion);
+	
+	public Viaje viajependiente(String placa);
 }

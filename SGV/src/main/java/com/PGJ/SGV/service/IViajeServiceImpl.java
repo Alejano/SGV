@@ -93,5 +93,11 @@ public class IViajeServiceImpl implements IViajeService {
 		// TODO Auto-generated method stub
 		return viajeDao.TotalViajesArea(id_adscipcion);
 	}
+	
+	@Override
+	public Viaje viajependiente(String placa) {
+		// TODO Auto-generated method stub
+		return viajeDao.viajependiente(placa);
+	}
 
 }

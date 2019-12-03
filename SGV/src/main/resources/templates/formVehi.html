@@ -79,14 +79,14 @@
 	                                            <!--Numero de placa-->
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{placa}" name="fname" id="N_Placa" placeholder="Placa" class="form-control" type="text" required data-error="Ingrese El Numero de Placa">
+														<input th:field="*{placa}" name="fname" id="N_Placa" placeholder="Placa" class="form-control soloLetras" type="text" required data-error="Ingrese El Numero de Placa">
 														<div class="input-group-icon"><i class="fa fa-user"></i></div>
 													</div>
 
 													<!--distancia recorrida-->
 													<div class="form-group col-sm-2">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{kilometraje}" id="D_re" placeholder="Distancia Recorrida" class="form-control" type="number" min="0" max="100000000000000" required data-error="Ingrese La Distancia Recorrida">
+														<input th:field="*{kilometraje}" id="D_re" placeholder="Distancia Recorrida" class="form-control signos" type="number" min="0" max="100000000000000" required data-error="Ingrese La Distancia Recorrida">
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
 													</div>
 													<div class="form-group col-sm-2">
@@ -100,7 +100,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{marca}"  id="Marca" placeholder="Marca" class="form-control" type="text" required data-error="Ingrese La Marca">
+														<input th:field="*{marca}"  id="Marca" placeholder="Marca" class="form-control soloLetras" type="text" required data-error="Ingrese La Marca">
 														<div class="input-group-icon"><i class="fas fa-car-side"></i></div>
 													</div>
 
@@ -108,7 +108,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{modelo}"  id="modelo" placeholder="Modelo" class="form-control" type="text" required data-error="Ingrese El Modelo">
+														<input th:field="*{modelo}"  id="modelo" placeholder="Modelo" class="form-control soloLetras" type="text" required data-error="Ingrese El Modelo">
 														<div class="input-group-icon"><i class="fas fa-car"></i></div>
 													</div> 		
 
@@ -122,9 +122,8 @@
 														<option th:value="'Berlin o Sedan'">-Berlin o Sedan</option>
 														<option th:value="Cupé">-Cupé</option>
 														<option th:value="Hatchback">-Hatchback</option>
-														<option th:value="'Descapotable,cabrio o cabriolet'">-Descapotable,cabrio o cabriolet</option>
-														<option th:value="Roadster">-Roadster</option>
-														<option th:value="'Familia,ranchera,break o tourer'">-Familia,ranchera,break o tourer</option>
+														<option th:value="'Descapotable,cabrio o cabriolet'">-Descapotable</option>
+														<option th:value="Roadster">-Roadster</option>														
 														<option th:value="Todoterreno">-Todoterreno</option>
 														<option th:value="Crossover">-Crossover</option>
 														<option th:value="SUV">-SUV</option>
@@ -138,7 +137,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{ano}"  id="año" placeholder="Año"  min="1960" max="2040" class="form-control" type="number" required data-error="Ingrese El Año">
+														<input th:field="*{ano}"  id="año" placeholder="Año"  min="1960" max="2040" class="form-control signos" type="number" required data-error="Ingrese El Año">
 														<div class="input-group-icon"><i class="fas fa-car-side"></i></div>
 													</div>
 
@@ -146,7 +145,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{tipo}"  id="tipo" placeholder="Tipo" class="form-control" type="text" required data-error="Ingrese El Tipo">
+														<input th:field="*{tipo}"  id="tipo" placeholder="Tipo" class="form-control soloLetras" type="text" required data-error="Ingrese El Tipo">
 														<div class="input-group-icon"><i class="fas fa-car-side"></i></div>
 													</div>
 
@@ -155,7 +154,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{no_serie}"  id="N_serie" placeholder="Numero de Serie" class="form-control" type="text" required data-error="Ingrese El Numero de Serie">
+														<input th:field="*{no_serie}"  id="N_serie" placeholder="Numero de Serie" class="form-control signos" type="text" required data-error="Ingrese El Numero de Serie">
 														<div class="input-group-icon"><i class="fas fa-ad"></i></div>
 													</div>
 
@@ -163,7 +162,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<select th:field="*{no_poliza}"  id="N_poliza" class="form-control" style="height: 34px;" required data-error="Ingrese El Numero de Poliza">
+														<select th:field="*{no_poliza}"  id="N_poliza" class="form-control signos" style="height: 34px;" required data-error="Ingrese El Numero de Poliza">
 																<option value=""> Numero de poliza </option>
 										                         <option th:each="seg : ${seguroslist}"
 										                            th:value="${seg.poliza}"
@@ -176,7 +175,7 @@
 
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors"></div>
-														<input th:field="*{no_factura}"  id="N_factura" placeholder="Numero de Factura" class="form-control" type="text" required data-error="Ingrese El Numero de Factura">
+														<input th:field="*{no_factura}"  id="N_factura" placeholder="Numero de Factura" class="form-control signos" type="text" required data-error="Ingrese El Numero de Factura">
 														<div class="input-group-icon"><i class="fas fa-file-invoice"></i></div>
 													</div>
 													
@@ -185,7 +184,7 @@
 													<div class="form-group col-sm-2">
 														<div class="help-block with-errors"></div>
 														<div style="display: inline-block;">
-														<input th:field="*{valor_factura}"  id="N_factura" placeholder="Valor Factura" class="form-control" type="number" required data-error="Ingrese El Valor de la Factura">
+														<input th:field="*{valor_factura}"  id="N_factura" placeholder="Valor Factura" class="form-control signos" type="number" required data-error="Ingrese El Valor de la Factura">
 														</div>														
 														<div class="input-group-icon"><i class="fas fa-file-invoice-dollar"></i></div>
 													</div>
@@ -244,7 +243,7 @@
 														<div class="textarea input-group-icon"><i class="fas fa-map-marked-alt"></i></div>
 													</div>-->
 
-													<!--Boton de guardar-->
+													<!--Boton de guardar-->													
 
 													<div  class="text-center form-group col-sm-12">
 														<button type="submit" id="guardar"  class="btn btn-custom btn-stilo" style="float:right"><i class='fa fa-envelope'></i> Guardar</button>
@@ -266,7 +265,7 @@
 		</div>
 	</section>
 	
-	
+	<script src="/SGV/assets/js/CambiosEstado.js"></script>	
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- Popper js -->

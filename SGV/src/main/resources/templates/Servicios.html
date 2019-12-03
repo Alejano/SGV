@@ -187,69 +187,69 @@
 													<td th:text="${sersql.servicio}" class="celda bordesfrontera" style="width: 200px;"></td>
 													<!-- Tipo de auto -->
 													<td th:switch="${sersql.auto} == true" class="celda">															
-															<a th:id="campoauto+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'Auto/'+${sersql.id}+'/'+${sersql.auto}" onclick="scroller(this.id);" ></a>
-															<a th:id="campoauto+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'Auto/'+${sersql.id}+'/'+${sersql.auto}" onclick="scroller(this.id);"></a>																																							
+															<a th:id="campoauto+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'Auto/'+${sersql.id}+'/'+${sersql.auto}" onclick="scroller(this.id,'Auto');" ></a>
+															<a th:id="campoauto+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'Auto/'+${sersql.id}+'/'+${sersql.auto}" onclick="scroller(this.id,'Auto');"></a>																																							
 													</td>
 													<td th:switch="${sersql.motocicleta} == true" class="celda">															
-															<a th:id="campomoto+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'Moto/'+${sersql.id}+'/'+${sersql.motocicleta}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campomoto+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'Moto/'+${sersql.id}+'/'+${sersql.motocicleta}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campomoto+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'Moto/'+${sersql.id}+'/'+${sersql.motocicleta}" onclick="scroller(this.id,'Motocicleta');"  ></a>
+															<a th:id="campomoto+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'Moto/'+${sersql.id}+'/'+${sersql.motocicleta}" onclick="scroller(this.id,'Motocicleta');"  ></a>																								
 													</td>
 													<td th:switch="${sersql.blindado} == true" class="celda bordesfrontera">															
-															<a th:id="campoblindado+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'Blin/'+${sersql.id}+'/'+${sersql.blindado}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campoblindado+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'Blin/'+${sersql.id}+'/'+${sersql.blindado}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campoblindado+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'Blin/'+${sersql.id}+'/'+${sersql.blindado}" onclick="scroller(this.id,'Blindado');"  ></a>
+															<a th:id="campoblindado+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'Blin/'+${sersql.id}+'/'+${sersql.blindado}" onclick="scroller(this.id,'Blindado');"  ></a>																								
 													</td>
 													<!-- Tipo de cilindros -->
 													<td th:switch="${sersql.un_cilindro} == true" class="celda">															
-															<a th:id="campoun+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'uno/'+${sersql.id}+'/'+${sersql.un_cilindro}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campoun+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'uno/'+${sersql.id}+'/'+${sersql.un_cilindro}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campoun+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'uno/'+${sersql.id}+'/'+${sersql.un_cilindro}" onclick="scroller(this.id,'Un Cilindro');"  ></a>
+															<a th:id="campoun+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'uno/'+${sersql.id}+'/'+${sersql.un_cilindro}" onclick="scroller(this.id,'Un Cilindro');"  ></a>																								
 													</td>
 													<td th:switch="${sersql.dos_cilindros} == true" class="celda">															
-															<a th:id="campodos+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'dos/'+${sersql.id}+'/'+${sersql.dos_cilindros}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campodos+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'dos/'+${sersql.id}+'/'+${sersql.dos_cilindros}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campodos+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'dos/'+${sersql.id}+'/'+${sersql.dos_cilindros}" onclick="scroller(this.id,'Dos Cilindro');"  ></a>
+															<a th:id="campodos+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'dos/'+${sersql.id}+'/'+${sersql.dos_cilindros}" onclick="scroller(this.id,'Dos Cilindro');"  ></a>																								
 													</td>
 													<td th:switch="${sersql.tres_cilindros} == true" class="celda">															
-															<a th:id="campotres+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'tres/'+${sersql.id}+'/'+${sersql.tres_cilindros}" onclick="scroller(this.id);" ></a>
-															<a th:id="campotres+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'tres/'+${sersql.id}+'/'+${sersql.tres_cilindros}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campotres+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'tres/'+${sersql.id}+'/'+${sersql.tres_cilindros}" onclick="scroller(this.id,'Tres Cilindro');" ></a>
+															<a th:id="campotres+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'tres/'+${sersql.id}+'/'+${sersql.tres_cilindros}" onclick="scroller(this.id,'Tres Cilindro');"  ></a>																								
 													</td>
 													<td th:switch="${sersql.cuatro_cilindros} == true" class="celda">															
-															<a th:id="campocuatro+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'cuatro/'+${sersql.id}+'/'+${sersql.cuatro_cilindros}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campocuatro+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'cuatro/'+${sersql.id}+'/'+${sersql.cuatro_cilindros}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campocuatro+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'cuatro/'+${sersql.id}+'/'+${sersql.cuatro_cilindros}" onclick="scroller(this.id,'Cuatro Cilindro');"  ></a>
+															<a th:id="campocuatro+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'cuatro/'+${sersql.id}+'/'+${sersql.cuatro_cilindros}" onclick="scroller(this.id,'Cuatro Cilindro');"  ></a>																								
 													</td>
 													<td th:switch="${sersql.cinco_cilindros} == true" class="celda">															
-															<a th:id="campocinco+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'cinco/'+${sersql.id}+'/'+${sersql.cinco_cilindros}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campocinco+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'cinco/'+${sersql.id}+'/'+${sersql.cinco_cilindros}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campocinco+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'cinco/'+${sersql.id}+'/'+${sersql.cinco_cilindros}" onclick="scroller(this.id,'Cinco Cilindro');"  ></a>
+															<a th:id="campocinco+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'cinco/'+${sersql.id}+'/'+${sersql.cinco_cilindros}" onclick="scroller(this.id,'Cinco Cilindro');"  ></a>																								
 													</td>
 													<td th:switch="${sersql.seis_cilindros} == true" class="celda">															
-															<a th:id="camposeis+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'seis/'+${sersql.id}+'/'+${sersql.seis_cilindros}" onclick="scroller(this.id);"  ></a>
-															<a th:id="camposeis+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'seis/'+${sersql.id}+'/'+${sersql.seis_cilindros}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="camposeis+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'seis/'+${sersql.id}+'/'+${sersql.seis_cilindros}" onclick="scroller(this.id,'Seis Cilindro');"  ></a>
+															<a th:id="camposeis+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'seis/'+${sersql.id}+'/'+${sersql.seis_cilindros}" onclick="scroller(this.id,'Seis Cilindro');"  ></a>																								
 													</td>
 													<td th:switch="${sersql.ocho_cilindros} == true" class="celda">															
-															<a th:id="campoocho+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'ocho/'+${sersql.id}+'/'+${sersql.ocho_cilindros}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campoocho+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'ocho/'+${sersql.id}+'/'+${sersql.ocho_cilindros}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campoocho+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'ocho/'+${sersql.id}+'/'+${sersql.ocho_cilindros}" onclick="scroller(this.id,'Ocho Cilindro');"  ></a>
+															<a th:id="campoocho+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'ocho/'+${sersql.id}+'/'+${sersql.ocho_cilindros}" onclick="scroller(this.id,'Ocho Cilindro');"  ></a>																								
 													</td>
 													<td th:switch="${sersql.dies_cilindros} == true" class="celda bordesfrontera">															
-															<a th:id="campodies+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'dies/'+${sersql.id}+'/'+${sersql.dies_cilindros}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campodies+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'dies/'+${sersql.id}+'/'+${sersql.dies_cilindros}" onclick="scroller(this.id);"  ></a>																								
+															<a th:id="campodies+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'dies/'+${sersql.id}+'/'+${sersql.dies_cilindros}" onclick="scroller(this.id,'Dies Cilindro');"  ></a>
+															<a th:id="campodies+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'dies/'+${sersql.id}+'/'+${sersql.dies_cilindros}" onclick="scroller(this.id,'Dies Cilindro');"  ></a>																								
 													</td>
 													<!-- Tipo de combustible -->
 													<td th:switch="${sersql.gasolina} == true" class="celda">															
-															<a th:id="campogaso+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'gaso/'+${sersql.id}+'/'+${sersql.gasolina}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campogaso+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'gaso/'+${sersql.id}+'/'+${sersql.gasolina}" onclick="scroller(this.id);" ></a>					
+															<a th:id="campogaso+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'gaso/'+${sersql.id}+'/'+${sersql.gasolina}" onclick="scroller(this.id, 'Gasolina');"  ></a>
+															<a th:id="campogaso+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'gaso/'+${sersql.id}+'/'+${sersql.gasolina}" onclick="scroller(this.id,'Gasolina');" ></a>					
 													</td>
 													<td th:switch="${sersql.diesel} == true" class="celda">															
-															<a th:id="campodiesel+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'die/'+${sersql.id}+'/'+${sersql.diesel}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campodiesel+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'die/'+${sersql.id}+'/'+${sersql.diesel}" onclick="scroller(this.id);" ></a>																								
+															<a th:id="campodiesel+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'die/'+${sersql.id}+'/'+${sersql.diesel}" onclick="scroller(this.id,'Diesel');"  ></a>
+															<a th:id="campodiesel+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'die/'+${sersql.id}+'/'+${sersql.diesel}" onclick="scroller(this.id,'Diesel');" ></a>																								
 													</td>
 													<td th:switch="${sersql.gas} == true" class="celda bordesfrontera">															
-															<a th:id="campogas+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'gas/'+${sersql.id}+'/'+${sersql.gas}" onclick="scroller(this.id);"  ></a>
-															<a th:id="campogas+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'gas/'+${sersql.id}+'/'+${sersql.gas}" onclick="scroller(this.id);" ></a>																								
+															<a th:id="campogas+${sersql.id}" th:case="true" class="btn btn-success btn-xs seleccion" th:href="@{/estado/}+'gas/'+${sersql.id}+'/'+${sersql.gas}" onclick="scroller(this.id,'Gas');"  ></a>
+															<a th:id="campogas+${sersql.id}" th:case="false" class="btn btn-danger btn-xs seleccion" th:href="@{/estado/}+'gas/'+${sersql.id}+'/'+${sersql.gas}" onclick="scroller(this.id,'Gas');" ></a>																								
 													</td>	
 													<td th:text="${sersql.categoria}" class="celda" style="width: 80px;"></td>																		
 													<td class="celda" style="width: 80px;" th:if="${usuario} == 'ROLE_ADMIN' ">
 														<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formServ/} +${sersql.id}" th:text="editar" th:if="${usuario} == 'ROLE_ADMIN' "></a>
 														<a class="btn btn-primary btn-xs btn-stilo"  th:href="@{/elimServ/} +${sersql.id}" th:if="${usuario} == 'ROLE_ADMIN' " onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar"></a>														
 													</td>
-												</tr>												
+												</tr>													
 											</tbody>	
 										</table>
 										<nav th:replace="paginator-nav :: paginator"></nav>
@@ -353,7 +353,9 @@
     	  tecla = (document.all) ? e.keyCode :e.which;
     	  return (tecla!=13);
     	} 
-    
+    $('.seleccion').click(function(event) {
+        event.preventDefault();
+     });
         
     </script>
 	
