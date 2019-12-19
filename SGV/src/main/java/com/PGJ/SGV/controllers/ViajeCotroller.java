@@ -228,7 +228,8 @@ public class ViajeCotroller {
 			return "redirect:/Viajes";
 		}
 						
-		v = vehiculoService.findOne(placa);		
+		v = vehiculoService.findOne(placa);	
+		model.put("Kmin", v.getKilometraje());
 		model.put("vehiculo", v);		
 		model.put("viaje",viaje);
 		return "formTerminarViaj";
