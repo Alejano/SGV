@@ -221,6 +221,37 @@
 													    <div class="input-group-icon"><i class="fas fa-gas-pump"></i>
 													    </div>
 												    </div>
+												    
+												    <div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<select th:field="*{tipo_vehiculo}" id="tv" class="form-control" style="height: 34px;" required data-error="Seleccione el tipo de vehiculo">
+														<option th:value="*{tipo_vehiculo}">Tipo de vehiculo</option>
+														<option th:value="AUTOMOVIL">-AUTOMOVIL</option>
+														<option th:value="MOTOCICLETA">-MOTOCICLETA</option>
+														<option th:value="BLINDADO">-BLINDADO</option>
+														</select>											
+													    <div class="input-group-icon"><i class="fas fa-gas-pump"></i>
+													    </div>
+												    </div>
+												    
+												    <!--cilindros-->
+
+													<div class="form-group col-sm-4">
+														<div class="help-block with-errors"></div>
+														<select th:field="*{cilindros}" id="cili" class="form-control" style="height: 34px;" required data-error="Seleccione el cilindro del vehiculo">
+														<option th:value="*{cilindros}">Cilindros</option>
+														<option th:value=1>1 Cilindro</option>
+														<option th:value=2>2 Cilindros</option>
+														<option th:value=3>3 Cilindros</option>
+														<option th:value=4>4 Cilindros</option>
+														<option th:value=5>5 Cilindros</option>
+														<option th:value=6>6 Cilindros</option>
+														<option th:value=8>8 Cilindros</option>
+														<option th:value=10>10 Cilindros</option>
+														</select>											
+													    <div class="input-group-icon"><i class="fas fa-gas-pump"></i>
+													    </div>
+												    </div>
 
 												<!--Adscripción-->
 

@@ -100,4 +100,10 @@ public class IVehiculoServiceImpl implements IVehiculoService {
 		return vehiculoDao.TotalVehiculosArea(id_adscripcion);
 	}
 	
+	@Override
+	public Page<Vehiculo> findTVechiulo(String vehiculo,Pageable pageable) {
+		// TODO Auto-generated method stub
+		return vehiculoDao.findTVechiulo(vehiculo, pageable);
+	}
+	
 }

@@ -12,6 +12,9 @@ import com.PGJ.SGV.models.entity.Vehiculo;
 
 public interface IVehiculoDao extends PagingAndSortingRepository<Vehiculo,String > {
 	
+	@Query("select p from Vehiculo p where p.tipo_vehiculo like ?1")
+	public Page<Vehiculo> findTVechiulo(String vehiculo,Pageable pageable);
+	
 	@Query("select p from Vehiculo p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion where a.id_adscripcion like ?1")
 	public List<Vehiculo> findVehiculosArea(Long id_adscripcion);
 	

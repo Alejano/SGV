@@ -99,5 +99,20 @@ public class IViajeServiceImpl implements IViajeService {
 		// TODO Auto-generated method stub
 		return viajeDao.viajependiente(placa);
 	}
+	
+	@Override
+	public Long TotalViajesMensual(String fecha) {
+		// TODO Auto-generated method stub
+		return viajeDao.viajestotalesMensual(fecha);
+	}
+
+	@Override
+	public Long TotalViajesxDia(int dia,int mes) {
+		// TODO Auto-generated method stub
+		String fecha = Integer.toString(mes)+'-'+Integer.toString(dia);
+		
+		return viajeDao.viajestotalesMensual(fecha);
+	}
+
 
 }

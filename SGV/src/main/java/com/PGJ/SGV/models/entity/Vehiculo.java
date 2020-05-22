@@ -50,7 +50,8 @@ public class Vehiculo implements Serializable {
 		private List<Seguro> seguros;
 		
 		//SQL
-		
+		private String tipo_vehiculo;
+		private int cilindros;
 		
 		
 		private static final long serialVersionUID = 1L;
@@ -223,6 +224,22 @@ public class Vehiculo implements Serializable {
 		
 		public void adSeguro (Seguro seguro) {
 			seguros.add(seguro);
+		}
+
+		public String getTipo_vehiculo() {
+			return tipo_vehiculo;
+		}
+
+		public void setTipo_vehiculo(String tipo_vehiculo) {
+			this.tipo_vehiculo = tipo_vehiculo;
+		}
+
+		public int getCilindros() {
+			return cilindros;
+		}
+
+		public void setCilindros(int cilindros) {
+			this.cilindros = cilindros;
 		}
 		
 		

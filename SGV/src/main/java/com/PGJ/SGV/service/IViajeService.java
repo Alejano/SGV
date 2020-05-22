@@ -31,4 +31,9 @@ public interface IViajeService {
 	public int TotalViajesArea(Long id_adscipcion);
 	
 	public Viaje viajependiente(String placa);
+	
+	public Long TotalViajesMensual(String fecha);
+	
+	public Long TotalViajesxDia(int dia,int mes);
+	
 }

@@ -27,7 +27,7 @@
 				  </a>
 				
 				  <div class="dropdown-menu " aria-labelledby="dropdownMenuLink">
-		  			<form th:action="@{/index}" method="post" id="loggout" style="margin-bottom: 3px; margin-left: 5px;">
+		  			<form th:action="@{/logout}" method="post" id="loggout" style="margin-bottom: 3px; margin-left: 5px;">
 				        <button class="btn btn-outline-success" onclick="document.getElementById('loggout').submit()" type="submit" style="color:green !important">Cerrar sesion</button>
 				    	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 				    </form>	
@@ -111,19 +111,28 @@
 											</div>
 											
 											<div style=" width: 100%;">
-												<h2 class="titulotabla" id="autotitulo" >Listado de Vehiculos</h2>
-												<h2 class="titulotabla" id="blindadotitulo" style="display:none">Listado de Autos Blindados</h2>
-												<h2 class="titulotabla" id="mototitulo" style="display:none">Listado de Motos</h2>
+												
+												<h2 th:if="${thisurl} == Vehiculos" class="titulotabla" id="todo"  >Listado de todos los vehiculos</h2>
+												<h2 th:if="${thisurl} == VehiculosA"class="titulotabla" id="autotitulo" >Listado de Vehiculos</h2>												
+												<h2 th:if="${thisurl} == VehiculosB"class="titulotabla" id="blindadotitulo" >Listado de Autos Blindados</h2>
+												<h2 th:if="${thisurl} == VehiculosM"class="titulotabla" id="mototitulo" >Listado de Motos</h2>
+										
 												<div class="col-md-6"></div>
 												<div class="row justify-content-end  col-md-6">      													
 	        										<div class="col-md-1">
-													<button class="btn btn-success btn-xs vehiculosselec " id="auto" onclick="auto()"><i class="fas fa-car fa-3x"></i></button>
+		        										<form th:action="@{/VehiculosA}">
+														<button class="btn btn-success btn-xs vehiculosselec " id="auto" onclick="auto()"><i class="fas fa-car fa-3x"></i></button>
+														</form>
 												    </div>
 												    <div class="col-md-1">
-												    <button class="btn btn-success btn-xs vehiculosselec " id="blindado" onclick="blindado()"><i class="fas fa-shield-alt fa-3x"></i></button>
+													    <form th:action="@{/VehiculosB}">
+													    <button class="btn btn-success btn-xs vehiculosselec " id="blindado" onclick="blindado()"><i class="fas fa-shield-alt fa-3x"></i></button>
+													    </form>
 												    </div>
 												    <div class="col-md-1">
-												    <button class="btn btn-success btn-xs vehiculosselec " id="moto" onclick="moto()"><i class="fas fa-motorcycle fa-3x"></i></button>
+													    <form th:action="@{/VehiculosM}">
+													    <button class="btn btn-success btn-xs vehiculosselec " id="moto" onclick="moto()"><i class="fas fa-motorcycle fa-3x"></i></button>
+													    </form>
 												    </div>
 											    </div>
 											</div>
@@ -167,8 +176,8 @@
 													<td class="celda" th:text="${vehiculossql.valor_factura}"></td>
 													<td class="celda" th:text="${vehiculossql.no_poliza}"></td>
 													<td class="celda">													
-															<a th:id="estadoV+${vehiculossql.placa}" th:if="${vehiculossql.estado} == 'DISPONIBLE'" class="btn btn-success btn-xs Sel" th:href="@{/estadoVehi/} +${vehiculossql.placa}+'/'+${vehiculossql.estado}" onclick="scroller(this.id,'No Disponible');" th:text="SI" style="width: 50px;"></a>
-															<a th:id="estadoV+${vehiculossql.placa}" th:if="${vehiculossql.estado} == 'NO DISPONIBLE'" class="btn btn-danger btn-xs Sel" th:href="@{/estadoVehi/} +${vehiculossql.placa}+'/'+${vehiculossql.estado}" onclick="scroller(this.id,'Disponible');" th:text="'No'" style="width: 50px;"></a>														
+															<a th:id="estadoV+${vehiculossql.placa}" th:if="${vehiculossql.estado} == 'DISPONIBLE'" class="btn btn-success btn-xs Sel" th:href="@{/estadoVehi/} +${vehiculossql.placa}+'/'+${vehiculossql.estado}+'/'+${thisurl}" onclick="scroller(this.id,'No Disponible');" th:text="SI" style="width: 50px;"></a>
+															<a th:id="estadoV+${vehiculossql.placa}" th:if="${vehiculossql.estado} == 'NO DISPONIBLE'" class="btn btn-danger btn-xs Sel" th:href="@{/estadoVehi/} +${vehiculossql.placa}+'/'+${vehiculossql.estado}+'/'+${thisurl}" onclick="scroller(this.id,'Disponible');" th:text="'No'" style="width: 50px;"></a>														
 															<a th:if="${vehiculossql.estado} == 'EN VIAJE'"  th:href="@{/TerminarViaj/} +${vehiculossql.placa}"   class="btn btn-danger btn-xs" onclick="return confirm('¿Deseas entregar el vehiculo y terminar el viaje?')" style="width: 50px;"><i class="fas fa-car-side"></i></a>																													
 													</td>
 													<td class="celda" th:text="${vehiculossql.tipo_combustible}"></td>
@@ -206,13 +215,18 @@
 	</section>
 	<script type="text/javascript"  th:inline="javascript">
 	
+	function todo(){
+	   	 $("#auto").prop('disabled', false);
+	   	 $("#blindado").prop('disabled', false);
+	   	 $("#moto").prop('disabled', false);
+	 	
+	   }
+	
 	function auto(){
 	   	 $("#auto").prop('disabled', true);
 	   	 $("#blindado").prop('disabled', false);
 	   	 $("#moto").prop('disabled', false);
-	   	$("#autotitulo").show();
-	   	$("#blindadotitulo").hide();
-	   	$("#mototitulo").hide();
+	   
 	   	
 	   }
 	
@@ -220,18 +234,14 @@
 	   $("#auto").prop('disabled', false);
 	  	 $("#blindado").prop('disabled', true);
 	  	 $("#moto").prop('disabled', false);
-	  	$("#autotitulo").hide();
-	   	$("#blindadotitulo").show();
-	   	$("#mototitulo").hide();
+	  
 	  }
 	
 	function moto(){  
 	   $("#auto").prop('disabled', false);
 	  	 $("#blindado").prop('disabled', false);
 	  	 $("#moto").prop('disabled', true);
-	  	$("#autotitulo").hide();
-	   	$("#blindadotitulo").hide();
-	   	$("#mototitulo").show();
+	  
 	  }
 	
 	
@@ -319,49 +329,68 @@
     	  tecla = (document.all) ? e.keyCode :e.which;
     	  return (tecla!=13);
     	} 
-		    
+		           
     
     function Scrol(documento, tabla){
-      	 $(document).scrollTop(documento);
-      	 $(".fixed_header tbody").scrollTop(tabla);
-      	 auto();
-      }
-      function scroller(id){
-      	//alert("id: "+ id);
-      	var corDocument = $(document).scrollTop();	
-   		var corElement = $(".fixed_header tbody").scrollTop();
-   		var direccion = $("#"+id).attr("href");
-   		var pagina= getUrlParameter('page')	
-   		if(pagina==null){pagina=0;}
-   		var Redirigir=direccion+"/"+ corDocument +"/"+corElement+"?page="+pagina;
-   		$("#"+id).attr('href',Redirigir);
+   	 $(document).scrollTop(documento);
+   	 $(".fixed_header tbody").scrollTop(tabla);
+   	var url = $(location).attr('href'),   
+   	texto = url.substring(url.lastIndexOf('/') + 1);
+    texto_nuevo = texto.substr(9,texto.length-2);
+   	console.log(texto_nuevo);
+   	if(texto_nuevo == "B?"){
+   		blindado();
+   	}else{
+   		if(texto_nuevo == "M?"){
+   	   		moto();
+   	   	}else{
+	   	   	if(texto_nuevo == "A?"){
+	   	   		auto();
+	   	   	}else{
+	   	   		todo();
+	   	   	}
+   	   	}
+   	}
+   	
+   }
+   function scroller(id,Dato){
+   	//alert("id: "+ id);
+   	
 
-   		 var opcion = confirm("Seguro que desea cambiar el estado del vehiculo?");
-   		    if (opcion == true) {
-   		    	//alert("link "+$("#"+id).attr('href'));		    	
-   		    	location.href = $("#"+id).attr('href');
-   			} else {
-   			    return false;
-   			}
-      }
-      
-      var getUrlParameter = function getUrlParameter(sParam) {
-   	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-   	        sURLVariables = sPageURL.split('&'),
-   	        sParameterName,
-   	        i;
+		var opcion = confirm("Seguro que desea cambiar a "+Dato+"?");
+		    if (opcion == true) {
+		    	var corDocument = $(document).scrollTop();	
+				var corElement = $(".fixed_header tbody").scrollTop();
+				var direccion = $("#"+id).attr("href");
+				var pagina= getUrlParameter('page')	
+				if(pagina==null){pagina=0;}
+				var Redirigir=direccion+"/"+ corDocument +"/"+corElement+"?page="+pagina;
+				$("#"+id).attr('href',Redirigir);
+		    	//alert("link "+$("#"+id).attr('href'));		    	
+		    	location.href = $("#"+id).attr('href');
+			} else {
+			    return false;
+			}
+   }
+   
+   var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
 
-   	    for (i = 0; i < sURLVariables.length; i++) {
-   	        sParameterName = sURLVariables[i].split('=');
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
 
-   	        if (sParameterName[0] === sParam) {
-   	            return sParameterName[1] === undefined ? true : sParameterName[1];
-   	        }
-   	    }
-   	};
-    $('.Sel').click(function(event) {
-        event.preventDefault();
-     });
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+	
+	 $('.Sel').click(function(event) {
+	        event.preventDefault();
+	     });
     </script>   
      <script src="/SGV/assets/js/CambiosEstado.js"></script>
     <!-- api nice-select -->
