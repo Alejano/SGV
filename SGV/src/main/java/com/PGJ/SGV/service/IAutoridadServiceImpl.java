@@ -12,8 +12,7 @@ import com.PGJ.SGV.models.entity.Authority;
 @Service
 public class IAutoridadServiceImpl implements IAutoridadService {
 
-	@Autowired
-	
+	@Autowired	
 	private IAutoridadDao autoridadDao;
 	
 	@Override

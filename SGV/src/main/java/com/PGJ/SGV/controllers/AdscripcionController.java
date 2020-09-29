@@ -1,5 +1,4 @@
 package com.PGJ.SGV.controllers;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.PGJ.SGV.models.entity.Adscripcion;
 import com.PGJ.SGV.service.IAdscripcionService;
+
 
 
 @Controller
@@ -90,12 +90,6 @@ public class AdscripcionController {
 		}
 		return "redirect:/Adscripciones";
 	}
-	
-	
-	
-		
-	
-	
 	
 	
 	

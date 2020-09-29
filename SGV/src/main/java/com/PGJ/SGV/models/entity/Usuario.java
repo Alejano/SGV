@@ -21,9 +21,12 @@ public class Usuario implements Serializable {
 	private String apellido2;	
 	private boolean enabled;
 	private String contrasena;
+	private String fecha_alta;
+	private String fecha_baja;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Authority authority;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Adscripcion adscripcion;
 	
@@ -75,15 +78,24 @@ public class Usuario implements Serializable {
 	public void setAdscripcion(Adscripcion adscripcion) {
 		this.adscripcion = adscripcion;
 	}
+	
+	public String getFecha_alta() {
+		return fecha_alta;
+	}
+	
+    public void setFecha_alta(String fecha_alta) {
+    	this.fecha_alta = fecha_alta;
+    }
+    
+    public String getFecha_baja() {
+		return fecha_baja;
+	}
+	public void setFecha_baja(String fecha_baja) {
+		this.fecha_baja = fecha_baja;
+	}
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	
-
-	
-	
-	
-
-	
-
 }

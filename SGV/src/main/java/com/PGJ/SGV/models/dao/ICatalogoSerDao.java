@@ -1,10 +1,9 @@
 package com.PGJ.SGV.models.dao;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import com.PGJ.SGV.models.entity.CatalogoServicio;
 
 public interface ICatalogoSerDao extends PagingAndSortingRepository<CatalogoServicio,Long>{
@@ -14,4 +13,5 @@ public interface ICatalogoSerDao extends PagingAndSortingRepository<CatalogoServ
 	
 	@Query("select count(c)from CatalogoServicio c")
 	public Long totalCatalogoServicios();
+		
 }

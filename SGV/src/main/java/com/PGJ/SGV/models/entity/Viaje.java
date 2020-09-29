@@ -13,22 +13,24 @@ import javax.persistence.Table;
 @Table(name = "viajes")
 public class Viaje implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_viaje;
-	private String fecha_salida;
-	private String fecha_regreso;
+	
+	private Double distancia_mensual;
+	private String finicial_registro;
+	private String ffinal_registro;
 	private Double kilometraje_inicial;
 	private Double kilometraje_final;
-	private Double distancia_recorrida;
-	private String destino;
+
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	private Conductor conductor;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Vehiculo vehiculo;
-		
 
 	public Long getId_viaje() {
 		return id_viaje;
@@ -38,20 +40,28 @@ public class Viaje implements Serializable {
 		this.id_viaje = id_viaje;
 	}
 
-	public String getFecha_salida() {
-		return fecha_salida;
+	public Double getDistancia_mensual() {
+		return distancia_mensual;
 	}
 
-	public void setFecha_salida(String fecha_salida) {
-		this.fecha_salida = fecha_salida;
+	public void setDistancia_mensual(Double distancia_mensual) {
+		this.distancia_mensual = distancia_mensual;
 	}
 
-	public String getFecha_regreso() {
-		return fecha_regreso;
+	public String getFinicial_registro() {
+		return finicial_registro;
 	}
 
-	public void setFecha_regreso(String fecha_regreso) {
-		this.fecha_regreso = fecha_regreso;
+	public void setFinicial_registro(String finicial_registro) {
+		this.finicial_registro = finicial_registro;
+	}
+
+	public String getFfinal_registro() {
+		return ffinal_registro;
+	}
+
+	public void setFfinal_registro(String ffinal_registro) {
+		this.ffinal_registro = ffinal_registro;
 	}
 
 	public Double getKilometraje_inicial() {
@@ -70,32 +80,6 @@ public class Viaje implements Serializable {
 		this.kilometraje_final = kilometraje_final;
 	}
 
-	public Double getDistancia_recorrida() {
-		return distancia_recorrida;
-	}
-
-	public void setDistancia_recorrida(Double distancia_recorrida) {
-		this.distancia_recorrida = distancia_recorrida;
-	}
-
-
-	public String getDestino() {
-		return destino;
-	}
-
-	public void setDestino(String destino) {
-		this.destino = destino;
-	}
-	
-	
-	public Conductor getConductor() {
-		return conductor;
-	}
-
-	public void setConductor(Conductor conductor) {
-		this.conductor = conductor;
-	}
-
 	public Vehiculo getVehiculo() {
 		return vehiculo;
 	}
@@ -103,12 +87,5 @@ public class Viaje implements Serializable {
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	
-
-	private static final long serialVersionUID = 1L;
-
 }

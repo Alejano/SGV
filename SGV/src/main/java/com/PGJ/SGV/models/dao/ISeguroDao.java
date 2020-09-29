@@ -10,7 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import com.PGJ.SGV.models.entity.Seguro;
 
 public interface ISeguroDao extends PagingAndSortingRepository<Seguro, Long> {
-	
+	/*
 	@Query("select s from Seguro s inner join Vehiculo v on s.vehiculo.placa = v.placa inner join Adscripcion a on v.adscripcion.id_adscripcion=a.id_adscripcion where a.id_adscripcion like ?1")
 	public List<Seguro> FindSeguroArea(Long id_adscripcion);
 	
@@ -25,4 +25,5 @@ public interface ISeguroDao extends PagingAndSortingRepository<Seguro, Long> {
 	
 	@Query("select count(s) from Seguro s")
 	public Long totalSeguro();
+	*/
 }

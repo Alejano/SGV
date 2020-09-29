@@ -12,13 +12,13 @@ public interface IMantenimientoService {
 		
 		public Page<Mantenimiento> findAll(Pageable pageable); 
 		
-		public List<Mantenimiento> FindMantPlaca(String placa);
+		public List<Mantenimiento> FindMantPlaca(long id_vehiculo);
 		
-		public List<Mantenimiento> FindMantPlacaAds(String placa,Long id_adscripcion);
+		public List<Mantenimiento> FindMantPlacaAds(long id_vehiculo,Long id_adscripcion);
 		
-		public Page<Mantenimiento> FindMantPlacaPage(String placa,Pageable pageable);
+		public Page<Mantenimiento> FindMantPlacaPage(Long id_vehiculo,Pageable pageable);
 		
-		public Page<Mantenimiento> FindMantPlacaAreaPage(String placa,Long id_adscripcion,Pageable pageable);
+		public Page<Mantenimiento> FindMantPlacaAreaPage(long id_vehiculo,Long id_adscripcion,Pageable pageable);
 	
 	public void save(Mantenimiento mantenimiento);
 	
@@ -39,7 +39,7 @@ public interface IMantenimientoService {
 	public int TotalMantenimientoArea(Long id_adscripcion);
 	
 	public Long ultimoRegistroMant();
-	
+
 	public Long NotificacionMant();
 	
 	public Long NotificacionMantEntrega();

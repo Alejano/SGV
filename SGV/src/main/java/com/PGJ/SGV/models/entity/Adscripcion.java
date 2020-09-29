@@ -40,7 +40,7 @@ public class Adscripcion implements Serializable {
 	
 	
 
-
+	//Terminan relaciones a las tablas SQL
 
 	// Inicio de metodos
 	public Adscripcion() {

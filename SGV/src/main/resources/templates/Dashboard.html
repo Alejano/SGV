@@ -17,6 +17,7 @@
   <!-- CSS Files -->
   <link href="/SGV/dashboardAssets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
 </head>
+
 <script th:inline="javascript">
 window.onload = function () {
 
@@ -567,21 +568,25 @@ $("#chartContainer2").CanvasJSChart(options2);
         </div>
       </footer>
   </div>
+ 
   <!--   Core   -->
-  <script src="/SGV/dashboardAssets/js/plugins/jquery/dist/jquery.min.js"></script>
+  <script src="/SGV/assets/js/jquery-1.11.1.min.js"></script>
+	<script src="/SGV/assets/js/jquery.canvasjs.min.js"></script>
+  <!--<script src="/dashboardAssets/js/plugins/jquery/dist/jquery.min.js"></script>-->
   <script src="/SGV/dashboardAssets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <!--   Optional JS   -->
   <script src="/SGV/dashboardAssets/js/plugins/chart.js/dist/Chart.min.js"></script>
   <script src="/SGV/dashboardAssets/js/plugins/chart.js/dist/Chart.extension.js"></script>
   <!--   Argon JS   -->
   <script src="/SGV/dashboardAssets/js/argon-dashboard.min.js?v=1.1.0"></script>
-  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <!--  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>-->
   <script>
     window.TrackJS &&
       TrackJS.install({
         token: "ee6fab19c5a04ac1a32a645abde4613a",
         application: "argon-dashboard-free"
       });
+      
     
     function mostrarModal (valor) {
         var valor = valor;

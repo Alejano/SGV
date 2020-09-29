@@ -21,7 +21,8 @@ public class ISeguroServiceImpl implements ISeguroService {
 	@Transactional(readOnly = true)
 	public List<Seguro> findAll() {
 		// TODO Auto-generated method stub
-		return (List<Seguro>)seguroDao.findAll();
+		//return (List<Seguro>)seguroDao.findAll();
+		return null;
 	}
 
 	@Override
@@ -35,7 +36,8 @@ public class ISeguroServiceImpl implements ISeguroService {
 	@Transactional(readOnly = true)
 	public Seguro findOne(Long id) {
 		// TODO Auto-generated method stub
-		return seguroDao.findById(id).orElse(null);
+		//return seguroDao.findById(id).orElse(null);
+		return null;
 	}
 
 	@Override
@@ -48,37 +50,43 @@ public class ISeguroServiceImpl implements ISeguroService {
 	@Override
 	public List<Seguro> FindSeguroArea(Long id_adscripcion) {
 		// TODO Auto-generated method stub
-		return (List<Seguro>) seguroDao.FindSeguroArea(id_adscripcion);
+		//return (List<Seguro>) seguroDao.FindSeguroArea(id_adscripcion);
+		return null;
 	}
 
 	@Override
 	public Page<Seguro> findAll(Pageable pageable) {
 		// TODO Auto-generated method stub
-		return seguroDao.findAll(pageable);
+		//return seguroDao.findAll(pageable);
+		return null;
 	}
 
 	@Override
 	public Page<Seguro> FindSeguroAreaPage(Long id_adscripcion, Pageable pageable) {
 		// TODO Auto-generated method stub
-		return seguroDao.FindSeguroAreaPage(id_adscripcion, pageable);
+		//return seguroDao.FindSeguroAreaPage(id_adscripcion, pageable);
+		return null;
 	}
 
 	@Override
 	public Page<Seguro> FindSegElemPage(String elemento, Pageable pageable) {
 		// TODO Auto-generated method stub
-		return seguroDao.FindSegElemPage(elemento, pageable);
+		//return seguroDao.FindSegElemPage(elemento, pageable);
+		return null;
 	}
 
 	@Override
 	public Page<Seguro> FindSegElemAreaPage(Long id_adscripcion, String elemento, Pageable pageable) {
 		// TODO Auto-generated method stub
-		return seguroDao.FindSegElemAreaPage(id_adscripcion, elemento, pageable);
+		//return seguroDao.FindSegElemAreaPage(id_adscripcion, elemento, pageable);
+		return null;
 	}
 
 	@Override
 	public Long totalSeguros() {
 		// TODO Auto-generated method stub
-		return seguroDao.totalSeguro();
+		//return seguroDao.totalSeguro();
+		return null;
 	}
 	
 	

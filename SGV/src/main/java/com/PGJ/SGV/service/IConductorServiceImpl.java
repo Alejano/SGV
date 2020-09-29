@@ -20,7 +20,6 @@ public class IConductorServiceImpl implements IConductorService {
 	@Transactional(readOnly = true)
 	public List<Conductor> findAll() {
 		// TODO Auto-generated method stub					
-		
 		return  (List<Conductor>) conductorDao.findAll();
 	}
 
@@ -38,12 +37,14 @@ public class IConductorServiceImpl implements IConductorService {
 		return conductorDao.findById(no_empleado).orElse(null);
 	}
 
+	
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	public void delete(String no_empleado) {
-		// TODO Auto-generated method stub
+	//TODO Auto-generated method stub
 		conductorDao.deleteById(no_empleado);
 	}
+
 
 	@Override
 	public List<Conductor> findConductorArea(Long id_adscripcion) {
@@ -57,6 +58,7 @@ public class IConductorServiceImpl implements IConductorService {
 		return conductorDao.findAll(pageable);
 	}
 
+	
 	@Override
 	public Page<Conductor> findConductorAreaPage(Long id_adscripcion, Pageable pageable) {
 		// TODO Auto-generated method stub
@@ -64,9 +66,21 @@ public class IConductorServiceImpl implements IConductorService {
 	}
 
 	@Override
+	public Page<Conductor> findConductorAreaBajasPage(Long id_adscripcion, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return conductorDao.findConductorAreaBajasPage(pageable, id_adscripcion);
+	}
+	
+	@Override
 	public Page<Conductor> findCondElemnPage(String elemento, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return conductorDao.findCondElemnPage(elemento, pageable);
+	}
+	
+	@Override
+	public Page<Conductor> findCondElemnBajasPage(String elemento, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return conductorDao.findCondElemnBajasPage(elemento, pageable);
 	}
 
 	@Override
@@ -74,11 +88,38 @@ public class IConductorServiceImpl implements IConductorService {
 		// TODO Auto-generated method stub
 		return conductorDao.findCondElemnAreaPage(id_adscripcion, elemento, pageable);
 	}
-
+	
+	@Override
+	public Page<Conductor> findCondElemAreaBajasPage(Long id_adscripcion, String elemento, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return conductorDao.findCondElemnAreaBajasPage(id_adscripcion, elemento, pageable);
+	}
+	
+	@Override
+	public Page<Conductor> findByCNl(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return conductorDao.findByCNl(pageable);
+	}
+	
+	
+	@Override
+	public Page<Conductor> findByCNn(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return conductorDao.findByCNn(pageable);
+	}
+	
+	
 	@Override
 	public Long totalConductores() {
 		// TODO Auto-generated method stub
 		return conductorDao.totalConductor();
+	}
+
+	
+	@Override
+	public Long totalConductoresBajas() {
+		// TODO Auto-generated method stub
+		return conductorDao.totalConductorBajas();
 	}
 	
 
@@ -93,6 +134,7 @@ public class IConductorServiceImpl implements IConductorService {
 		// TODO Auto-generated method stub
 		return conductorDao.findConductorEstado();
 	}
+
 
 
 }

@@ -15,7 +15,8 @@ public class CatalogoServicio implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	Long ID;
+	
 	String servicio;
 	boolean auto;
 	boolean motocicleta;
@@ -44,11 +45,11 @@ public class CatalogoServicio implements Serializable {
 	String categoria;
 		
 	public Long getId() {
-		return id;
+		return ID;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.ID = id;
 	}
 
 	public String getServicio() {

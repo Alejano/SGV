@@ -45,74 +45,59 @@ public class IViajeServiceImpl implements IViajeService {
 		viajeDao.deleteById(id_viaje);
 		
 	}
-
+	
 	@Override
-	@Transactional(readOnly = true)
-	public List<Viaje> ViajesArea(Long id_adscripcion) {
-		// TODO Auto-generated method stub
-		return viajeDao.ViajesArea(id_adscripcion);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
 	public Page<Viaje> findAll(Pageable pageable) {
 		// TODO Auto-generated method stub
 		return viajeDao.findAll(pageable);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Page<Viaje> ViajesAreaPage(Long id_adscripcion, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return viajeDao.ViajesAreaPage(id_adscripcion,pageable);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public Page<Viaje> ViajeElemPage(String nombre, Pageable pageable) {
+	public Page<Viaje> ViajeElemPage(String elemento,Pageable pageable) {
 		// TODO Auto-generated method stub
-		return viajeDao.ViajeElemPage(nombre, pageable);
+		return viajeDao.ViajeElemPage(elemento,pageable);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Page<Viaje> ViajesElemAreaPage(Long id_adscripcion, String elemento, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return viajeDao.ViajesElemAreaPage(id_adscripcion, elemento, pageable);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Long viajestotales() {
 		// TODO Auto-generated method stub
 		return viajeDao.viajestotales();
 	}
 	
 	@Override
-	public int TotalViajesArea(Long id_adscipcion) {
+	public Long totalviajeElem(String elemento) {
 		// TODO Auto-generated method stub
-		return viajeDao.TotalViajesArea(id_adscipcion);
+		return viajeDao.totalviajeElem(elemento);
 	}
 	
 	@Override
-	public Viaje viajependiente(String placa) {
+	public Long totalViajesArea(Long id_adscipcion) {
 		// TODO Auto-generated method stub
-		return viajeDao.viajependiente(placa);
+		return viajeDao.totalViajesArea(id_adscipcion);
 	}
 	
 	@Override
-	public Long TotalViajesMensual(String fecha) {
+	public Long totalViajesElemArea(Long id_adscripcion,String elemento) {
 		// TODO Auto-generated method stub
-		return viajeDao.viajestotalesMensual(fecha);
+		return viajeDao.totalViajesElemArea(id_adscripcion,elemento);
 	}
-
+	
 	@Override
-	public Long TotalViajesxDia(int dia,int mes) {
+	public String fechamax(Long id_vehiculo) {
 		// TODO Auto-generated method stub
-		String fecha = Integer.toString(mes)+'-'+Integer.toString(dia);
-		
-		return viajeDao.viajestotalesMensual(fecha);
-	}
-
+		return viajeDao.fechamax(id_vehiculo);
+	}	
 
 }

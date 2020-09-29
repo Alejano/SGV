@@ -3,13 +3,15 @@ package com.PGJ.SGV.models.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,49 +20,109 @@ public class Vehiculo implements Serializable {
 	
 	
 	    @Id
-		private String placa;
+	    @Column(name="id_vehiculo")
+	    private long id_vehiculo;
 	    
-		private String marca;
-		private String modelo;
-		private String ano;
-		private String clase;
-		private String tipo;
+		private String placa;	    
+		private String placa_anterior;
 		private String no_serie;
-		private String no_factura;
-		private double valor_factura;
-		private String no_poliza;
-		private String estado;
-		private String tipo_combustible;
-		private double kilometraje;		
+		private String no_inventario;
+		private String fecha_tarjeta;
+		private String vale;		
+		private String motivo;
+		private double kilometraje_inicial;
 		
-		//SQL
+		@ManyToOne(fetch = FetchType.LAZY)
+		private VehiculoEstado vehiculo_estado;
+
+		@ManyToOne(fetch = FetchType.LAZY)
+		private VehiculoMarca vehiculo_marca;
+
+		@ManyToOne(fetch = FetchType.LAZY)
+		private VehiculoFuncion vehiculo_funcion;
+		
+		@ManyToOne(fetch = FetchType.LAZY)
+		private VehiculoTransmision vehiculo_transmision;
+		
+		@OneToOne(cascade = CascadeType.ALL)	
+		@JoinColumn(name ="id_vehiculo")
+		private VehiculoDetalle vehiculo_detalle;
+		
 		@ManyToOne(fetch = FetchType.LAZY)
 		private Adscripcion adscripcion;
 		
-		@OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		private List<Viaje> viajes;
-		
-		@OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		private List<Mantenimiento> mantenimientos;
-		
-		@OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-		private List<AsigCombustible> asignaciones;
-		
-		@OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+		@OneToMany(mappedBy = "vehiculo",fetch = FetchType.LAZY)
 		private List<Seguro> seguros;
+			
 		
 		//SQL
-		private String tipo_vehiculo;
-		private int cilindros;
+
 		
+		@OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY)
+		private List<Viaje> viajes;
 		
+		@OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY)
+		private List<Mantenimiento> mantenimientos;
+		
+		@OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY)
+		private List<AsigCombustible> asignaciones;			
+		
+		@OneToMany(mappedBy = "vehiculo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+		private List<Resguardante> resguardante;
+
+		
+	
+		
+		//SQL			
+		
+	
+		
+		public VehiculoEstado getVehiculo_estado() {
+			return vehiculo_estado;
+		}
+		
+		public double getKilometraje_inicial() {
+			return kilometraje_inicial;
+		}
+
+		public void setKilometraje_inicial(double kilometraje_inicial) {
+			this.kilometraje_inicial = kilometraje_inicial;
+		}
+
+		public List<Resguardante> getResguardante() {
+			return resguardante;
+		}
+
+		public void setResguardante(List<Resguardante> resguardante) {
+			this.resguardante = resguardante;
+		}
+
+		public void setVehiculo_estado(VehiculoEstado vehiculo_estado) {
+			this.vehiculo_estado = vehiculo_estado;
+		}		
+
 		private static final long serialVersionUID = 1L;
 
 		public Vehiculo() {
+			
 			viajes = new ArrayList<Viaje>();
 			mantenimientos = new ArrayList<Mantenimiento>();
-			asignaciones = new ArrayList<AsigCombustible>();
-			seguros = new ArrayList<Seguro>();
+			asignaciones = new ArrayList<AsigCombustible>();	
+			vehiculo_detalle = new VehiculoDetalle();
+			vehiculo_estado = new VehiculoEstado();
+			vehiculo_funcion = new VehiculoFuncion();
+			vehiculo_marca = new VehiculoMarca();
+			vehiculo_transmision = new VehiculoTransmision();
+			resguardante = new ArrayList<Resguardante>();
+		}
+					
+
+		public long getId_vehiculo() {
+			return id_vehiculo;
+		}
+
+		public void setId_vehiculo(long id_vehiculo) {
+			this.id_vehiculo = id_vehiculo;
 		}
 
 		public String getPlaca() {
@@ -70,46 +132,7 @@ public class Vehiculo implements Serializable {
 		public void setPlaca(String placa) {
 			this.placa = placa;
 		}
-
-		public String getMarca() {
-			return marca;
-		}
-
-		public void setMarca(String marca) {
-			this.marca = marca;
-		}
-
-		public String getModelo() {
-			return modelo;
-		}
-
-		public void setModelo(String modelo) {
-			this.modelo = modelo;
-		}
-
-		public String getAno() {
-			return ano;
-		}
-
-		public void setAno(String ano) {
-			this.ano = ano;
-		}
-
-		public String getClase() {
-			return clase;
-		}
-
-		public void setClase(String clase) {
-			this.clase = clase;
-		}
-
-		public String getTipo() {
-			return tipo;
-		}
-
-		public void setTipo(String tipo) {
-			this.tipo = tipo;
-		}
+	
 
 		public String getNo_serie() {
 			return no_serie;
@@ -117,55 +140,7 @@ public class Vehiculo implements Serializable {
 
 		public void setNo_serie(String no_serie) {
 			this.no_serie = no_serie;
-		}
-
-		public String getNo_factura() {
-			return no_factura;
-		}
-
-		public void setNo_factura(String no_factura) {
-			this.no_factura = no_factura;
-		}
-
-		public double getValor_factura() {
-			return valor_factura;
-		}
-
-		public void setValor_factura(double valor_factura) {
-			this.valor_factura = valor_factura;
-		}
-
-		public String getNo_poliza() {
-			return no_poliza;
-		}
-
-		public void setNo_poliza(String no_poliza) {
-			this.no_poliza = no_poliza;
-		}
-
-		public String getEstado() {
-			return estado;
-		}
-
-		public void setEstado(String estado) {
-			this.estado = estado;
-		}
-
-		public String getTipo_combustible() {
-			return tipo_combustible;
-		}
-
-		public void setTipo_combustible(String tipo_combustible) {
-			this.tipo_combustible = tipo_combustible;
-		}
-
-		public double getKilometraje() {
-			return kilometraje;
-		}
-
-		public void setKilometraje(double kilometraje) {
-			this.kilometraje = kilometraje;
-		}
+		}	
 
 		public static long getSerialversionuid() {
 			return serialVersionUID;
@@ -212,6 +187,78 @@ public class Vehiculo implements Serializable {
 		}
 		public void adAsignaciones (AsigCombustible asignacion) {
 			asignaciones.add(asignacion);
+		}		
+	
+		public String getPlaca_anterior() {
+			return placa_anterior;
+		}
+
+		public void setPlaca_anterior(String placa_anterior) {
+			this.placa_anterior = placa_anterior;
+		}
+
+		public String getNo_inventario() {
+			return no_inventario;
+		}
+
+		public void setNo_inventario(String no_inventario) {
+			this.no_inventario = no_inventario;
+		}
+
+		public String getFecha_tarjeta() {
+			return fecha_tarjeta;
+		}
+
+		public void setFecha_tarjeta(String fecha_tarjeta) {
+			this.fecha_tarjeta = fecha_tarjeta;
+		}
+
+		public String getVale() {
+			return vale;
+		}
+
+		public void setVale(String vale) {
+			this.vale = vale;
+		}
+
+		public VehiculoDetalle getVehiculo_detalle() {
+			return vehiculo_detalle;
+		}
+
+		public void setVehiculo_detalle(VehiculoDetalle vehiculo_detalle) {
+			this.vehiculo_detalle = vehiculo_detalle;
+		}
+
+		public VehiculoFuncion getVehiculo_funcion() {
+			return vehiculo_funcion;
+		}
+
+		public void setVehiculo_funcion(VehiculoFuncion vehiculo_funcion) {
+			this.vehiculo_funcion = vehiculo_funcion;
+		}
+
+		public VehiculoMarca getVehiculo_marca() {
+			return vehiculo_marca;
+		}
+
+		public void setVehiculo_marca(VehiculoMarca vehiculo_marca) {
+			this.vehiculo_marca = vehiculo_marca;
+		}
+
+		public VehiculoTransmision getVehiculo_transmision() {
+			return vehiculo_transmision;
+		}
+
+		public void setVehiculo_transmision(VehiculoTransmision vehiculo_transmision) {
+			this.vehiculo_transmision = vehiculo_transmision;
+		}
+
+		public String getMotivo() {
+			return motivo;
+		}
+
+		public void setMotivo(String motivo) {
+			this.motivo = motivo;
 		}
 
 		public List<Seguro> getSeguros() {
@@ -222,26 +269,10 @@ public class Vehiculo implements Serializable {
 			this.seguros = seguros;
 		}
 		
-		public void adSeguro (Seguro seguro) {
-			seguros.add(seguro);
-		}
-
-		public String getTipo_vehiculo() {
-			return tipo_vehiculo;
-		}
-
-		public void setTipo_vehiculo(String tipo_vehiculo) {
-			this.tipo_vehiculo = tipo_vehiculo;
-		}
-
-		public int getCilindros() {
-			return cilindros;
-		}
-
-		public void setCilindros(int cilindros) {
-			this.cilindros = cilindros;
-		}
 		
 		
+	
+				
+				
 		
 }

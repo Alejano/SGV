@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.HtmlUtils;
-
 import com.PGJ.SGV.models.entity.Greeting;
 import com.PGJ.SGV.models.entity.MessageNotify;
 import com.PGJ.SGV.models.entity.Usuario;
@@ -23,7 +22,8 @@ import com.PGJ.SGV.service.IMantenimientoService;
 import com.PGJ.SGV.service.IUsuarioService;
 
 @Controller
-public class HomeController {
+public class HomeController {	
+	
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	Usuario usuario=new Usuario();	
 	@Autowired
@@ -32,10 +32,11 @@ public class HomeController {
 	private IMantenimientoService mantenimientoService;
 
 	
-	@RequestMapping(value="/", method = RequestMethod.GET)
-	public String HomeBarra(Model model, Authentication authentication,HttpServletRequest request) {
+	@RequestMapping(value={"/","/home"}, method = RequestMethod.GET)
+	public String HomeBarra(Model model, Authentication authentication,HttpServletRequest request){
 		var nombre="";
 		var user="";
+		
 		if(hasRole("ROLE_ADMIN")) {
 			user ="ROLE_ADMIN";						
 			model.addAttribute("usuario",user);
@@ -46,14 +47,14 @@ public class HomeController {
 			}
 		};	    
 		usuario = usuarioService.findOne(authentication.getName());
-		nombre= usuario.getNombre();
+		nombre= usuario.getNombre();		
 	   model.addAttribute("id",authentication.getPrincipal());
 	   model.addAttribute("Online",nombre); 		   	
 	   
 	   
 		return "home";
 	}
-	
+	/*
 	@RequestMapping(value="/home", method = RequestMethod.GET)
 	public String Home(Model model, Authentication authentication) {
 		var nombre="";
@@ -75,7 +76,7 @@ public class HomeController {
 		 model.addAttribute("Online",nombre); 		
 		return "home";
 	}
-	
+	*/
 	
 	public static boolean hasRole(String role) {
 		SecurityContext context = SecurityContextHolder.getContext();
@@ -97,7 +98,6 @@ public class HomeController {
 		return false;
 	}
 	
-
 	@MessageMapping("/hello")
     @SendTo("/topic/greetings")
     public Greeting greeting(MessageNotify message) throws Exception {
@@ -109,7 +109,8 @@ public class HomeController {
 	
 	@MessageMapping("/TimeReal")
     @SendTo("/topic/MantTimeReal")
-    public Greeting MantTimeReal(MessageNotify message) throws Exception {		
+    public Greeting MantTimeReal(MessageNotify message) throws Exception {
+		//System.out.println("Recibi el mensaje");
        String titulo = "Mantenimientos del Dia";
        String valor1 = "Altas:";
        String valor2 = "Salidas:";
@@ -118,4 +119,15 @@ public class HomeController {
         return new Greeting(titulo+"<br>"+valor1+HtmlUtils.htmlEscape(MantRegistro.toString())+"   "+ valor2 + HtmlUtils.htmlEscape(MantEntrega.toString()) );
     }
 
+
+/*
+	
+	@GetMapping({"/home","/"})	
+	public String login() {
+		
+		
+				
+		return "home";
+	}
+*/
 }

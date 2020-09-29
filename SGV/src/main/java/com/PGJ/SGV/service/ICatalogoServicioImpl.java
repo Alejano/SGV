@@ -56,7 +56,7 @@ public class ICatalogoServicioImpl implements ICatalogoServicioService{
 		// TODO Auto-generated method stub
 		return catalogoServicios.totalCatalogoServicios();
 	}
-	
+
 	@Override
 	public Page<CatalogoServicio> finCatElemntPage(String elemento, Pageable pageable) {
 		// TODO Auto-generated method stub

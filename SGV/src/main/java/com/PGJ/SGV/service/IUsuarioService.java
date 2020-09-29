@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.PGJ.SGV.models.entity.Usuario;
 
 public interface IUsuarioService {
+	
     public List<Usuario> findAll(); 
     
     public Page<Usuario> findAll(Pageable pageable);
@@ -24,5 +25,17 @@ public interface IUsuarioService {
 	
 	public Page<Usuario> finUsuElemntPage(String elemento,Pageable pageable);
 	
+	public Page<Usuario> finUsuElemntBajasPage(String elemento,Pageable pageable);
+	
+	public Page<Usuario> findByReg(Pageable pageable);
+	
+	public Page<Usuario> findByNl(Pageable pageable);
+	
+	public Page<Usuario> findByNn(Pageable pageable);
+		
 	public Long totalUsuarios();
+	
+	public Long totalUsuariosBajas();
+	
+	
 }

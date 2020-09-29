@@ -161,7 +161,7 @@ public class SeguroController {
 
 			if (seguro.getId() != null && seguro.getId() > 0 && seguro.getDocumento() != null
 					&& seguro.getDocumento().length() > 0) {
-				System.out.println("entro al if");
+				//System.out.println("entro al if");
 				uploadFileService.delete(seguro.getDocumento());
 			}
 			String nombreUnico = null;
@@ -219,7 +219,6 @@ public class SeguroController {
 									elemento = elemento.replaceAll(",","");	
 							};
 			
-							
 					if(user.equals("ROLE_USER")) {
 						 Usuario usus = new Usuario();
 							usus = usuarioService.findbyAdscripcion(ads);

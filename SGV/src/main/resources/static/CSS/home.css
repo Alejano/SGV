@@ -3851,6 +3851,36 @@ input, select, textarea {
 			}
 
 		}
+		.loader{
+		position: absolute;
+	    width: 100%;
+	    height: 200%;
+	    z-index: 50;    
+	    background: #0000008c;
+		}
+		
+		.preloader {
+		margin-top: 25%;
+   
+   		 margin-left: 50%;
+		  width: 70px;
+		  height: 70px;
+		  border: 10px solid #eee;
+		  border-top: 10px solid #666;
+		  border-radius: 50%;
+		  animation-name: girar;
+		  animation-duration: 2s;
+		  animation-iteration-count: infinite;
+		  animation-timing-function: linear;
+		}
+		@keyframes girar {
+		  from {
+		    transform: rotate(0deg);
+		  }
+		  to {
+		    transform: rotate(360deg);
+		  }
+		}
 
 /* Wrapper */
 

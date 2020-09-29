@@ -20,8 +20,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	@Autowired
-	private DataSource dataSource;
-
+	private DataSource dataSource;	
 	@Autowired
 	private LoginSuccesHandler succesHandler;
 	@Override
@@ -32,15 +31,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/CSS/**","/assets/**", "/js/**", "/images/**","/index").permitAll()
 		.antMatchers("/Dashboard").hasAnyRole("ADMIN")
 		.antMatchers("/Usuarios").hasAnyRole("ADMIN")
-		.antMatchers("/home").hasAnyRole("ADMIN","USER")
-		.antMatchers("/app").hasAnyRole("ADMIN","USER")
-		.antMatchers("/topic").hasAnyRole("ADMIN","USER")
+		.antMatchers("/home").hasAnyRole("ADMIN","USER","TALLER")
+		.antMatchers("/talleres").hasAnyRole("ADMIN")
 		.antMatchers("/Conductores").hasAnyRole("ADMIN","USER")
 		.antMatchers("/Mantenimientos").hasAnyRole("ADMIN","USER")
 		.antMatchers("/Combustibles").hasAnyRole("ADMIN","USER")
 		.antMatchers("/BuscarVehiculos").hasAnyRole("ADMIN","USER")
+		.antMatchers("/api/search").hasAnyRole("ADMIN","USER")
 		.antMatchers("/Adscripciones").hasAnyRole("ADMIN")
-		.antMatchers("/").hasAnyRole("ADMIN","USER")
+		.antMatchers("/").hasAnyRole("ADMIN","USER","TALLER")
 		.anyRequest().authenticated().and()
 	    .formLogin()
 	    .successHandler(succesHandler)

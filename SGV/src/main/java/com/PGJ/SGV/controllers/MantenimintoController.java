@@ -1,5 +1,6 @@
 package com.PGJ.SGV.controllers;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,11 +22,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.PGJ.SGV.models.entity.CatalogoServicio;
 import com.PGJ.SGV.models.entity.Mantenimiento;
+import com.PGJ.SGV.models.entity.Taller;
 import com.PGJ.SGV.models.entity.Usuario;
 import com.PGJ.SGV.models.entity.Vehiculo;
+import com.PGJ.SGV.service.ICatalogoServicioService;
 import com.PGJ.SGV.service.IMantenimientoService;
+import com.PGJ.SGV.service.ITallerService;
+import com.PGJ.SGV.service.IUploadFileService;
 import com.PGJ.SGV.service.IUsuarioService;
 import com.PGJ.SGV.service.IVehiculoService;
 import com.PGJ.SGV.util.paginador.PageRender;
@@ -35,20 +42,28 @@ import com.PGJ.SGV.util.paginador.PageRender;
 public class MantenimintoController {
 	List<Mantenimiento> mantenimiento = new ArrayList<Mantenimiento>();
 	List<Vehiculo> vehiculo = new ArrayList<Vehiculo>();
-	static boolean Editar = false;
-	@Autowired
-	private IMantenimientoService mantService;
-
-	@Autowired
-	private IVehiculoService vehiculoService;
+	List<Taller> taller = new ArrayList<Taller>();
+	
+    static boolean Editar = false;
+	static boolean Mplaca = false;
 	
 	@Autowired
-	private IUsuarioService usuarioService;
+	private IMantenimientoService mantService;
+	@Autowired
+	private IVehiculoService vehiculoService;	
+	@Autowired
+	private IUsuarioService usuarioService;	
+	@Autowired
+	private ICatalogoServicioService serviciosservice;
+	@Autowired
+	private ITallerService tallerService;
+	@Autowired
+	private IUploadFileService uploadFileService;
 	
 
 	@RequestMapping(value="/Mantenimientos", method = RequestMethod.GET)
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page,Model model, Model model2, Authentication authentication) {				
-		
+		Mplaca = false;
 		//List<Mantenimiento> MantArea = new ArrayList<Mantenimiento>();
 		
 		var ads="";		
@@ -76,6 +91,7 @@ public class MantenimintoController {
 			if(mantService.totalMantenimiento()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
 			model.addAttribute("mantenimientos",MantAreaPage);
 			model.addAttribute("page",MantRenderArea);
+			model.addAttribute("Mplaca",Mplaca);
 			return "Mantenimientos";
 		}
 		
@@ -87,16 +103,19 @@ public class MantenimintoController {
 		model.addAttribute("titulo","Listado de Mantenimientos");
 		model.addAttribute("mantenimientos",MantPage);
 		model.addAttribute("page",MantRender);
+		model.addAttribute("Mplaca",Mplaca);
+		
 		
 		return "Mantenimientos";
 	}
 	
 	
-	@RequestMapping(value="/Mantenimientos/{placa}", method = RequestMethod.GET)
-	public String listarPlaca(@RequestParam(name="page", defaultValue = "0") int page,@PathVariable(value="placa") String placa,Model model, Authentication authentication) {				
-		
+	@RequestMapping(value="/Mantenimientos/{id_vehiculo}", method = RequestMethod.GET)
+	public String listarPlaca(@RequestParam(name="page", defaultValue = "0") int page,@PathVariable(value="id_vehiculo") Long id_vehiculo,Model model, Authentication authentication) {				
+		Mplaca = true;
 		//List<Mantenimiento> MantArea = new ArrayList<Mantenimiento>();
-		
+		Vehiculo vehi = new Vehiculo();
+		vehi = vehiculoService.findOne(id_vehiculo);
 		var ads="";		
 		var user="";
 					if(hasRole("ROLE_ADMIN")) {
@@ -116,58 +135,92 @@ public class MantenimintoController {
 				usus = usuarioService.findbyAdscripcion(ads);	
 				
 				//MantArea = mantService.FindMantPlacaAds(placa, usus.getAdscripcion().getId_adscripcion());
-				Page<Mantenimiento> mantAreaPage = mantService.FindMantPlacaAreaPage(placa, usus.getAdscripcion().getId_adscripcion(), pageRequest);
+				Page<Mantenimiento> mantAreaPage = mantService.FindMantPlacaAreaPage(vehi.getId_vehiculo(), usus.getAdscripcion().getId_adscripcion(), pageRequest);
 				PageRender<Mantenimiento> mantRender = new PageRender<>("/Mantenimientos/{placa}",mantAreaPage);
 				
-				model.addAttribute("placa",placa);							
+				model.addAttribute("placa",vehi.getPlaca());	
+				model.addAttribute("id_vehiculo",vehi.getId_vehiculo());
 				model.addAttribute("mantenimientos",mantAreaPage);
 				model.addAttribute("page",mantRender);
+				model.addAttribute("Mplaca",Mplaca);
 				return "Mantenimientos";
 			}
 			
 		//mantenimiento = mantService.FindMantPlaca(placa);
-			Page<Mantenimiento> mantPage = mantService.FindMantPlacaPage(placa, pageRequest);
-			PageRender<Mantenimiento> mantRender = new PageRender<>("/Mantenimientos/"+placa,mantPage);
+			Page<Mantenimiento> mantPage = mantService.FindMantPlacaPage(vehi.getId_vehiculo(), pageRequest);
+			PageRender<Mantenimiento> mantRender = new PageRender<>("/Mantenimientos/"+vehi.getPlaca(),mantPage);
 				
 		model.addAttribute("titulo","Listado de Mantenimientos");
-		model.addAttribute("placa",placa);
+		model.addAttribute("id_vehiculo",vehi.getId_vehiculo());
+		model.addAttribute("placa",vehi.getPlaca());
 		model.addAttribute("mantenimientos",mantPage);
 		model.addAttribute("page",mantRender);
+		model.addAttribute("Mplaca",Mplaca);
 		return "Mantenimientos";
 	}
 		
 	
-	@RequestMapping(value="/VehiMant/{placa}")
-	public String crear(@PathVariable(value="placa") String placa,Map<String,Object> model) {	
-			
-		long lugar=0;
-		if(!placa.equals(null)) {
-			
-				Double kilometraje= vehiculoService.kilometraje(placa);
-				lugar = mantService.ultimoRegistroMant();
+	@RequestMapping(value="/VehiMant/{id_vehiculo}")
+	public String crear(@PathVariable(value="id_vehiculo") long id_vehiculo,Map<String,Object> model) {	
+				Editar = false;	
+				Vehiculo vehi = new Vehiculo();	
 				Mantenimiento mantenimiento = new Mantenimiento();
-				mantenimiento.setId_mantenimiento(lugar+1);
-				mantenimiento.setVehiculo(vehiculoService.findOne(placa));
-				mantenimiento.setKilometraje(kilometraje);
-		model.put("mantenimiento",mantenimiento );
-		model.put("placa",placa);
-		//model.put("kilometraje",kilometraje);	
-		model.put("titulo", "Formulario de Mantenimiento");					
+				
+				String placa="";
+				taller = tallerService.findAll();
+				vehi = vehiculoService.findOne(id_vehiculo);	
+				placa= vehiculoService.findPlaca(id_vehiculo);																			
+				mantenimiento.setVehiculo(vehi);
+				model.put("Editar", Editar);
+				model.put("taller",taller);
+				model.put("mantenimiento",mantenimiento );				
+				model.put("placa", placa);								
+				model.put("titulo", "Formulario de Mantenimiento");					
 		return "formMant";
+					
+	}
+	
+	List<CatalogoServicio> iterar(List<CatalogoServicio> servicios, String buscar) {
+		List<CatalogoServicio> lista = new ArrayList<CatalogoServicio>();
+		
+		switch (buscar) {
+		case "auto":
+				for(CatalogoServicio cs: servicios) {
+					if(cs.isAuto()) {lista.add(cs);}
+				}
+			break ;
+		case "moto":
+			for(CatalogoServicio cs: servicios) {
+				if(cs.isMotocicleta()) {lista.add(cs);}
+			}
+		break ;
+		case "blin":
+			for(CatalogoServicio cs: servicios) {
+				if(cs.isBlindado()) {lista.add(cs);}
+			}
+		break ;
+		case "disel":
+			for(CatalogoServicio cs: servicios) {
+				if(cs.isDiesel()) {lista.add(cs);}
+			}
+		break ;
+		
 		}
-		return "Mantenimientos/"+placa;
+		
+		return lista;
 	}
 	
 	@RequestMapping(value="/formMant/{id_mantenimiento}")
 	public String editar(@PathVariable(value="id_mantenimiento") Long id_mantenimiento,Map<String,Object>model) {	
 		Editar = true;			
 		Mantenimiento mant = null;
-		
+	
 		if(id_mantenimiento != null) {
 			mant = mantService.findOne(id_mantenimiento);
 		}else {
 			return "redirect:/Mantenimientos";
 		}
+		model.put("Editar", Editar);
 		model.put("vehiculo", vehiculo);
 		model.put("placa", mant.getVehiculo().getPlaca());
 		model.put("mantenimiento",mant);
@@ -177,27 +230,44 @@ public class MantenimintoController {
 	
 	
 	@RequestMapping(value="/formMant",method = RequestMethod.POST)
-	public String guardar(Mantenimiento mantenimiento){			
-			Vehiculo vehiculoselect =new Vehiculo();										
-		
-			if(Editar == true) {
-				
+	public String guardar(Mantenimiento mantenimiento,@RequestParam("file") MultipartFile documento){			
+			Vehiculo vehiculoselect =new Vehiculo();
 			
-				vehiculoselect = vehiculoService.findOne(mantenimiento.getVehiculo().getPlaca());	
-				mantenimiento.setKilometraje(vehiculoselect.getKilometraje());
-				mantenimiento.setVehiculo(vehiculoselect);
-				mantService.save(mantenimiento);
-				Editar = false;	
-				return "redirect:/Mantenimientos";
+			if (!documento.isEmpty()) {
+				
+					if( mantenimiento.getUrl_documentacion().length() > 0 ) {
+						uploadFileService.delete(mantenimiento.getUrl_documentacion());						
+					}
+					String nombreUnico = null;						
+						try {
+							nombreUnico = uploadFileService.copy(documento);
+							mantenimiento.setUrl_documentacion(nombreUnico);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}					
 			}
 			
-			vehiculoselect = vehiculoService.findOne(mantenimiento.getVehiculo().getPlaca());							
-			mantenimiento.setVehiculo(vehiculoselect);
-			mantenimiento.setKilometraje(vehiculoselect.getKilometraje());
+					if(Editar == true) {
+												
+						vehiculoselect = vehiculoService.findOne(mantenimiento.getVehiculo().getId_vehiculo());	
+						mantenimiento.setVehiculo(vehiculoselect);
+						mantenimiento.setKilometraje(vehiculoselect.getKilometraje_inicial());						
+						mantService.save(mantenimiento);
+						Editar = false;	
 						
-			mantService.save(mantenimiento);	
-											
-		return "redirect:/Mantenimientos/"+mantenimiento.getVehiculo().getPlaca();
+					}else {
+					
+					vehiculoselect = vehiculoService.findOne(mantenimiento.getVehiculo().getId_vehiculo());							
+					mantenimiento.setVehiculo(vehiculoselect);
+					mantenimiento.setKilometraje(vehiculoselect.getKilometraje_inicial());					
+					mantService.save(mantenimiento);
+					}
+			
+									
+				
+										
+		return "redirect:/Mantenimientos/"+mantenimiento.getVehiculo().getId_vehiculo();
 	}
 	
 	@RequestMapping(value="/elimMant/{id_mantenimiento}")

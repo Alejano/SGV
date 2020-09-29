@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.PGJ.SGV.utilities.ObtenMonth;
+import com.PGJ.SGV.utilities.SystemDate;
 import com.PGJ.SGV.models.entity.AsigCombustible;
+import com.PGJ.SGV.models.entity.AsigCombustibleExt;
 import com.PGJ.SGV.models.entity.Vehiculo;
+import com.PGJ.SGV.service.IAsigComExtService;
 import com.PGJ.SGV.service.IAsigComService;
 import com.PGJ.SGV.service.IVehiculoService;
 
@@ -30,41 +34,109 @@ public class AsigCombController {
 	private IAsigComService AsigCombus;
 	@Autowired
 	private IVehiculoService vehiculoService;
+	@Autowired
+	private IAsigComExtService asigExtService;
 	
 	public static String placaURL; 
 	
-	@RequestMapping(value="/ListarCombustible/{placa}", method = RequestMethod.GET)
-	public String listar(@PathVariable(value="placa") String placa,Model model) {
-		
-		List<AsigCombustible> combustiblePlaca = new ArrayList<AsigCombustible>();
+	
+	@RequestMapping(value="/ListarCombustible/{id_vehiculo}", method = RequestMethod.GET)
+	public String listar(@PathVariable(value="id_vehiculo") Long id_vehiculo,Model model) {
+		boolean asignacion=false;
+		List<AsigCombustible> combustiblePlacaMes = new ArrayList<AsigCombustible>();
+		List<AsigCombustibleExt> combustibleExtePlacaMes = new ArrayList<AsigCombustibleExt>();
+		List<AsigCombustible> combustiblePlacaHisto = new ArrayList<AsigCombustible>();
+		//List<AsigCombustibleExt> combustibleExtePlacaHisto = new ArrayList<AsigCombustibleExt>();
 		var user="";
 		if(hasRole("ROLE_ADMIN")) {user ="ROLE_ADMIN";	model.addAttribute("usuario",user);}else {if(hasRole("ROLE_USER")) user = "ROLE_USER";model.addAttribute("usuario",user);};
 		
-		combustiblePlaca = AsigCombus.findPlaca(placa);
-		model.addAttribute("titulo","Listado de Combustible");
-		model.addAttribute("combustible",combustiblePlaca);
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo = vehiculoService.findOne(id_vehiculo);
+		
+		combustiblePlacaMes = AsigCombus.findidVehiculoMensual(vehiculo.getId_vehiculo(),ObtenMonth.obtenNumMes());
+	
+		if(!combustiblePlacaMes.isEmpty()) {
+			asignacion = true;
+			combustibleExtePlacaMes =  asigExtService.findextId(combustiblePlacaMes.get(0).getId_asignacion());
+		
+			if(vehiculo.getKilometraje_inicial() == combustiblePlacaMes.get(0).getKilometraje_ord()) {
+					asignacion = false;								
+			}
+			
+			if(!combustibleExtePlacaMes.isEmpty()) {
+				if(vehiculo.getKilometraje_inicial() == combustibleExtePlacaMes.get(combustibleExtePlacaMes.size()-1).getKilometraje_ext() || combustibleExtePlacaMes.size() > 3) {
+					asignacion = false;
+				}else {
+					asignacion = true;
+				}
+			}
+						
+					
+		}
+		
+		
+		
+					
+		combustiblePlacaHisto = AsigCombus.findidVehiculo(vehiculo.getId_vehiculo());	
+		
+		
+		model.addAttribute("existeAsignacion",asignacion);
+		model.addAttribute("mes",ObtenMonth.obtenNumMes());
+		model.addAttribute("titulo","Listado de Combustible de "+ ObtenMonth.obtenMes()+" de la placa: "+vehiculo.getPlaca());
+		model.addAttribute("titulo2","Listado de Combustible Historico");
+		//Mensual
+		model.addAttribute("combustible",combustiblePlacaMes);
+		model.addAttribute("combustibleext",combustibleExtePlacaMes);
+		//historico
+		model.addAttribute("combustibleHisto",combustiblePlacaHisto);		
+		model.addAttribute("id_vehiculo",vehiculo.getId_vehiculo());
 		
 		return "Combustibles";
 	}
 		
 	
-	@RequestMapping(value="/formComb/Ag/{placa}", method = RequestMethod.GET)
-	public String crear(@PathVariable(value="placa") String placa, Map<String,Object> model) {
+	@RequestMapping(value="/formComb/Ag/{id_vehiculo}", method = RequestMethod.GET)
+	public String crear(@PathVariable(value="id_vehiculo") Long id_vehiculo, Map<String,Object> model) {
 		
 		AsigCombustible combustible = new AsigCombustible();
 		Vehiculo vehiculo = new Vehiculo();
-		
-		vehiculo.setPlaca(placa);
+		vehiculo = vehiculoService.findOne(id_vehiculo);		
 		combustible.setVehiculo(vehiculo);
-		
+		combustible.setKilometraje_ord(vehiculo.getKilometraje_inicial());
+		combustible.setFecha_ini_ord(SystemDate.obtenFecha());
+	
+		model.put("placa", vehiculo.getPlaca());
+		model.put("kilometraje", vehiculo.getKilometraje_inicial());
 		model.put("combustible",combustible );				
 		model.put("titulo", "Formulario de Combustible");
+		model.put("mes", ObtenMonth.obtenMes());
 							
-		return "formComb";
+		return "combustible/formComb";
+	}
+	
+	@RequestMapping(value="/Addext/{id_asignacion}", method = RequestMethod.GET)
+	public String crearext(@PathVariable(value="id_asignacion") Long id_asignacion, Map<String,Object> model) {		
+		
+		AsigCombustible combustible = new AsigCombustible();
+		combustible = AsigCombus.findOne(id_asignacion);
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo = vehiculoService.findOne(combustible.getVehiculo().getId_vehiculo());
+		
+		AsigCombustibleExt extra = new AsigCombustibleExt();
+		extra.setAsigCombustible(combustible);		
+		extra.setKilometraje_ext(vehiculo.getKilometraje_inicial());
+		
+		model.put("combustible",combustible );	
+		model.put("placa", combustible.getVehiculo().getPlaca());
+		model.put("combustibleExt",extra);				
+		model.put("titulo", "Formulario de Combustible");
+		model.put("mes", ObtenMonth.obtenMes());
+							
+		return "combustible/formCombExt";
 	}
 	
 	@RequestMapping(value="/formComb/{id_asignacion}")
-	public String editar(@PathVariable(value="id_asignacion") Long id_asignacion,Map<String,Object> model,Model model2 ) {
+	public String editar(@PathVariable(value="id_asignacion") Long id_asignacion,Map<String,Object> model ) {
 		AsigCombustible combustible = null;		
 		
 		if(!id_asignacion.equals(null)) {			
@@ -72,21 +144,43 @@ public class AsigCombController {
 		}else {
 			return "redirect:/ListarCombustible";
 		}
-		model2.addAttribute("placa",combustible.getVehiculo().getPlaca());
+		//model2.addAttribute("placa",combustible.getVehiculo().getPlaca());
 		model.put("combustible",combustible );				
 		model.put("titulo", "Editar Combustible");
-		return "formComb";
+		return "combustible/formComb";
 	}
 	
 	
 	@RequestMapping(value="/formComb",method = RequestMethod.POST)
 	public String guardar(AsigCombustible combustible){
+		
 		Vehiculo vehiculo = null;	
-		vehiculo = vehiculoService.findOne(combustible.getVehiculo().getPlaca());	
+		vehiculo = vehiculoService.findOne(combustible.getVehiculo().getId_vehiculo());	
 		combustible.setVehiculo(vehiculo);
+		combustible.setKilometraje_ord(vehiculo.getKilometraje_inicial());
 		AsigCombus.save(combustible);			
 								
-		return "redirect:/ListarCombustible/"+vehiculo.getPlaca();
+		return "redirect:/ListarCombustible/"+vehiculo.getId_vehiculo();
+	}
+	
+	@RequestMapping(value="/formCombExt",method = RequestMethod.POST)
+	public String guardarExt(AsigCombustibleExt combustibleext){
+		
+		AsigCombustible combustible = null;		
+		combustible = AsigCombus.findOne(combustibleext.getAsigCombustible().getId_asignacion());	
+		combustibleext.setAsigCombustible(combustible);		
+		combustibleext.setKilometraje_ext(combustible.getVehiculo().getKilometraje_inicial());
+		long id_i;
+		try {
+		 id_i=asigExtService.ultimoid()+1;
+		}catch (Exception e) {
+			id_i=0;
+		}
+		combustibleext.setId_asignacion(id_i);
+		
+		asigExtService.save(combustibleext);			
+								
+		return "redirect:/ListarCombustible/"+combustible.getVehiculo().getId_vehiculo();
 	}
 	
 	@RequestMapping(value="/elimComb/{id_asignacion}/{placa}")
@@ -98,32 +192,34 @@ public class AsigCombController {
 		return "redirect:/ListarCombustible/"+placa;
 	}
 	
+	@RequestMapping(value="/elimCombext/{id_asignacion}/{placa}")
+	public String eliminarext (@PathVariable(value="id_asignacion")Long id_asignacion,@PathVariable(value="placa")String placa) {
+		
+		if(!id_asignacion.equals(null)) {
+			asigExtService.delete(id_asignacion);
+		}
+		return "redirect:/ListarCombustible/"+placa;
+	}
+	
 	@RequestMapping(value="/Combustibles", method = RequestMethod.GET)
-	public String listarCA(Map<String,Object> model, @RequestParam(value="placa")String placa,Model model2) throws Exception {
+	public String listarCA(Map<String,Object> model, @RequestParam(value="id_vehiculo")Long id_vehiculo,Model model2) throws Exception {
 		
 		var user="";
-		if(hasRole("ROLE_ADMIN")) {
-			user ="ROLE_ADMIN";						
-			model.put("usuario",user);
-		}else {
-			if(hasRole("ROLE_USER")) 
-				user = "ROLE_USER";
-				model.put("usuario",user);				
-			}
+	if(hasRole("ROLE_ADMIN")) {	user ="ROLE_ADMIN";	model.put("usuario",user);}else {	if(hasRole("ROLE_USER")) user = "ROLE_USER";model.put("usuario",user);	}
 		
-		placaURL=placa;
+		placaURL=vehiculoService.findOne(id_vehiculo).getPlaca();
 		List<AsigCombustible> combustible = new ArrayList<AsigCombustible>();
 		List<AsigCombustible> combustiblePlaca = new ArrayList<AsigCombustible>();
 		combustible = AsigCombus.findAll();	
-		
+	/*	
 		for(AsigCombustible comb: combustible) {
 			if(comb.getVehiculo().getPlaca().equals(placaURL)) {
 											
 				combustiblePlaca.add(comb);
 				}
-		}
+		}*/
 					
-	    model2.addAttribute("placa", placa);
+	    model2.addAttribute("placa", placaURL);
 		model.put("combustible", combustiblePlaca);
 		model.put("titulo", "Formulario de Combustible");
 							

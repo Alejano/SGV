@@ -36,6 +36,7 @@ public class ServiciosController {
 	static int 	Corddocu = 0;
 	static int 	Cordtabla = 0;
 	
+	
 	@RequestMapping(value="/Servicios", method = RequestMethod.GET)
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page,Model model, Authentication authentication) {				
 	
@@ -73,6 +74,7 @@ public class ServiciosController {
 		uss = catalogoServicio.findOne(id);
 		Corddocu =docu;
 		Cordtabla = tabla;
+		
 		switch (campo) {
 		case "Auto":
 				if(enabled) {seteo=false; uss.setAuto(seteo);}else {seteo=true;uss.setAuto(seteo);	}
@@ -125,7 +127,7 @@ public class ServiciosController {
 									
 		catalogoServicio.save(uss);		
 		
-	return "redirect:/Servicios";
+	return "redirect:/Servicios?page="+page;
 	}
 	
 	@RequestMapping(value="/formServ")
@@ -172,17 +174,18 @@ public class ServiciosController {
 	@RequestMapping(value = "/Servicios/upload", method = RequestMethod.POST)
 	public String Subir(@RequestParam("file") MultipartFile documento) {
 		
-		
-
-		try {
-			uploadFileService.deleteImport("catalogo_servicios.csv");
+		if (!documento.isEmpty()) {
 			uploadFileService.deleteall();
-			uploadFileService.copyImport(documento);
-			uploadFileService.importarServicios();
-		} catch (IOException e) {
-			e.printStackTrace();
-	}
-
+			try {
+				uploadFileService.deleteall();
+				uploadFileService.copyImport(documento);
+				uploadFileService.importarServicios();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 		
 		return "redirect:/Servicios";
 	}

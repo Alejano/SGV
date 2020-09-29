@@ -48,15 +48,15 @@ public class IMantenimientoServiceImpl implements IMantenimientoService {
 	}
 
 	@Override
-	public List<Mantenimiento> FindMantPlaca(String placa) {
+	public List<Mantenimiento> FindMantPlaca(long id_vehiculo) {
 		// TODO Auto-generated method stub
-		return (List<Mantenimiento>) imantDao.FindMantPlaca(placa);
+		return (List<Mantenimiento>) imantDao.FindMantPlaca(id_vehiculo);
 	}
 
 	@Override
-	public List<Mantenimiento> FindMantPlacaAds(String placa, Long id_adscripcion) {
+	public List<Mantenimiento> FindMantPlacaAds(long id_vehiculo, Long id_adscripcion) {
 		// TODO Auto-generated method stub
-		return (List<Mantenimiento>) imantDao.FindMantPlacaAds(placa, id_adscripcion);
+		return (List<Mantenimiento>) imantDao.FindMantPlacaAds(id_vehiculo, id_adscripcion);
 	}
 
 	@Override
@@ -72,15 +72,15 @@ public class IMantenimientoServiceImpl implements IMantenimientoService {
 	}
 
 	@Override
-	public Page<Mantenimiento> FindMantPlacaPage(String placa, Pageable pageable) {
+	public Page<Mantenimiento> FindMantPlacaPage(Long id_vehiculo, Pageable pageable) {
 		// TODO Auto-generated method stub
-		return imantDao.FindMantPlacaPage(placa, pageable);
+		return imantDao.FindMantPlacaPage(id_vehiculo, pageable);
 	}
 
 	@Override
-	public Page<Mantenimiento> FindMantPlacaAreaPage(String placa, Long id_adscripcion, Pageable pageable) {
+	public Page<Mantenimiento> FindMantPlacaAreaPage(long id_vehiculo, Long id_adscripcion, Pageable pageable) {
 		// TODO Auto-generated method stub
-		return imantDao.FindMantPlacaAreaPage(placa, id_adscripcion, pageable);
+		return imantDao.FindMantPlacaAreaPage(id_vehiculo, id_adscripcion, pageable);
 	}
 
 	@Override
@@ -106,13 +106,13 @@ public class IMantenimientoServiceImpl implements IMantenimientoService {
 		// TODO Auto-generated method stub
 		return imantDao.ultimoRegistroMant();
 	}
-	
+
 	@Override
 	public int TotalMantenimientoArea(Long id_adscripcion) {
 		// TODO Auto-generated method stub
 		return imantDao.TotalMantenimientoArea(id_adscripcion);
 	}
-	
+
 	@Override
 	public Long NotificacionMant() {
 		// TODO Auto-generated method stub

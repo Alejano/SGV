@@ -9,20 +9,34 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="CSS/home.css" />
-		<link rel="stylesheet" href="/SGV/assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/assets/css/font-awesome.min.css">
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
 		<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
-		<script src="/SGV/webjars/stomp-websocket/stomp.min.js"></script>
-		<link rel="stylesheet" href="/SGV/assets/css/bootstrap.min.css">		
+		 <script src="/SGV/webjars/stomp-websocket/stomp.min.js"></script>		
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">		
+				
    
                 
 	</head>
 	<body onload="connect()" class="is-preload" style="background: #F5F5DC;">
-
+	
+	<div class="loader" style="display:none">
+		<div class="preloader" ></div>
+	</div>
+	   <div style="    position: absolute;width: 50%;height: 560px;">
+			<div style="position: relative;display: block;" >
+				<button class="btn-minimize" style="background: repeating-linear-gradient(186deg, #2e4e4f, transparent 172px); box-shadow: none;">Entra A Hablar con nosotros</button>
+			</div>
+			<div id="VC" style="display: block;position: relative;z-index: 5;height: 560px; display: none;">
+			 <iframe allow="camera; microphone; display-capture" src="https://conferencia.fgjcdmx.gob.mx/Pruebaallowfullscreen=true" style="height: 100%; width: 100%; border: 0px;"></iframe>	
+			</div>			
+	   </div>
 		<!-- Wrapper -->
 	<div id="wrapper">
+	
+	
 
 				<!-- Header -->
 	<header id="header" class="alt" >
@@ -57,6 +71,7 @@
 						    <form th:action="@{/Adscripciones}" th:if="${usuario} == 'ROLE_ADMIN' " style="margin-bottom: 3px; margin-left: 5px;">
 						        <button class="btn btn-outline-success" type="submit" value="enviar" style="color:green !important">Adscripciones</button>					    	
 						    </form>
+						    
 						    <form th:action="@{/Dashboard}" th:if="${usuario} == 'ROLE_ADMIN' " style="margin-bottom: 3px; margin-left: 5px;">
 						        <button class="btn btn-outline-success" type="submit" value="enviar" style="color:green !important">Dashboard</button>					    	
 						    </form>
@@ -81,7 +96,6 @@
 
 				<!-- Main -->
 		<div id="main">					
-
 					<!-- Seccion con bootstrap -->
 					
 		<section id="intro" class="main">
@@ -90,18 +104,20 @@
 					<div class="card-deck" style="margin-top: -41px;">
 							<!-- Viajes -->
 						  <div class="card-image">
-							   <form th:action="@{/Viajes}" name="salir">		 		
+						 
+							     <form th:action="@{/Viajes}" class="F" name="salir">		 		
 	                                  <button class="btn btn-lg btn-primary btn-block btn-signin ingresolog " id="IngresoLog" type="submit" value="enviar" >
 							          <img src="images/itinerario.png" class="card-img-top imgboton" alt="..." style="border-radius: inherit; width: 180px; left: -11px; top:-5px;">
 							         </button>
-	                           </form>						    
+	                           </form>	
+	                           			 <!--<a href="#" onclick="sendName()" class="badge badge-danger" style="float: right;">prueba</a>	-->	    
 						    <div class="card-footer">
 						      <p class="card-title" style="text-align: center;">VIAJES</p>
 						    </div>
 						 </div>
 						 
-						 <div class="card-image">
-							   <form th:action="@{/Vehiculos}" name="salir">		 		
+						 <div class="card-image" th:if="${usuario} == 'ROLE_ADMIN' ">
+							   <form th:action="@{/Vehiculos}"  class="F" name="salir">		 		
 	                                  <button class="btn btn-lg btn-primary btn-block btn-signin ingresolog " id="IngresoLog" type="submit" value="enviar" >
 							          <img src="images/vehiculos.png" class="card-img-top imgboton" alt="..." style="border-radius: inherit; width: 180px; left: -11px; top:-5px;">
 							         </button>
@@ -112,7 +128,7 @@
 						 </div>
 						 
 						 <div class="card-image">
-							   <form th:action="@{/Conductores}" name="salir">		 		
+							   <form th:action="@{/Conductores}" class="F" name="salir">		 		
 	                                  <button class="btn btn-lg btn-primary btn-block btn-signin ingresolog " id="IngresoLog" type="submit" value="enviar" >
 							          <img src="images/conductor.png" class="card-img-top imgboton" alt="..." style="border-radius: inherit; width: 180px; left: -11px; top:-5px;">
 							         </button>
@@ -123,7 +139,7 @@
 						 </div>
 						 
 						 <div class="card-image">
-							   <form th:action="@{/Seguros}" name="salir">		 		
+							   <form th:action="@{/Seguros}" class="F" name="salir">		 		
 	                                  <button class="btn btn-lg btn-primary btn-block btn-signin ingresolog " id="IngresoLog" type="submit" value="enviar" >
 							          <img src="images/documento.png" class="card-img-top imgboton" alt="..." style="border-radius: inherit; width: 180px; left: -11px; top:-5px;">
 							         </button>
@@ -134,7 +150,7 @@
 						 </div>
 		
 						 <div th:if="${usuario} == 'ROLE_ADMIN' " class="card-image" >						 
-							   <form th:action="@{/Usuarios}" name="salir" id="SA">		 		
+							   <form th:action="@{/Usuarios}" class="F" name="salir" id="SA">		 		
 	                                  <button class="btn btn-lg btn-primary btn-block btn-signin ingresolog " id="IngresoLog" type="submit" value="enviar" >
 							          <img src="images/equipo.png" class="card-img-top imgboton" alt="..." style="border-radius: inherit; width: 180px; left: -11px; top:-5px;">
 							         </button>
@@ -146,7 +162,7 @@
 								
 						 
 						 <div class="card-image">
-							   <form th:action="@{/Mantenimientos}" name="salir">		 		
+							   <form th:action="@{/Mantenimientos}" class="F" name="salir">		 		
 	                                  <button class="btn btn-lg btn-primary btn-block btn-signin ingresolog " id="IngresoLog" type="submit" value="enviar" >
 							          <img src="images/mecanico.png" class="card-img-top imgboton" alt="..." style="border-radius: inherit; width: 180px; left: -11px; top:-5px;">
 							         </button>
@@ -201,7 +217,7 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('/SGV/gs-guide-websocket');
+    var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
@@ -226,16 +242,17 @@ function disconnect() {
 }
 
 function sendName2() {
-    stompClient.send('/app/TimeReal', {}, JSON.stringify({'name': '110690'}));
+	//alert("Mande la peticion al server ");
+    stompClient.send("/app/TimeReal", {}, JSON.stringify({'name': '110690'}));
 }
 
 function sendName() {
 	sendName2();
-    stompClient.send('/app/hello', {}, JSON.stringify({'name': '110690'}));
+    stompClient.send("/app/hello", {}, JSON.stringify({'name': '110690'}));
 }
 
 function showMantRegistros(message2) {
-
+	//alert("Recibi el menaje del servidor: "+ message2);
     $("#Notify").show();
 	$("#MantRegistros").append("<div class='mensaje2'>" + message2 + "</div>");
 	$("#Notify").css("width"," 200px");
@@ -270,9 +287,23 @@ function abrir(){
 	  $(".notifytext").show();
 }
 
+$(".F").submit(function(e){
+	var self = this;
+	event.preventDefault();
+	
+	$(".loader").show();
+	self.submit();
+	return false;
+});
+
+$(".btn-minimize").click(function(){
+    $(this).toggleClass('btn-plus');
+    $("#VC").slideToggle();
+  });
+
 </script>
 	
-		<!-- Scripts -->			
+		<!-- Scripts -->
 			<script src="/SGV/assets/js/sockjs.js"></script>
 			<script src="/SGV/assets/js/jquery.min.js"></script>
 			<script src="/SGV/assets/js/jquery.scrollex.min.js"></script>

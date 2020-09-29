@@ -40,14 +40,51 @@
             )
             return false;
     });
+	
+	
+	$(".numberdec").keypress(function (key) {
+        if ((key.charCode != 46  && key.charCode < 48 || key.charCode > 57)//numeros        
+            )
+            return false;
+    });
+	
+	
 	$(".soloLetras").keypress(function (key) {
-        if ((key.charCode < 97 || key.charCode > 122)//letras mayusculas
+        if ((key.charCode < 97 || key.charCode > 122)//letras minusculas
                 && (key.charCode < 65 || key.charCode > 90)//letras mayusculas
                 && (key.charCode < 48 || key.charCode > 57)//numeros 
             )
             return false;
     });
-	
+
+	$(".Letrasnum").keypress(function (key) {
+        if ((key.charCode < 65 || key.charCode > 90)//letras minusculas
+                && (key.charCode < 48 || key.charCode > 57)//numeros 
+            )
+            return false;
+    });
+    
+	function letras(e){
+		var key=e.keyCode || e.which;
+		var tecla = String.fromCharCode(key).toString();
+		var letras = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ";
+		var especiales = [8];
+		var tecla_especial=false
+		
+		for (var i in especiales){
+			if (key == especiales[i]){
+				tecla_especial=false;
+				break;
+			}
+		}
+		
+		if (letras.indexOf(tecla) == -1 && !tecla_especial){
+			swal("Error", "Solo se permiten letras en mayúsculas", "error");
+			return false;
+	  }
+		}
+
+    
 	$(".signo").keypress(function (key){
 		if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
 	            (e.keyCode == 65 && e.ctrlKey === true) || 

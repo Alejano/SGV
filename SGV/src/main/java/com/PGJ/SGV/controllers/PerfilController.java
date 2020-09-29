@@ -24,8 +24,8 @@ public class PerfilController {
 
 	@RequestMapping(value = "/perfil")
 	public String editar(Map<String, Object> model,Authentication authentication) {
-		 Usuario usuario = null;	
-		 var user="";
+		 Usuario usuario = null;
+			var user="";
 		 if(hasRole("ROLE_ADMIN")) {
 				user ="ROLE_ADMIN";						
 				model.put("us",user);
@@ -34,7 +34,7 @@ public class PerfilController {
 					user = "ROLE_USER";
 					model.put("us",user);				
 				}
-			};
+			};	   
 			
 		 var no_empleado ="";
 		 no_empleado = authentication.getName();

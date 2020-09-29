@@ -79,7 +79,7 @@ public class DashboardController {
 			D.setAdscripcion(ads.getId_adscripcion());
 			D.setNombre_adscripcion(ads.getNombre_adscripcion());
 			D.setVehiculos(vehiculoService.totalVehiculoArea(ads.getId_adscripcion()));
-			D.setViajes(viajeService.TotalViajesArea(ads.getId_adscripcion()));
+			//D.setViajes(viajeService.TotalViajesArea(ads.getId_adscripcion()));
 			D.setMantenimientos(mantenimientoService.TotalMantenimientoArea(ads.getId_adscripcion()));
 			DatosGenerales.add(D);
 			numeromaximo++;
@@ -112,13 +112,13 @@ public class DashboardController {
 			case "Domingo":   strDays = new String[]{"domingo","sabado","viernes","jueves","Miercoles","Martes","Lunes"};break;
 			}		
 		
-		map = new HashMap<Object,Object>(); map.put("label", strDays[6]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-6,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
-		map = new HashMap<Object,Object>(); map.put("label", strDays[5]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-5,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
-		map = new HashMap<Object,Object>(); map.put("label", strDays[4]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-4,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
-		map = new HashMap<Object,Object>(); map.put("label", strDays[3]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-3,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
-		map = new HashMap<Object,Object>(); map.put("label", strDays[2]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-2,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
-		map = new HashMap<Object,Object>(); map.put("label", strDays[1]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-1,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
-		map = new HashMap<Object,Object>(); map.put("label", strDays[0]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE),fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);	
+		//map = new HashMap<Object,Object>(); map.put("label", strDays[6]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-6,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
+		//map = new HashMap<Object,Object>(); map.put("label", strDays[5]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-5,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
+		//map = new HashMap<Object,Object>(); map.put("label", strDays[4]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-4,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
+		//map = new HashMap<Object,Object>(); map.put("label", strDays[3]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-3,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
+		//map = new HashMap<Object,Object>(); map.put("label", strDays[2]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-2,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
+		//map = new HashMap<Object,Object>(); map.put("label", strDays[1]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE)-1,fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);
+		//map = new HashMap<Object,Object>(); map.put("label", strDays[0]); map.put("y", viajeService.TotalViajesxDia(fecha.get(Calendar.DATE),fecha.get(Calendar.MONTH)+1));dataPoints1.add(map);	
  
 		list.add(dataPoints1);
 		
@@ -130,7 +130,7 @@ public class DashboardController {
 		 List<List<Map<Object,Object>>> list = new ArrayList<List<Map<Object,Object>>>();
 		 List<Map<Object,Object>> dataPoints1 = new ArrayList<Map<Object,Object>>();		
 		
-		map = new HashMap<Object,Object>(); map.put("label", meses.get(11)); map.put("y",viajeService.TotalViajesMensual(años.get(11)+"-"+mesesNum.get(11)));dataPoints1.add(map);
+		/*map = new HashMap<Object,Object>(); map.put("label", meses.get(11)); map.put("y",viajeService.TotalViajesMensual(años.get(11)+"-"+mesesNum.get(11)));dataPoints1.add(map);
 		map = new HashMap<Object,Object>(); map.put("label", meses.get(10)); map.put("y", viajeService.TotalViajesMensual(años.get(10)+"-"+mesesNum.get(10)));dataPoints1.add(map);
 		map = new HashMap<Object,Object>(); map.put("label", meses.get(9)); map.put("y", viajeService.TotalViajesMensual(años.get(9)+"-"+mesesNum.get(9)));dataPoints1.add(map);
 		map = new HashMap<Object,Object>(); map.put("label", meses.get(8)); map.put("y", viajeService.TotalViajesMensual(años.get(8)+"-"+mesesNum.get(8)));dataPoints1.add(map);
@@ -142,7 +142,7 @@ public class DashboardController {
 		map = new HashMap<Object,Object>(); map.put("label", meses.get(2)); map.put("y", viajeService.TotalViajesMensual(años.get(2)+"-"+mesesNum.get(2)));dataPoints1.add(map);
 		map = new HashMap<Object,Object>(); map.put("label", meses.get(1)); map.put("y", viajeService.TotalViajesMensual(años.get(1)+"-"+mesesNum.get(1)));dataPoints1.add(map);
 		map = new HashMap<Object,Object>(); map.put("label", meses.get(0)); map.put("y", viajeService.TotalViajesMensual(años.get(0)+"-"+mesesNum.get(0)));dataPoints1.add(map);
-		
+		*/
  
 		list.add(dataPoints1);
 		

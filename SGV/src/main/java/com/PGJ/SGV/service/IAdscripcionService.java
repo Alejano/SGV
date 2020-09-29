@@ -12,5 +12,7 @@ public interface IAdscripcionService {
 	public Adscripcion findOne(Long id_adscripcion);
 	
 	public void delete(Long id_adscripcion);
+	
+	
 
 }

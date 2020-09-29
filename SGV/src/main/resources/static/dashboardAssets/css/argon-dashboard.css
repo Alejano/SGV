@@ -2520,15 +2520,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #5e72e4;
-  border-color: #5e72e4;
+  background-color: #cd5c5d; 
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .btn-primary:hover {
-  color: #fff;
-  background-color: #5e72e4;
-  border-color: #5e72e4;
+  color: black;
+  background-color: white;
+ 
 }
 
 .btn-primary:focus,
@@ -4546,8 +4545,7 @@ input[type="button"].btn-block {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  background: #ffffff45;
+  justify-content: space-between; 
 }
 
 .navbar-brand {
@@ -13765,7 +13763,7 @@ button.section-darker:focus {
 }
 
 .bg-gradient-primary {
-  background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
+  background: linear-gradient(87deg, #f5f5dc 0, #2f4e4fcc 100%) !important;
 }
 
 .bg-gradient-secondary {
@@ -16691,7 +16689,7 @@ textarea[resize="horizontal"] {
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
   color: #fff;
-  background-color: #5e72e4;
+  background-color: #cd5c5d;
 }
 
 @media (max-width: 575.98px) {

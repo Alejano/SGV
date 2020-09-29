@@ -6,10 +6,26 @@
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
 }
+.enlinea{
+	margin: unset !important;
+    display: inline-block;
+    padding: unset !important;
+}
 .btn-menu{
 	    width: 150px;
 	    color:green !important;
 }
+.mant-text{
+	padding: unset !important;
+    text-align: center !important;
+}
+
+.rowresguardantes{
+	    margin-top: 15px;
+   		 margin-bottom: 15px;
+    	padding: 15px;
+}
+
  .contenedor{
  	width:95%;
  	max-width:1000px;
@@ -252,6 +268,7 @@ body{
 	    border-right-color: #ebffde !important;
     border-right-width: 5px !important;
 }
+
 
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i');.form-content-wrap{font-family:'Montserrat', sans-serif;font-size:16px;line-height:1.48;}

@@ -1,7 +1,6 @@
 package com.PGJ.SGV.models.entity;
 
 import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,10 +20,10 @@ public class Seguro implements Serializable {
 	private String documento;
 	private String poliza;
 	private String aseguradora;
-	private String cobertura;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Vehiculo vehiculo;
+	
 	private static final long serialVersionUID = 1L;
 
 	public Long getId() {
@@ -51,14 +50,13 @@ public class Seguro implements Serializable {
 		this.aseguradora = aseguradora;
 	}
 
-	public String getCobertura() {
-		return cobertura;
+	public String getDocumento() {
+		return documento;
 	}
 
-	public void setCobertura(String cobretura) {
-		this.cobertura = cobretura;
-	}
-	
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}	
 
 	public Vehiculo getVehiculo() {
 		return vehiculo;
@@ -66,16 +64,6 @@ public class Seguro implements Serializable {
 
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
-	}
-	
-	
-
-	public String getDocumento() {
-		return documento;
-	}
-
-	public void setDocumento(String documento) {
-		this.documento = documento;
 	}
 
 	public static long getSerialversionuid() {

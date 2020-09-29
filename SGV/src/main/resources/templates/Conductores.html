@@ -25,7 +25,7 @@
 					  </a>
 					
 					  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-			  			<form th:action="@{/index}" method="post" id="loggout" style="margin-bottom: 3px; margin-left: 5px;">
+			  			<form th:action="@{/logout}" method="post" id="loggout" style="margin-bottom: 3px; margin-left: 5px;">
 					        <button class="btn btn-outline-success" onclick="document.getElementById('loggout').submit()" type="submit" style="color:green !important">Cerrar sesion</button>
 					    	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 					    </form>	
@@ -100,9 +100,11 @@
 	                                        	<form id="Busqueda" class="col-md-6" th:action="@{/formCondBuscar}">											       											       
 											         <input id="searchTerm" th:value=*{elemento} class="form-control col-md-5" name="elemento" type="text" onkeyup="doSearch()" onkeypress="return pulsar(event)" required="required"/>												           
 											           <button type="submit" class="btn btn-primary btn-xs col-sm-3 btn-stilo" style="margin-top: 1%;margin-left: 1%;margin-right: 1%;">Buscar</button>										
+											    		<a class="btn btn-primary btn-xs col-sm-1 btn-stilo" th:href="@{/BajasCond}" style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-user-times fa-2x" style="margin-top: 10%;"></i></a>
 											    		<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/Conductores}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-sync-alt fa-2x" style="margin-top: 10%;"></i></a>
 											    </form>
 											    
+								
 											        <div id="coincidencias" class="col-md-8"></div>
 											</div>
 											
@@ -116,9 +118,15 @@
 													<th class="celda">Apellido 1</th>
 													<th class="celda">Apellido 2</th>
 													<th class="celda" style="width:300px">Adscripcion</th>
+													<th class="celda">No INE</th>
+													<th class="celda">Vig INE</th>
+													<th class="celda">No Lic</th>
+													<th class="celda">Vig Lic</th>
 													<th class="celda">Estado</th>
 													<th th:if="${usuario} == 'ROLE_ADMIN'" class="celda">Opciones</th>
-													<th style="width:10px" th:if="${tamano} == 'mostrar'"></th>													
+												    <th th:if="${usuario} == 'ROLE_USER'" class="celda">Opcion</th>
+													
+													<th style="width:10px" id="tamano" th:if="${tamano} == 'mostrar'"></th>													
 												</tr>
 											</thead>
 											<tbody>
@@ -126,22 +134,34 @@
 													<td th:text="${conductoressql.no_empleado}" class="celda"></td>
 													<td th:text="${conductoressql.nombre}" class="celda"></td>
 													<td th:text="${conductoressql.apellido1}" class="celda"></td>
-													<td th:text="${conductoressql.apellido2}" class="celda"></td>
-													<td th:text="${conductoressql.adscripcion.nombre_adscripcion}" style="width:300px" class="celda"></td>																																																
-													<td class="celda">													
+													<td th:text="${conductoressql.apellido2}" class="celda"></td>											
+													<td th:text="${conductoressql.adscripcion.nombre_adscripcion}" style="width:300px" class="celda"></td>	
+													<td th:text="${conductoressql.no_ine}" class="celda"></td>
+													<td th:text="${conductoressql.vig_ine}" class="celda"></td>
+													<td th:text="${conductoressql.no_licencia}" class="celda"></td>
+													<td th:text="${conductoressql.vig_licencia}" class="celda"></td>																																																
+													<td class="celda">
+													
 															<div th:if="${usuario} == 'ROLE_ADMIN'">
-																<a th:id="estCon+${conductoressql.no_empleado}"  th:if="${conductoressql.enabled} == 1" class="btn btn-success btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Bloqueado');" th:text="Activo" style="width: 100px;"></a>
-																<a th:id="estCon+${conductoressql.no_empleado}" th:if="${conductoressql.enabled} == 0" class="btn btn-danger btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Activo');" th:text="'Bloqueado'" style="width: 100px;"></a>
+																<a th:id="estCon+${conductoressql.no_empleado}"  th:if="${conductoressql.enabled} == true" class="btn btn-success btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Inactivo');" th:text="Activo" style="width: 70px;"></a>
+																<a th:id="estCon+${conductoressql.no_empleado}" th:if="${conductoressql.enabled} == false" class="btn btn-danger btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Activo');" th:text="'Inactivo'" style="width: 70px;"></a>
 															</div>													
 																													
 															<div th:if="${usuario} == 'ROLE_USER'">
-																<h6  th:if="${conductoressql.enabled} == 1" class="celda">Activo</h6>
-																<h6  th:if="${conductoressql.enabled} == 0" class="celda">Bloqueado</h6>
-															</div>														
+																<h6  th:if="${conductoressql.enabled} == true" class="celda">Activo</h6>
+																<h6  th:if="${conductoressql.enabled} == false" class="celda">Inactivo</h6>
+															</div>	
 													</td>
+													
 													<td th:if="${usuario} == 'ROLE_ADMIN' " class="celda">
-															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/FormCond/} +${conductoressql.no_empleado}" th:text="editar" style="width:100px"></a>
-															<!-- <a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimCond/} +${conductoressql.no_empleado}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar" style="width:100px"></a>-->													
+															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/FormCond/} +${conductoressql.no_empleado}" th:text="editar" style="width:70px"></a>
+															<!-- <a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimCond/} +${conductoressql.no_empleado}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar" style="width:100px"></a>-->
+															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimCond/} +${conductoressql.no_empleado}" onclick="return confirm('Seguro que desea dar de baja al conductor?');" th:text="Baja" style="width:70px"></a>													
+													
+													</td>
+													
+													<td th:if="${usuario} == 'ROLE_USER' " class="celda">
+															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/FormCond/} +${conductoressql.no_empleado}" th:text="datos" style="width:70px"></a>													
 													</td>
 												</tr>																							
 												
@@ -149,7 +169,7 @@
 										</table>
 										<nav th:replace="paginator-nav :: paginator"></nav>
 										
-										<div class="form-group last col-sm-12">
+										<div class="form-group last col-sm-12"  th:if="${usuario} == 'ROLE_ADMIN'">
 										<a class="btn btn-primary btn-xs col-sm-2 btn-stilo" th:href="@{/FormCond}" style="float:right;margin-left: 1%;margin-right: 1%;">Agregar</a>										
 										</div>
 	                                    </div>
@@ -225,17 +245,18 @@
 	        lastTR.classList.remove("hide", "red");
 	
 	        if (searchText == "") {
-	
 	            //lastTR.classList.add("hide");
 	            $('#coincidencias').html("");
 	        } else if (total) {
 	        	$('#coincidencias').html("Se ha encontrado "+total+" coincidencia"+((total>1)?"s":""));
+	        	if(total<5){$("#tamano").hide();}else{$("#tamano").show();}
 	           // td.innerHTML="Se ha encontrado "+total+" coincidencia"+((total>1)?"s":"");
 	
 	        } else {
 	
 	            lastTR.classList.add("red");
 	            $('#coincidencias').html("No se han encontrado coincidencias")
+	            $('#tamano').show();
 	            //td.innerHTML="No se han encontrado coincidencias";
 	        }
 	        
@@ -245,11 +266,14 @@
     	  tecla = (document.all) ? e.keyCode :e.which;
     	  return (tecla!=13);
     	} 
+    
     $('.sel').click(function(event) {
         event.preventDefault();
      });
+	   
+	   
     </script>
-	 <script src="/SGV/assets/js/CambiosEstado.js"></script>
+	<script src="/SGV/assets/js/CambiosEstado.js"></script>
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<!-- Popper js -->

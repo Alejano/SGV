@@ -60,21 +60,49 @@ public class IUsuarioServiceImpl implements IUsuarioService {
 		// TODO Auto-generated method stub
 		return usuarioDao.findByAreaPage(no_empleado, pageable);
 	}
-
+	
 	@Override
 	public Page<Usuario> finUsuElemntPage(String elemento, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return usuarioDao.finUsuElemntPage(elemento, pageable);
 	}
+ 
+	@Override
+	public Page<Usuario> finUsuElemntBajasPage(String elemento, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return usuarioDao.finUsuElemntBajasPage(elemento, pageable);
+	}
 
+	@Override
+	public Page<Usuario> findByReg(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return usuarioDao.findByReg(pageable);
+	}
+	
+	@Override
+	public Page<Usuario> findByNl(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return usuarioDao.findByNl(pageable);
+	}
+	
+	
+	@Override
+	public Page<Usuario> findByNn(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return usuarioDao.findByNn(pageable);
+	}
+	
 	@Override
 	public Long totalUsuarios() {
 		// TODO Auto-generated method stub
 		return usuarioDao.totalUsuarios();
 	}
-
 	
-
-	
+	public Long totalUsuariosBajas() {
+		// TODO Auto-generated method stub
+		return usuarioDao.totalUsuariosBajas();
+	}
 
 }
+
+
