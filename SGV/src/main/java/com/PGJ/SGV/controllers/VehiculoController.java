@@ -108,7 +108,7 @@ public class VehiculoController {
 				model.addAttribute("usuario",user);				
 			}
 		}
-		Pageable pageRequest = PageRequest.of(page, 500);
+		Pageable pageRequest = PageRequest.of(page, 1000);
 		
 		if(user.equals("ROLE_USER")){
 			Usuario usus = new Usuario();
@@ -171,7 +171,7 @@ public class VehiculoController {
 				model.addAttribute("usuario",user);				
 			}
 		}
-		Pageable pageRequest = PageRequest.of(page, 500);
+		Pageable pageRequest = PageRequest.of(page, 1000);
 		
 		if(user.equals("ROLE_USER")){
 			Usuario usus = new Usuario();
