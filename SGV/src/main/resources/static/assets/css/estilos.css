@@ -1,4 +1,15 @@
-
+.optionModal{	
+    margin: 5px;
+}
+.btnModal{
+	    text-align: center;
+}
+.btnModalb{
+	    text-align: center;
+}
+.btnModalb:hover{
+	background: #bf3535 !important;
+}
 *{
 	padding:0;
 	margin: 0;
@@ -60,8 +71,7 @@
             margin-right: 7%;
         }
 .titulocontainer{
-	background: #F5F5DC;
-	    height: 120px;
+	background: #F5F5DC;	  
 }
 .titulotabla{
 	text-align: center; 

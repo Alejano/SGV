@@ -7,14 +7,14 @@
 	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
 	<link href="favicon.html" rel="icon">
 	<link rel="stylesheet" th:href="@{/assets/css/estilos.css}">
-	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/assets/css/tablas.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/assets/css/nice-select.css}">
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
-	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+	<script src="/SGV/assets/fontawesome/js/all.js"></script>
+	
 </head>
 <body th:onload="'Scrol(\''+${Corddocu}+'\',\'' +${Cordtabla}+'\');'">
 	<header>
@@ -46,7 +46,7 @@
 		
 		<div class="form-group last col-sm-12 nav-listado">
 		
-			<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/home}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-home fa-2x" style="margin-top: 10%;"></i></a>
+			<a class="btn btn-primary btn-xs btn-stilo" th:href='@{/home}' style=" height: 45px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-home fa-2x" style="margin-top: 10%;"></i></a>
 			<div id="button" class="form-group last col-sm-4" style="margin-bottom: 5px;margin-top: 5px;"> 
 				<div class="container" style="width: 314px;">
   							 				 					 			
@@ -98,21 +98,24 @@
 	                            <div class="item-wrap">
 	                                <div class="row" style="text-align: center;">
 	                                
-	                                		<div class=" col-md-12" id="Contenedorbuscar" >
-	                                			<div class="col-md-2" > <p style="text-align: right;">Buscar</p></div> 
-	                                			
-	                                        	<form id="Busqueda" class="col-md-6" th:action="@{/formVehBuscar}">											       											       
-											         <input id="searchTerm" th:value=*{elemento} class="form-control col-md-5" name="elemento" type="text" onkeyup="doSearch()" onkeypress="return pulsar(event)" required="required"/>												           
-											           <button type="submit" class="btn btn-primary btn-xs col-sm-3 btn-stilo" style="margin-left: 1%;margin-right: 1%;height: 34px; width: 70px">Buscar</button>										
-											    		<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/Vehiculos}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-sync-alt fa-2x" style="margin-top: 10%;"></i></a>
+	                                		<div class=" col-md-12" id="Contenedorbuscar" >	                                			 	                                		
+	                                        	<form id="Busqueda" class="col-md-12" th:action="@{/formVehBuscar}">											       											       
+											         <div class="col-md-2 enlinea" > <p style="text-align: right;">Buscar</p></div>
+											         <div class="col-md-6 enlinea">
+											         	<input id="searchTerm" th:value=*{elemento} class="form-control " name="elemento" type="text" onkeyup="doSearch()" onkeypress="return pulsar(event)" required="required"/>												           											          											           									
+											    	 </div>
+											    	 <div class="col-md-3 enlinea">
+											    	 	<button type="submit" class="btn btn-primary btn-xs btn-stilo" style="margin-left: 1%;margin-right: 1%;">Buscar</button>
+											    		<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/Vehiculos}"><i class="fas fa-sync-alt fa-1x" style="margin-top: 10%;"></i></a>
+											    	 </div>	
 											    		<!--  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
 											    </form>
 											    
-											    <form class="col-md-4" th:action="@{/VehiculoClase}" id="EnviarClase">	
+											    <form class="col-md-12 " th:action="@{/VehiculoClase}" id="EnviarClase">	
 												
 													<div class="col-sm-12">																												
 															<!--Marcas-->
-																<div class="form-group col-sm-6" id="marca1">		
+																<div class="form-group col-sm-3" id="marca1" style="float:right;">		
 																																										
 																	<select id="clase" name="clase" class="form-control" style="left: unset !important; height: 34px;" onchange="this.form.submit()">																																    																 
 																	    <option th:value="${Clase}" th:text="${Clase}"></option>
@@ -136,10 +139,10 @@
 												
 										
 												<div class="col-md-6"></div>
-												<div class="row justify-content-end  col-md-6">      														        										
-												    <div class="col-md-1">
+												<div class="row justify-content-end  col-md-6" style="float:right">      														        										
+												    <div class="col-md-2">
 													    <form th:action="@{/VehiculosB}">
-													    <button class="btn btn-success btn-xs vehiculosselec " id="blindado" onclick="blindado()"><i class="fas fa-shield-alt fa-3x"></i></button>
+													    <button class="btn btn-success btn-xs vehiculosselec " id="blindado" onclick="blindado()"><i class="fas fa-shield-alt fa-2x"></i></button>
 													    </form>
 												    </div>												    
 											    </div>
@@ -157,7 +160,7 @@
 													<!-- <th class="celda">Kilometraje</th>-->
 													<th class="celda">Adscripcion</th>
 													<th class="celda" style="width: 120px;">Opciones</th>
-													<th style="width: 10px;" th:if="${tamano} == 'mostrar'"></th>
+													<th style="width: 1.5%;" th:if="${tamano} == 'mostrar'"></th>
 													
 													<!-- <th>Eliminar</th>
 													<th>Asignacion</th>
@@ -181,22 +184,8 @@
 													</td>																										
 												 	<td th:text="${vehiculossql.Adscripcion.nombre_adscripcion}"></td>  
 													<td style="width: 120px;">
-														<div class="nice-select" tabindex="0">
-															<span class="current"><i class="fas fa-cogs fa-w-20"></i></span>
-															<ul class="list" th:if="${vehiculossql.vehiculo_estado.Nombre_estado} != 'Baja'" >
-																<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="1" class="option "><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formVehi/} +${vehiculossql.id_vehiculo}" th:text="editar" style="width: 100px;"></a></li>
-																<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="2" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formBaja/} +${vehiculossql.id_vehiculo}" th:onclick="return confirm('Seguro que desea dar de baja el vehiculo ?');" th:text="Baja" style="width: 100px;"></a></li>
-																<li data-value="3" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/ListarCombustible/} +${vehiculossql.id_vehiculo}" th:text="Combustible" style="width: 100px;"></a></li>																
-																<li th:if="${vehiculossql.vehiculo_estado.Nombre_estado} != 'Baja'" data-value="4" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{Mantenimientos/} +${vehiculossql.id_vehiculo}" th:text="Mantenimiento" style="width: 108px;"></a></li>
-																<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="5" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/VehiViaj/} +${vehiculossql.id_vehiculo}" th:text="'Agregar Viaje'" style="width: 108px;"></a></li>
-																<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="6" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/ListarSeguros/} +${vehiculossql.id_vehiculo}" th:text="'Seguro'" style="width: 108px;"></a></li>
-																<li data-value="7" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/info/} +${vehiculossql.id_vehiculo}" th:text="'Info'" style="width: 108px;"></a></li>
-																<li data-value="8" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/infoResguardante/} +${vehiculossql.id_vehiculo}" th:text="'Resguardante'" style="width: 108px;"></a></li>																															 
-															</ul>
-															<ul class="list" th:if="${vehiculossql.vehiculo_estado.Nombre_estado} == 'Baja'" >																
-																<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="1" class="option "><a class="btn btn-primary btn-xs btn-stilo" th:text="Info" style="width: 100px;"></a></li>
-															</ul>
-														</div>																									  																																																																																																			
+														<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" th:onclick="Cargaid([[${vehiculossql.placa}]],[[${vehiculossql.id_vehiculo}]],[[${vehiculossql.vehiculo_estado.Nombre_estado}]])"><i class="fas fa-cogs fa-w-20"></i></button>
+																																						  																																																																																																			
 													</td>												
 												</tr>
 											</tbody>
@@ -217,27 +206,94 @@
 		</div>
 	</section>
 	
-	
-	  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog" style="margin-top: 20%">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Informacion de baja</h4>
-        </div>
-        <div class="modal-body">
-          <p>El vehiculo fue dado de baja</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+	<!--  Botones
+	<div class="nice-select" tabindex="0">
+		<span class="current"><i class="fas fa-cogs fa-w-20"></i></span>
+		<ul class="list" th:if="${vehiculossql.vehiculo_estado.Nombre_estado} != 'Baja'" >
+			
+			 <li th:if="${usuario} == 'ROLE_ADMIN'" data-value="1" class="option "><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formVehi/} +${vehiculossql.id_vehiculo}" th:text="editar" style="width: 100px;"></a></li>
+			<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="2" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formBaja/} +${vehiculossql.id_vehiculo}" th:onclick="return confirm('Seguro que desea dar de baja el vehiculo ?');" th:text="Baja" style="width: 100px;"></a></li>
+			<li data-value="3" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/ListarCombustible/} +${vehiculossql.id_vehiculo}" th:text="Combustible" style="width: 100px;"></a></li>																
+			<li th:if="${vehiculossql.vehiculo_estado.Nombre_estado} != 'Baja'" data-value="4" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{Mantenimientos/} +${vehiculossql.id_vehiculo}" th:text="Mantenimiento" style="width: 108px;"></a></li>
+			<li th:if="${vehiculossql.vehiculo_estado.Nombre_estado} != 'Baja'" data-value="5" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/VehiViaj/} +${vehiculossql.id_vehiculo}" th:text="'Agregar Viaje'" style="width: 108px;"></a></li>
+			<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="6" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/ListarSeguros/} +${vehiculossql.id_vehiculo}" th:text="'Seguro'" style="width: 108px;"></a></li>
+			<li data-value="5" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/info/} +${vehiculossql.id_vehiculo}" th:text="'Info'" style="width: 108px;"></a></li>
+			<li data-value="6" class="option"><a class="btn btn-primary btn-xs btn-stilo" th:href="@{/infoResguardante/} +${vehiculossql.id_vehiculo}" th:text="'Resguardante'" style="width: 108px;"></a></li>																															 
+		
+		</ul>
+		
+		<ul class="list" th:if="${vehiculossql.vehiculo_estado.Nombre_estado} == 'Baja'" >																
+			<li th:if="${usuario} == 'ROLE_ADMIN'" data-value="1" class="option "><a class="btn btn-primary btn-xs btn-stilo" th:text="Info" style="width: 100px;"></a></li>
+		</ul>
+	</div>	
+	-->	
+  
+  
+  <div class="modal fade right" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-full-height modal-right modal-notify modal-info" role="document">
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead " id="titulo">
+        </p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="white-text">×</span>
+        </button>
       </div>
-      
+
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">          
+          <p>
+            <strong>Opciones</strong>
+          </p>                  
+        </div>
+
+        <hr>
+
+        <!-- opction -->
+        
+        <div class="modal-body btnModal">
+          	<div class="col-sm-12">	
+				<div th:if="${usuario} == 'ROLE_ADMIN'" data-value="1" class="optionModal ">
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/formVehi/} " th:text="'Editar la informacion del vehiculo'" id="edi" ></a>
+				</div>
+				<div th:if="${usuario} == 'ROLE_ADMIN'" data-value="2" class="optionModal">
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/formBaja/} " id="baj" th:onclick="return confirm('Seguro que desea dar de baja el vehiculo ?');" th:text="'Dar de baja el vehiculo'" ></a>
+				</div>
+				<div data-value="3" class="optionModal">
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/ListarCombustible/} " th:text="'Ver y asignar combustible'" id="comb" ></a>
+				</div>																
+				<div data-value="4" class="optionModal">
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{Mantenimientos/} " id="man" th:text="'Ver y asignar mantenimiento'" ></a>
+				</div>
+				<div data-value="5" class="optionModal">
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/VehiViaj/} " id="via" th:text="'Agregar viajes mensuales'" ></a>
+				</div>
+				<div th:if="${usuario} == 'ROLE_ADMIN'" data-value="6" class="optionModal">
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/ListarSeguros/}" th:text="'Ver y asignar seguros'" id="eg" ></a>
+				</div>
+				<div data-value="5" class="optionModal">
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/info/}" th:text="'Ver la Informacion del vehiculo'" id="inf" ></a>
+				</div>
+				<div data-value="6" class="optionModal">
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/infoResguardante/}" id="resg" th:text="'Ver y asignar resguardantes del vehiculo'" ></a>
+				</div>																															 		
+			</div>
+        </div>
+        
+
+        <p class="text-center">
+          <strong>...</strong>
+        </p>        
+
+      </div>
+     
     </div>
   </div>
+</div>
 	
 	
 	<script type="text/javascript"  th:inline="javascript">
@@ -374,7 +430,20 @@
 	
 	 $('.Sel').click(function(event) {
 	        event.preventDefault();
-	     });	 	 
+	     });
+	 function Cargaid(placa,id,Nombre_estado){
+		 var Pla = placa;
+		 var Dato = id;
+		 var estado = Nombre_estado;
+		 $("#titulo").text("Seleccionaste el vehiculo con placa: "+placa);
+		 $("#edi").prop("href","/formVehi/"+id);
+		 $("#baj").prop("href","/formBaja/"+id);
+		 $("#man").prop("href","Mantenimientos/"+id);
+		 $("#via").prop("href","/VehiViaj/"+id);
+		 $("#eg").prop("href","/ListarSeguros/"+id);
+		 $("#resg").prop("href","/infoResguardante/"+id);
+	 }
+	 
 	
     </script>   
     <!-- api nice-select -->
@@ -385,7 +454,7 @@
 	<!-- Popper js -->
 	<script src="/SGV/assets/js/popper.min.js"></script>
 	<!-- Bootstrap Js -->
-	<script src="/SGV/assets/js/bootstrap.min.js"></script>
+	<script src="/SGV/assets/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Form Validator -->
 	<script src="/SGV/assets/js/validator.min.js"></script>
 	<!-- Contact Form Js -->

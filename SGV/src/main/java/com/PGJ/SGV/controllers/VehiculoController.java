@@ -532,9 +532,7 @@ public class VehiculoController {
 	
 	@RequestMapping(value="/formVehi",method = RequestMethod.POST)
 	public String guardar(Authentication authentication,Vehiculo vehiculox,@RequestParam("file") MultipartFile tarjeta_circulacion){		
-		
-	
-				
+						
 		if (!tarjeta_circulacion.isEmpty()) {
 
 			if (vehiculox.getVehiculo_detalle().getTarjeta_circulacion() != null 
@@ -552,8 +550,7 @@ public class VehiculoController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
-		}
-		
+		}	
 		
 		if(editar == false) {
 				for(Vehiculo v:vehiculo) {
@@ -561,29 +558,24 @@ public class VehiculoController {
 						return "redirect:/idDuplicadoVehi/"+vehiculox.getPlaca();
 					};
 				}
-			}else{
-					if(!coche.equals(vehiculox.getPlaca())) {
+				
+				Presguardante.setActivo(true);
+				Sresguardante.setActivo(true);
+				Presguardante.setVehiculo(vehiculox);		
+				Sresguardante.setVehiculo(vehiculox);
+				
+				vehiculoService.save(vehiculox);
+				
+				reguardanteservice.save(Presguardante);
+				reguardanteservice.save(Sresguardante);
+				return "redirect:Vehiculos";
+		}else{
+				if(!coche.equals(vehiculox.getPlaca())) {
 							return "redirect:/idDuplicadoVehiCrea/"+vehiculox.getPlaca()+"/"+coche;
 					};
-			};		
-		
-				adscripcionlist = adscripService.findAll();
-					for(Adscripcion ads:adscripcionlist) {
-						if(vehiculox.getAdscripcion().getId_adscripcion()==ads.getId_adscripcion()) {
-							vehiculox.setAdscripcion(ads);
-						};
-					}						
-			
-
-		Presguardante.setActivo(true);
-		Sresguardante.setActivo(true);
-		Presguardante.setVehiculo(vehiculox);		
-		Sresguardante.setVehiculo(vehiculox);
-		
-		vehiculoService.save(vehiculox);
-		
-		reguardanteservice.save(Presguardante);
-		reguardanteservice.save(Sresguardante);
+					
+					vehiculoService.save(vehiculox);		
+		};		
 		
 		editar = false;						
 		return "redirect:Vehiculos";
@@ -834,8 +826,7 @@ public class VehiculoController {
 				model.put("usuario",user);				
 			}
 		}
-		
-		editar = true;
+				
 		if(id_vehiculo != null) {
 			vehiculo = vehiculoService.findOne(id_vehiculo);				
 			marca = vehiculoService.findAllMarcaUnica();		
