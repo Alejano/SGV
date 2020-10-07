@@ -21,8 +21,7 @@ public class ISeguroServiceImpl implements ISeguroService {
 	@Transactional(readOnly = true)
 	public List<Seguro> findAll() {
 		// TODO Auto-generated method stub
-		//return (List<Seguro>)seguroDao.findAll();
-		return null;
+		return (List<Seguro>)seguroDao.findAll();
 	}
 
 	@Override
@@ -34,60 +33,96 @@ public class ISeguroServiceImpl implements ISeguroService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Seguro findOne(Long id) {
+	public Seguro findOne(Long id_seguro) {
 		// TODO Auto-generated method stub
-		//return seguroDao.findById(id).orElse(null);
-		return null;
+		return seguroDao.findById(id_seguro).orElse(null);
+		//return null;
 	}
 
 	@Override
 	@Transactional
-	public void delete(Long id) {
+	public void delete(Long id_seguro) {
 		// TODO Auto-generated method stub
-		seguroDao.deleteById(id);
+		seguroDao.deleteById(id_seguro);
 	}
 
+	
 	@Override
-	public List<Seguro> FindSeguroArea(Long id_adscripcion) {
+	public Page<Seguro> FindsegVehi(Long id_vehiculo,Pageable pageable) {
 		// TODO Auto-generated method stub
-		//return (List<Seguro>) seguroDao.FindSeguroArea(id_adscripcion);
-		return null;
+		return seguroDao.FindsegVehi(id_vehiculo,pageable);
 	}
-
+	
+	@Override
+	public Page<Seguro> FindSeguroAreaPage(Long id_adscripcion, Pageable pageable) {
+		 //TODO Auto-generated method stub
+		return seguroDao.FindSeguroAreaPage(id_adscripcion, pageable);
+	}
+	
+	@Override
+	public Page<Seguro> FindsegVehiArea(Long id_vehiculo,Long id_adscripcion,Pageable pageable) {
+		// TODO Auto-generated method stub
+		return seguroDao.FindsegVehiArea(id_vehiculo,id_adscripcion,pageable);
+	}
+	
+	@Override
+	public Page<Seguro> FindSegElemVehiPage(Long id_vehiculo,String elemento, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return seguroDao.FindSegElemVehiPage(id_vehiculo,elemento, pageable);
+	}
+	
+	@Override
+	public Page<Seguro> FindSegElemVehiAreaPage(Long id_vehiculo,Long id_adscripcion,String elemento, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return seguroDao.FindSegElemVehiAreaPage(id_vehiculo,id_adscripcion,elemento, pageable);
+	}
+	
+	@Override
+	public Page<Seguro> FindSegElemenAreaPage(Long id_adscripcion,String elemento, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return seguroDao.FindSegElemenAreaPage(id_adscripcion,elemento, pageable);
+	}
+	
+	@Override
+	public Page<Seguro> FindSegElemenPage(String elemento, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return seguroDao.FindSegElemenPage(elemento, pageable);
+	}
+		
 	@Override
 	public Page<Seguro> findAll(Pageable pageable) {
 		// TODO Auto-generated method stub
-		//return seguroDao.findAll(pageable);
-		return null;
+		return seguroDao.findAll(pageable);
 	}
-
-	@Override
-	public Page<Seguro> FindSeguroAreaPage(Long id_adscripcion, Pageable pageable) {
-		// TODO Auto-generated method stub
-		//return seguroDao.FindSeguroAreaPage(id_adscripcion, pageable);
-		return null;
-	}
-
-	@Override
-	public Page<Seguro> FindSegElemPage(String elemento, Pageable pageable) {
-		// TODO Auto-generated method stub
-		//return seguroDao.FindSegElemPage(elemento, pageable);
-		return null;
-	}
-
-	@Override
-	public Page<Seguro> FindSegElemAreaPage(Long id_adscripcion, String elemento, Pageable pageable) {
-		// TODO Auto-generated method stub
-		//return seguroDao.FindSegElemAreaPage(id_adscripcion, elemento, pageable);
-		return null;
-	}
-
+	
 	@Override
 	public Long totalSeguros() {
 		// TODO Auto-generated method stub
-		//return seguroDao.totalSeguro();
-		return null;
+		return seguroDao.totalSeguro();
 	}
 	
+	@Override
+	public Long totalSeguroAreaPage(Long id_adscripcion) {
+		// TODO Auto-generated method stub
+		return seguroDao.totalSeguroAreaPage(id_adscripcion);
+	}
+	
+	@Override
+	public Long totalSegElemVehiPage(Long id_vehiculo,String elemento) {
+		// TODO Auto-generated method stub
+		return seguroDao.totalSegElemVehiPage(id_vehiculo,elemento);
+	}
+	
+	@Override
+	public Long totalSegElemenAreaPage(Long id_adscripcion,String elemento){
+		// TODO Auto-generated method stub
+		return seguroDao.totalSegElemenAreaPage(id_adscripcion,elemento);
+	}
+	
+	@Override
+	public Long totalSegElemenPage(String elemento) {
+		// TODO Auto-generated method stub
+		return seguroDao.totalSegElemenPage(elemento);
+	}
 	
 }

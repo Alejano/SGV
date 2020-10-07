@@ -100,14 +100,20 @@ public class VehiculoController {
 		clase = vehiculoService.findallByClase();	
 		
 		if(hasRole("ROLE_ADMIN")) {
-			user ="ROLE_ADMIN";						
-			model.addAttribute("usuario",user);
-		}else {
-			if(hasRole("ROLE_USER")) {
-				user = "ROLE_USER";
-				model.addAttribute("usuario",user);				
+			user ="ROLE_ADMIN";	model.addAttribute("usuario",user);
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER"; model.addAttribute("usuario",user);
+				}else {
+					if(hasRole("ROLE_SEGURO")) {
+						user = "ROLE_SEGURO"; model.addAttribute("usuario",user);
+					}else {
+						if(hasRole("ROLE_TALLER")) {
+							user = "ROLE_TALLER"; model.addAttribute("usuario",user);
+						}
+					}
+				}	
 			}
-		}
 		Pageable pageRequest = PageRequest.of(page, 1000);
 		
 		if(user.equals("ROLE_USER")){

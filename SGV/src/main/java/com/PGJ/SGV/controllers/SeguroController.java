@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import com.PGJ.SGV.models.entity.Aseguradora;
 import com.PGJ.SGV.models.entity.Seguro;
 import com.PGJ.SGV.models.entity.Usuario;
 import com.PGJ.SGV.models.entity.Vehiculo;
+import com.PGJ.SGV.service.IAseguradoraService;
 import com.PGJ.SGV.service.ISeguroService;
 import com.PGJ.SGV.service.IUploadFileService;
 import com.PGJ.SGV.service.IUsuarioService;
@@ -32,32 +34,48 @@ import com.PGJ.SGV.service.IVehiculoService;
 import com.PGJ.SGV.util.paginador.PageRender;
 
 
-
-
 @Controller
 public class SeguroController {
+	
 	List<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
 	List<Seguro> seguros = new ArrayList<Seguro>();
+	List<Aseguradora> aseguradora = new ArrayList<Aseguradora>();
+
 	static String user="";
 	@Autowired
 	private ISeguroService seguroService;
+	@Autowired
+	private IAseguradoraService aseguradoraService;
 	@Autowired
 	private IVehiculoService vehiculoService;
 	@Autowired
 	private IUploadFileService uploadFileService;
 	@Autowired
 	private IUsuarioService usuarioService;
+	@Autowired
+	private IAseguradoraService asegService;
+	
+	boolean editar = false;
+	boolean aux=false;
+	Long id_vehi;
 	
 	@RequestMapping(value="/Seguros", method = RequestMethod.GET)
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page,Model model,Authentication authentication) {	
-	
-		//List<Seguro> segurosArea = new ArrayList<Seguro>();
-				
 			
+		aux=false;
 		var ads="";			
-		if(hasRole("ROLE_ADMIN")) {user ="ROLE_ADMIN";	model.addAttribute("usuario",user);
-		}else {if(hasRole("ROLE_USER")) user = "ROLE_USER"; model.addAttribute("usuario",user);}
-		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";	model.addAttribute("usuario",user);
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER"; model.addAttribute("usuario",user);
+				}else {
+					if(hasRole("ROLE_SEGURO")) {
+						user = "ROLE_SEGURO"; model.addAttribute("usuario",user);
+					}
+				}	
+			}
+
 		ads = authentication.getName();
 		Pageable pageRequest = PageRequest.of(page, 100);
 		
@@ -65,184 +83,367 @@ public class SeguroController {
 			Usuario usus = new Usuario();
 			usus = usuarioService.findbyAdscripcion(ads);
 			
-			//segurosArea = seguroService.FindSeguroArea(usus.getAdscripcion().getId_adscripcion());
 			Page<Seguro> SeguroAreaPage = seguroService.FindSeguroAreaPage(usus.getAdscripcion().getId_adscripcion(), pageRequest);
-			PageRender<Seguro> SeguroRenderArea = new PageRender<>("/Seguros",SeguroAreaPage);
-			if(seguroService.totalSeguros()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+			PageRender<Seguro> SeguroRenderArea = new PageRender<>("/SegurosVehi",SeguroAreaPage);
+			if(seguroService.totalSeguroAreaPage(usus.getAdscripcion().getId_adscripcion())>=6) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+
+			model.addAttribute("titulo","Listado de Seguros");
+			model.addAttribute("auxiliar", aux);
 			model.addAttribute("seguros",SeguroAreaPage);
 			model.addAttribute("page",SeguroRenderArea);
-			return "Seguros";
+			return "SegurosVehi";
 		}
-		
-		vehiculos = vehiculoService.findAll();
+	
 		Page<Seguro> SeguroPage = seguroService.findAll(pageRequest);
-		PageRender<Seguro> SeguroRender = new PageRender<>("/Seguros",SeguroPage);
-		if(seguroService.totalSeguros()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
-		//seguros =seguroService.findAll();		
+		PageRender<Seguro> SeguroRender = new PageRender<>("/SegurosVehi",SeguroPage);
+		if(seguroService.totalSeguros()>=6) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+		System.err.println(seguroService.totalSeguros());
 		
 		model.addAttribute("titulo","Listado de Seguros");
+		model.addAttribute("auxiliar", aux);
 		model.addAttribute("seguros",SeguroPage);
 		model.addAttribute("page",SeguroRender);
+		return "SegurosVehi";
 		
-		return "Seguros";
 	}
 		
+	@RequestMapping(value="/ListarSeguros/{id_vehiculo}", method = RequestMethod.GET)
+	public String listarpv(@PathVariable(value="id_vehiculo") Long id_vehiculo,@RequestParam(name="page", defaultValue = "0") int page,Model model,Authentication authentication) {	
 	
-	@RequestMapping(value="/formSeg")
-	public String crear(Map<String,Object> model,Authentication authentication) {
+		aux=true;
+		var ads="";		
+		id_vehi=id_vehiculo;
+		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";	model.addAttribute("usuario",user);
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER"; model.addAttribute("usuario",user);
+				}else {
+					if(hasRole("ROLE_SEGURO")) {
+						user = "ROLE_SEGURO"; model.addAttribute("usuario",user);
+					}
+				}	
+			}
+		
+		
+		ads = authentication.getName();
+		Pageable pageRequest = PageRequest.of(page, 100);
+		
+		//if(user.equals("ROLE_USER")){
+			//Usuario usus = new Usuario();
+			//usus = usuarioService.findbyAdscripcion(ads);
+			Vehiculo vehiculo = new Vehiculo();
+			vehiculo = vehiculoService.findOne(id_vehiculo);
+			
+			//segurosArea = seguroService.FindSeguroArea(usus.getAdscripcion().getId_adscripcion());
+			//Page<Seguro> SeguroAreaPage = seguroService.FindsegVehiArea(id_vehiculo, usus.getAdscripcion().getId_adscripcion(), pageRequest);
+			Page<Seguro> SeguroPage = seguroService.FindsegVehi(vehiculo.getId_vehiculo(),pageRequest);
+			PageRender<Seguro> SeguroRenderArea = new PageRender<>("/SegurosVehi",SeguroPage);
+			if(seguroService.totalSeguros()>=6) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+			model.addAttribute("titulo","Listado de Seguros");
+			model.addAttribute("id_vehiculo",vehiculo.getId_vehiculo());
+			model.addAttribute("auxiliar", aux);
+			model.addAttribute("seguros",SeguroPage);
+			model.addAttribute("page",SeguroRenderArea);
+			return "SegurosVehi";
+		//}
+	
+		/*Vehiculo vehiculo = new Vehiculo();
+		vehiculo = vehiculoService.findOne(id_vehiculo);
+		Page<Seguro> SeguroPage = seguroService.FindsegVehi(vehiculo.getId_vehiculo(),pageRequest);
+		PageRender<Seguro> SeguroRender = new PageRender<>("/SegurosVehi",SeguroPage);
+		if(seguroService.totalSeguros()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+		model.addAttribute("titulo","Listado de Polizas");
+		model.addAttribute("id_vehiculo",vehiculo.getId_vehiculo());
+		model.addAttribute("auxiliar", aux);
+		model.addAttribute("seguros",SeguroPage);
+		model.addAttribute("page",SeguroRender);
+		return "SegurosVehi";
+		*/
+	}
+
+	
+	@RequestMapping(value="/formSeg/Ag/{id_vehiculo}")
+	public String crear(@PathVariable(value="id_vehiculo") Long id_vehiculo,Map<String,Object> model,Authentication authentication) {
+
+		editar=false;
 		var ads="";						
 		ads = authentication.getName();
 		var user="";
+		Seguro seguro = new Seguro();
+		Vehiculo vehi= new Vehiculo();
 		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";	model.put("usuario",user);
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER"; model.put("usuario",user);
+				}else {
+					if(hasRole("ROLE_SEGURO")) {
+						user = "ROLE_SEGURO"; model.put("usuario",user);
+					}
+				}	
+			}
 		
-		if(hasRole("ROLE_ADMIN")) {user ="ROLE_ADMIN";model.put("usuario",user);}else {if(hasRole("ROLE_USER")) {user = "ROLE_USER";model.put("usuario",user);};};
-		if(user.equals("ROLE_USER")) {
-			List<Vehiculo> Ve = new ArrayList<Vehiculo>();
+		if(user.equals("ROLE_USER")){
+			
+			/*List<Vehiculo> Vehi = new ArrayList<Vehiculo>();
 			Usuario usus = new Usuario();
 			usus = usuarioService.findbyAdscripcion(ads);
-			Ve = vehiculoService.findVehiculosArea(usus.getAdscripcion().getId_adscripcion());
-			Seguro seguro = new Seguro();			
-			model.put("vehiculos", Ve);
+			Vehi = vehiculoService.findVehiculosArea(usus.getAdscripcion().getId_adscripcion());
+			
+			model.put("vehiculos", Vehi);
 			model.put("seguros", seguro);
 			model.put("titulo", "Formulario de Seguros");
-			return "formSeg";
+			return "formSeg";*/
 		};
 		
-		Seguro seguro = new Seguro();
-		vehiculos = vehiculoService.findAll();
-		model.put("vehiculos", vehiculos);
+		vehi = vehiculoService.findOne(id_vehiculo);
+		seguro.setVehiculo(vehi);
+		aseguradora = aseguradoraService.findAll();
+		model.put("vehiculos", vehi);
+		model.put("id_vehiculo", vehi.getId_vehiculo());
+		model.put("editar", editar);
 		model.put("seguros", seguro);
-		model.put("titulo", "Formulario de Seguros");
-							
+		model.put("aseguradoras", aseguradora);
+		model.put("titulo", "Formulario de Seguros");	
 		return "formSeg";
+		
 	}
 	
-	@RequestMapping(value="/formSeg/{id}")
-	public String editar(@PathVariable(value="id") Long id,Map<String,Object>model) {
+	
+	@RequestMapping(value="/formSeg/{id_seguro}")
+	public String editar(@PathVariable(value="id_seguro") Long id_seguro,Map<String,Object>model) {
 		
+		editar=true;
 		Seguro seguro = null;
 		
-		if(!id.equals(null)) {
-			seguro = seguroService.findOne(id);
+		if(!id_seguro.equals(null)) {
+			seguro = seguroService.findOne(id_seguro);
+			System.err.println(id_seguro);
 		}else {
 			return "redirect:/seguros";
 		}
-		
-		model.put("vehiculos", vehiculos);
+		model.put("id_vehiculo", seguro.getVehiculo().getId_vehiculo());
+		model.put("editar", editar);
 		model.put("seguros",seguro);
 		model.put("titulo", "Editar Seguro");
 		return "formSeg";
 	}
 	
-	@RequestMapping(value = "/verSeguro/{id}")
-	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model) {
+	
+	@RequestMapping(value ="/verSeguro/{id_seguro}")
+	public String ver(@PathVariable(value = "id_seguro") Long id_seguro, Map<String, Object> model) {
 
 		Seguro seguro = null;
 		String documento = "existe";
-		if (!id.equals(null)) {
-			seguro = seguroService.findOne(id);
-			if(seguro.getDocumento().isBlank()) {documento = "";};
+		if (!id_seguro.equals(null)) {
+			seguro = seguroService.findOne(id_seguro);
+			if(seguro.getUrl_poliza().isBlank())
+			{documento = "";};
 		} else {
-			return "redirect:/Seguros";
+			return "redirect:Seguros";
 		}
-
+        
+		model.put("id_vehiculo",seguro.getVehiculo().getId_vehiculo());
 		model.put("vehiculo", vehiculos);
 		model.put("documento", documento);
 		model.put("seguro", seguro);
 		model.put("titulo", "Ver Seguro");
 		return "verSeguro";
+		
 	}
 	
 	
 	@RequestMapping(value = "/formSeg", method = RequestMethod.POST)
 	public String guardar(Seguro seguro, @RequestParam("file") MultipartFile documento) {
-
+		
+		Vehiculo vehiculos =new Vehiculo();
+		
 		if (!documento.isEmpty()) {
-
-			if (seguro.getId() != null && seguro.getId() > 0 && seguro.getDocumento() != null
-					&& seguro.getDocumento().length() > 0) {
-				//System.out.println("entro al if");
-				uploadFileService.delete(seguro.getDocumento());
+			if( seguro.getUrl_poliza().length() > 0 ) {	
+				uploadFileService.delete(seguro.getUrl_poliza());						
 			}
-			String nombreUnico = null;
-			try {
-				nombreUnico = uploadFileService.copy(documento);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			seguro.setDocumento(nombreUnico);
-			seguroService.save(seguro);
+			String nombreUnico = null;						
+				try {
+					nombreUnico = uploadFileService.copy(documento);
+					seguro.setUrl_poliza(nombreUnico);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}					
 		}
-		System.out.println(documento);
-
-		return "redirect:Seguros";
-	}
+				
+		if(editar == true) {
+			System.err.println("entroeditar: "+seguro.getId_seguro());
+			vehiculos = vehiculoService.findOne(seguro.getVehiculo().getId_vehiculo());	
+			seguro.setVehiculo(vehiculos);
+			seguroService.save(seguro);
+			editar = false;	
+			
+		}else {
+		
+	    System.err.println("entrocrear: "+seguro.getId_seguro());
+		vehiculos = vehiculoService.findOne(seguro.getVehiculo().getId_vehiculo());						
+		seguro.setVehiculo(vehiculos);
+		seguroService.save(seguro);
+		}
+		
+		return "redirect:ListarSeguros/"+seguro.getVehiculo().getId_vehiculo();
+	
+    } 
 
 	
-	@RequestMapping(value="/elimSeg/{id}/{documento}")
-	public String eliminar (@PathVariable(value="id")Long id,@PathVariable(value="documento")String documento) {
+	@RequestMapping(value="/elimSeg/{id_seguro}/{documento}")
+	public String eliminar (@PathVariable(value="id_seguro")Long id_seguro,@PathVariable(value="documento")String documento) {
 		
-		if(id != null) {
-			seguroService.delete(id);	
+		if(id_seguro != null) {
+			seguroService.delete(id_seguro);	
 			if(documento != "") {
 				uploadFileService.delete(documento);
 			}
 		}
-		return "redirect:/Seguros";
-	}
-	@RequestMapping(value="/elimSeg/{id}/")
-	public String eliminar (@PathVariable(value="id")Long id) {
-		
-		if(id != null) {
-			seguroService.delete(id);				
-		}
-		return "redirect:/Seguros";
+		return "redirect:/Vehiculos";
 	}
 	
-	@RequestMapping(value="/formSegBuscar")
-	public String Buscartabla(@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication,
-			@RequestParam(value="elemento") String elemento,Model model){						 
-		Pageable pageRequest = PageRequest.of(page, 100);
+	
+	@RequestMapping(value="/elimSeg/{id_seguro}/")
+	public String eliminar (@PathVariable(value="id_seguro")Long id_seguro) {
+		
+		if(id_seguro != null) {
+			seguroService.delete(id_seguro);				
+		}
+		return "redirect:/Vehiculos";
+	}
+	
+	
+	@RequestMapping(value="/formSegBuscarPv")
+	public String Buscartablapv(@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication,
+		@RequestParam(value="elemento") String elemento,Model model){	
+		
+		 aux=true;
+		 Pageable pageRequest = PageRequest.of(page, 100);
 		 var ads="";		
 		 ads = authentication.getName();
+		 String elementof="";
 		 
-			 if(user.equals("ROLE_ADMIN")) {model.addAttribute("usuario",user);
-				}else {if(user.equals("ROLE_USER")) { model.addAttribute("usuario",user);}};
-			 
-		if(!elemento.isBlank()) {			
+			 if(user.equals("ROLE_ADMIN")) {
+				 model.addAttribute("usuario",user);
+				}else {
+					if(user.equals("ROLE_USER")) { 
+						model.addAttribute("usuario",user);
+						}else {
+							if(user.equals("ROLE_SEGURO")) {
+								model.addAttribute("usuario",user);
+							}
+						}
+					};
+				
+				
+		 if(!elemento.isBlank()) {			
 							if(isValidDouble(elemento)) {
 								Double Dato = Double.parseDouble(elemento);
 									DecimalFormat formt = new DecimalFormat("0");
 									elemento = formt.format(Dato);
 									elemento = elemento.replaceAll(",","");	
 							};
-			
-					if(user.equals("ROLE_USER")) {
+						/*if(user.equals("ROLE_USER")) {
 						 Usuario usus = new Usuario();
-							usus = usuarioService.findbyAdscripcion(ads);
-						
-								Page<Seguro> segurospage = seguroService.FindSegElemAreaPage(usus.getAdscripcion().getId_adscripcion(),"%"+elemento+"%", pageRequest);
-							PageRender<Seguro> pageRender = new PageRender<>("/formSegBuscar?elemento="+elemento, segurospage);
+						 usus = usuarioService.findbyAdscripcion(ads);
+						 elementof = elemento.toUpperCase(); 
+						  //  Page<Seguro> segurospage = seguroService.FindSegElemVehiAreaPage(id_vehi, usus.getAdscripcion().getId_adscripcion(), elementof, pageRequest);
+							Page<Seguro> segurospage= seguroService.FindSegElemVehiPage(id_vehi, elementof, pageRequest);
+						    PageRender<Seguro> pageRender = new PageRender<>("/formSegBuscarPv?elemento="+elementof, segurospage);
 							model.addAttribute("seguros",segurospage);
+							model.addAttribute("auxiliar", aux);
 							model.addAttribute("page",pageRender);
-							model.addAttribute("elemento",elemento);	
-							return "Seguros";
-					};
-					 	Page<Seguro> segurospage= seguroService.FindSegElemPage("%"+elemento+"%", pageRequest);			 									
-					PageRender<Seguro> pageRender = new PageRender<>("/formSegBuscar?elemento="+elemento, segurospage);
+							model.addAttribute("elemento",elementof);
+							model.addAttribute("id_vehiculo",id_vehi);
+							return "SegurosVehi";
+					};*/
+					
+					elementof = elemento.toUpperCase(); 
+					Page<Seguro> segurospage= seguroService.FindSegElemVehiPage(id_vehi, elementof, pageRequest);
+					PageRender<Seguro> pageRender = new PageRender<>("/formSegBuscarPv?elemento="+elementof, segurospage);
+					if(seguroService.totalSegElemVehiPage(id_vehi, elementof)>=5) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+					
 					model.addAttribute("seguros",segurospage);
 					model.addAttribute("page",pageRender);
-					model.addAttribute("elemento",elemento);	
-					return "Seguros";
-					
+					model.addAttribute("elemento",elementof);	
+					model.addAttribute("auxiliar", aux);
+					model.addAttribute("id_vehiculo",id_vehi);
+	     			return "SegurosVehi";		
 		}else{
 			return "redirect:/Seguros";
 		}
+		 
 	}
 	
 	
+	@RequestMapping(value="/formSegBuscar")
+	public String Buscartabla(@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication,
+		@RequestParam(value="elemento") String elemento,Model model){	
+		
+		 aux=false;
+		 Pageable pageRequest = PageRequest.of(page, 100);
+		 var ads="";		
+		 ads = authentication.getName();
+		 String elementof="";
+		 
+				 if(user.equals("ROLE_ADMIN")) {
+					 model.addAttribute("usuario",user);
+					}else {
+						if(user.equals("ROLE_USER")) { 
+							model.addAttribute("usuario",user);
+							}else {
+								if(user.equals("ROLE_SEGURO")) {
+									model.addAttribute("usuario",user);
+								}
+							}
+						};
+			 
+		 if(!elemento.isBlank()) {			
+							if(isValidDouble(elemento)) {
+								Double Dato = Double.parseDouble(elemento);
+									DecimalFormat formt = new DecimalFormat("0");
+									elemento = formt.format(Dato);
+									elemento = elemento.replaceAll(",","");	
+							};
+						if(user.equals("ROLE_USER")) {
+						 Usuario usus = new Usuario();
+						 usus = usuarioService.findbyAdscripcion(ads);
+						 elementof = elemento.toUpperCase(); 
+						  //  Page<Seguro> segurospage = seguroService.FindSegElemVehiAreaPage(id_vehi, usus.getAdscripcion().getId_adscripcion(), elementof, pageRequest);
+							Page<Seguro> segurospage= seguroService.FindSegElemenAreaPage(usus.getAdscripcion().getId_adscripcion(), elementof, pageRequest);
+						    PageRender<Seguro> pageRender = new PageRender<>("/formSegBuscar?elemento="+elementof, segurospage);
+							if(seguroService.totalSegElemenAreaPage(usus.getAdscripcion().getId_adscripcion(), elementof)>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+
+						    model.addAttribute("seguros",segurospage);
+							model.addAttribute("auxiliar", aux);
+							model.addAttribute("page",pageRender);
+							model.addAttribute("elemento",elementof);
+							model.addAttribute("id_vehiculo",id_vehi);
+							return "SegurosVehi";
+					};
+					
+					elementof = elemento.toUpperCase(); 
+					Page<Seguro> segurospage= seguroService.FindSegElemenPage(elementof, pageRequest);
+					PageRender<Seguro> pageRender = new PageRender<>("/formSegBuscar?elemento="+elementof, segurospage);
+					if(seguroService.totalSegElemenPage(elementof)>=5) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+
+					model.addAttribute("seguros",segurospage);
+					model.addAttribute("page",pageRender);
+					model.addAttribute("elemento",elementof);	
+					model.addAttribute("auxiliar", aux);
+					model.addAttribute("id_vehiculo",id_vehi);
+	     			return "SegurosVehi";		
+		}else{
+			return "redirect:/Seguros";
+		}
+		 
+	}
+
 	private static boolean isValidDouble(String s) {
 		final String Digits     = "(\\p{Digit}+)";
 		  final String HexDigits  = "(\\p{XDigit}+)";

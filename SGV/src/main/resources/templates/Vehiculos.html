@@ -263,22 +263,22 @@
 				<div th:if="${usuario} == 'ROLE_ADMIN'" data-value="2" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/formBaja/} " id="baj" th:onclick="return confirm('Seguro que desea dar de baja el vehiculo ?');" th:text="'Dar de baja el vehiculo'" ></a>
 				</div>
-				<div data-value="3" class="optionModal">
+				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}" data-value="3" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/ListarCombustible/} " th:text="'Ver y asignar combustible'" id="comb" ></a>
 				</div>																
-				<div data-value="4" class="optionModal">
+				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}" data-value="4" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{Mantenimientos/} " id="man" th:text="'Ver y asignar mantenimiento'" ></a>
 				</div>
-				<div data-value="5" class="optionModal">
+				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}"  data-value="5" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/VehiViaj/} " id="via" th:text="'Agregar viajes mensuales'" ></a>
 				</div>
-				<div th:if="${usuario} == 'ROLE_ADMIN'" data-value="6" class="optionModal">
+				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER' or usuario == 'ROLE_SEGURO'}"  data-value="6" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/ListarSeguros/}" th:text="'Ver y asignar seguros'" id="eg" ></a>
 				</div>
-				<div data-value="5" class="optionModal">
+				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}" data-value="5" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/info/}" th:text="'Ver la Informacion del vehiculo'" id="inf" ></a>
 				</div>
-				<div data-value="6" class="optionModal">
+				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}" data-value="6" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/infoResguardante/}" id="resg" th:text="'Ver y asignar resguardantes del vehiculo'" ></a>
 				</div>																															 		
 			</div>

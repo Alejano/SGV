@@ -27,19 +27,23 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.headers().frameOptions().sameOrigin();
-	
+		
 		http.authorizeRequests().antMatchers("/CSS/**","/assets/**", "/js/**", "/images/**","/index").permitAll()
 		.antMatchers("/Dashboard").hasAnyRole("ADMIN")
-		.antMatchers("/Usuarios").hasAnyRole("ADMIN")
-		.antMatchers("/home").hasAnyRole("ADMIN","USER","TALLER")
-		.antMatchers("/talleres").hasAnyRole("ADMIN")
-		.antMatchers("/Conductores").hasAnyRole("ADMIN","USER")
-		.antMatchers("/Mantenimientos").hasAnyRole("ADMIN","USER")
-		.antMatchers("/Combustibles").hasAnyRole("ADMIN","USER")
-		.antMatchers("/BuscarVehiculos").hasAnyRole("ADMIN","USER")
+		.antMatchers("/home").hasAnyRole("ADMIN","USER","TALLER","SINIESTRO","SEGURO")
+		.antMatchers("/").hasAnyRole("ADMIN","USER","TALLER","SINIESTRO","SEGURO")
 		.antMatchers("/api/search").hasAnyRole("ADMIN","USER")
 		.antMatchers("/Adscripciones").hasAnyRole("ADMIN")
-		.antMatchers("/").hasAnyRole("ADMIN","USER","TALLER")
+		.antMatchers("/BuscarVehiculos").hasAnyRole("ADMIN","USER")
+		.antMatchers("/Combustibles").hasAnyRole("ADMIN","USER")
+		.antMatchers("/talleres").hasAnyRole("ADMIN")
+		.antMatchers("/Mantenimientos").hasAnyRole("ADMIN","USER")
+		.antMatchers("/Usuarios").hasAnyRole("ADMIN")
+		.antMatchers("/Conductores").hasAnyRole("ADMIN","USER")
+		.antMatchers("/Viajes").hasAnyRole("ADMIN","USER")
+		.antMatchers("/Aseguradoras").hasAnyRole("ADMIN","USER","SEGURO")	
+		.antMatchers("/Seguros").hasAnyRole("ADMIN","USER","SEGURO")
+
 		.anyRequest().authenticated().and()
 	    .formLogin()
 	    .successHandler(succesHandler)
