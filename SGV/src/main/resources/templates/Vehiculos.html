@@ -275,10 +275,10 @@
 				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER' or usuario == 'ROLE_SEGURO'}"  data-value="6" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/ListarSeguros/}" th:text="'Ver y asignar seguros'" id="eg" ></a>
 				</div>
-				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}" data-value="5" class="optionModal">
+				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER' or usuario == 'ROLE_SINIESTRO'}"  data-value="7" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/info/}" th:text="'Ver la Informacion del vehiculo'" id="inf" ></a>
 				</div>
-				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}" data-value="6" class="optionModal">
+				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}" data-value="8" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/infoResguardante/}" id="resg" th:text="'Ver y asignar resguardantes del vehiculo'" ></a>
 				</div>																															 		
 			</div>

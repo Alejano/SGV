@@ -99,6 +99,7 @@ public class VehiculoController {
 		var user="";			
 		clase = vehiculoService.findallByClase();	
 		
+
 		if(hasRole("ROLE_ADMIN")) {
 			user ="ROLE_ADMIN";	model.addAttribute("usuario",user);
 			}else {
@@ -110,10 +111,15 @@ public class VehiculoController {
 					}else {
 						if(hasRole("ROLE_TALLER")) {
 							user = "ROLE_TALLER"; model.addAttribute("usuario",user);
+						}else {
+							if(hasRole("ROLE_SINIESTRO")) {
+							user = "ROLE_SINIESTRO"; model.addAttribute("usuario",user);
+						  }
 						}
 					}
 				}	
 			}
+		
 		Pageable pageRequest = PageRequest.of(page, 1000);
 		
 		if(user.equals("ROLE_USER")){

@@ -79,6 +79,11 @@ public class IResguardoServiceImpl implements IResguardanteService {
 		return resguardoDao.findActivos();
 	}
 
+	@Override
+	public List<Resguardante> findResg(Long id_vehiculo) {
+		// TODO Auto-generated method stub
+		return resguardoDao.findResg(id_vehiculo);
+	}
 	
 
 }

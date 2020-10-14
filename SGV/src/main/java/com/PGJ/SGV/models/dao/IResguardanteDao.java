@@ -22,5 +22,10 @@ public interface IResguardanteDao extends PagingAndSortingRepository<Resguardant
 		
 		@Query("select p FROM Resguardante p WHERE p.activo = true")
 		public List<Resguardante> findActivos();
+		
+		@Query("select r from Resguardante r inner join Vehiculo v on r.vehiculo.id_vehiculo = v.id_vehiculo "
+				+ "inner join TipoResguardante t on r.tipo_resguardante.id = t.id where v.id_vehiculo = ?1 and r.fecha_fin is null and r.activo=true")
+		public List<Resguardante> findResg(Long id_vehiculo);
+
 
 }

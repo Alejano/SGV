@@ -25,6 +25,9 @@ public interface IResguardanteService {
 		
 		public List<Resguardante> findActivos();
 		
+		public List<Resguardante> findResg(Long id_vehiculo);
+
+		
 		//update
 		
 		
