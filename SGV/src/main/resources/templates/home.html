@@ -171,6 +171,18 @@
 						      <p class="card-title" style="text-align: center;">MANTENIMIENTO</p>
 						    </div>
 						 </div>
+						 
+						 
+						   <div th:if="${usuario == 'ROLE_ADMIN' or usuario== 'ROLE_USER' or usuario == 'ROLE_SINIESTRO'}" class="card-image">
+							   <form th:action="@{/Siniestros}" class="F" name="salir">		 		
+	                                  <button class="btn btn-lg btn-primary btn-block btn-signin ingresolog " id="IngresoLog" type="submit" value="enviar" >
+							          <img src="images/siniestro.png" class="card-img-top imgboton" alt="..." style="border-radius: inherit; width: 180px; left: -11px; top:-5px;">
+							         </button>
+	                           </form>						    
+						    <div class="card-footer">
+						      <p class="card-title" style="text-align: center;">SINIESTROS</p>
+						    </div>
+						 </div>
 						 						 						 						 					
 					</div>			
 				</div>
