@@ -48,6 +48,10 @@ public class HomeController {
 					}else {
 						if(hasRole("ROLE_TALLER")) {
 							user = "ROLE_TALLER"; model.addAttribute("usuario",user);
+						}else {
+							if(hasRole("ROLE_SINIESTRO")) {
+								user = "ROLE_SINIESTRO"; model.addAttribute("usuario",user);
+							}
 						}
 					}
 				}	
