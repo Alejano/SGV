@@ -222,25 +222,21 @@ public class ConductorController {
 	
 	
 	@RequestMapping(value="/estadoCond/{no_empleado}/{enabled}/{Corddocu}/{Cordtabla}")
-	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")Integer enabled,
+	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")boolean enabled,
 			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page) {
 		Conductor cond = new Conductor();
 		boolean seteo = false;
 		Corddocu =docu;
 		Cordtabla = tabla;
 			cond = conductorService.findOne(no_empleado);
-			switch (enabled) {
-			case 1:
-								seteo=false;
-								cond.setEnabled(seteo);
-				break;
-
-			case 0:
-								seteo=true;
-								cond.setEnabled(seteo);				
-				break;
-				
-					};
+			
+			if(enabled) {
+				seteo=false;
+				cond.setEnabled(seteo);
+				}else {
+					seteo=true;
+					cond.setEnabled(seteo);	
+					}
 		
 		conductorService.save(cond);		
 	return "redirect:/Conductores?page="+page;

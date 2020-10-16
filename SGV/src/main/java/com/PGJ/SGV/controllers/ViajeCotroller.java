@@ -40,12 +40,14 @@ public class ViajeCotroller {
 	
 	@Autowired
 	private IViajeService viajeService;
-	boolean editar = false;
 	@Autowired
 	private IVehiculoService vehiculoService;
 	@Autowired
 	private IUsuarioService usuarioService;
 	
+	static String user="";
+	boolean editar = false;
+	boolean aux=false;
 	Long id_vehi=null;
 	Double kilom_final;
 	//Long id_vehi_edit=null;
@@ -53,6 +55,7 @@ public class ViajeCotroller {
 	@RequestMapping(value="/Viajes", method = RequestMethod.GET)
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page,Model model, HttpServletRequest request,Authentication authentication) {	
 
+		aux=false;
 		var ads="";						
 		var user="";	
 		//Long id_ads;
@@ -80,6 +83,7 @@ public class ViajeCotroller {
 			PageRender<Viaje> pageRenderArea = new PageRender<>("/Viajes", viajespageArea);	
 			if(viajeService.totalViajesArea(usus.getAdscripcion().getId_adscripcion())>= 9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};				
 			model.addAttribute("titulo","Listado de Viajes");
+			model.addAttribute("auxiliar", aux);
 			model.addAttribute("titulouser",usus.getAdscripcion().getNombre_adscripcion());
 			model.addAttribute("viajes",viajespageArea);
 			model.addAttribute("page",pageRenderArea);
@@ -91,14 +95,53 @@ public class ViajeCotroller {
 		if(viajeService.viajestotales() >= 5) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};	
 		
 		model.addAttribute("titulo","Listado de Viajes ");
+		model.addAttribute("auxiliar", aux);
 		model.addAttribute("viajes",viajespage);
 		model.addAttribute("page",pageRender);
 		return "Viajes";
 		
 	}
 		
+	@RequestMapping(value="/ListarViajes/{id_vehiculo}", method = RequestMethod.GET)
+	public String listarpv(@PathVariable(value="id_vehiculo") Long id_vehiculo,@RequestParam(name="page", defaultValue = "0") int page,Model model,HttpServletRequest request,Authentication authentication) {	
+
+		aux=true;
+		var ads="";						
+		var user="";	
+		//Long id_ads;
+		//int id_ad;
+		id_vehi=id_vehiculo;
+		
+				if(hasRole("ROLE_ADMIN")) {
+					user ="ROLE_ADMIN";						
+					model.addAttribute("usuario",user);
+				}else {
+					if(hasRole("ROLE_USER")) {
+						user = "ROLE_USER";
+						model.addAttribute("usuario",user);				
+						}
+					}
+		
+		ads = authentication.getName();
+		Pageable pageRequest = PageRequest.of(page, 100);
+		
+		
+		Vehiculo vehiculo = new Vehiculo();
+		vehiculo = vehiculoService.findOne(id_vehiculo);
+		
+		Page<Viaje> viajespageArea = viajeService.FindviajeVehi(vehiculo.getId_vehiculo(), pageRequest);
+		PageRender<Viaje> pageRenderArea = new PageRender<>("/Viajes", viajespageArea);	
+		if(viajeService.viajestotales()>= 9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};	
+		
+		model.addAttribute("titulo","Listado de Viajes");
+		model.addAttribute("id_vehiculo",vehiculo.getId_vehiculo());
+		model.addAttribute("auxiliar", aux);
+		model.addAttribute("viajes",viajespageArea);
+		model.addAttribute("page",pageRenderArea);
+		return "Viajes";
+	}
 	
-	@RequestMapping(value="/VehiViaj/{id_vehiculo}")
+	@RequestMapping(value="/formViaj/Ag/{id_vehiculo}")
 	public String crear(@PathVariable(value="id_vehiculo") Long id_vehiculo,Map<String,Object> model, Authentication authentication) {
 			
 		String ads = ""; 	
@@ -125,11 +168,11 @@ public class ViajeCotroller {
 	
 	    		model.put("viaje", viaje);
 	    		model.put("titulo", "Formulario de Viajes");
+	    		return "formViaj";
 	    		}else {
-	    			return "redirect:/Vehiculos";
-	    			};
 	    			return "formViaj";
-	    			
+	    			}
+	    			    			
 	}
 	
 	
@@ -166,12 +209,13 @@ public class ViajeCotroller {
       	    vehi.setKilometraje_inicial(kilom_final);
       	    vehiculoService.save(vehi);
 		    viajeService.save(viaje);	
-		    return "redirect:Vehiculos";
 		    } else {
 		    	viajeService.save(viaje);
-		    	return "redirect:/Viajes";
 		    	}
+		
+		return "redirect:ListarViajes/"+viaje.getVehiculo().getId_vehiculo();
 	}
+	
 	
 	
 	@RequestMapping(value="/elimViaj/{id_viaje}")
@@ -184,59 +228,102 @@ public class ViajeCotroller {
 	}
 	
 	
-	@RequestMapping(value="/formViajBuscar")
-	public String Buscartabla(@RequestParam(name="page", defaultValue = "0") int page,
-			@RequestParam(value="elemento") String elemento,Model model, Authentication authentication){						 
+	@RequestMapping(value="/formViajBuscarPv")
+	public String Buscartablapv(@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication,
+		@RequestParam(value="elemento") String elemento,Model model){	
+		
+		 aux=true;
 		 Pageable pageRequest = PageRequest.of(page, 100);
-		 Double Dato;
-		 var ads="";		
-		 ads = authentication.getName();	
-		 var user="";
+		 var ads="";
+		 ads = authentication.getName();
 		 String elementof="";
 		 
 		 if(hasRole("ROLE_ADMIN")) {user ="ROLE_ADMIN";	model.addAttribute("usuario",user);
 			}else {if(hasRole("ROLE_USER")) user = "ROLE_USER"; model.addAttribute("usuario",user);}
-		 	 	
-		 
-		 if(!elemento.isBlank()) {			
-			if(isValidDouble(elemento)) {
-					Dato = Double.parseDouble(elemento);
-					DecimalFormat formt = new DecimalFormat("0");
-					elemento = formt.format(Dato);
-				elemento = elemento.replaceAll(",","");	
-				};
-			
-		 if(user == "ROLE_USER") {
-			 Usuario usus = new Usuario();
-				usus = usuarioService.findbyAdscripcion(ads);
 				
-				Page<Viaje> viajespage = viajeService.ViajesElemAreaPage(usus.getAdscripcion().getId_adscripcion(), elemento, pageRequest);
-			
-				PageRender<Viaje> pageRender = new PageRender<>("/formViajBuscar?elemento="+elemento, viajespage);
-				if(viajeService.totalViajesElemArea(usus.getAdscripcion().getId_adscripcion(), elemento)>= 9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
-				model.addAttribute("viajes",viajespage);
-				model.addAttribute("page",pageRender);
-				model.addAttribute("elemento",elemento);
-				return "Viajes";
-				};
-		
-			elementof = elemento.toUpperCase();
-			Page<Viaje> viajespage= viajeService.ViajeElemPage("%"+elementof+"%", pageRequest);			 			
-						 
-			PageRender<Viaje> pageRender = new PageRender<>("/formViajBuscar?elemento="+elementof, viajespage);
-			if(viajeService.totalviajeElem(elementof)>= 9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
-			model.addAttribute("viajes",viajespage);
-			model.addAttribute("page",pageRender);
-			model.addAttribute("elemento",elementof);	
-			return "Viajes";
-			}
-		 else{
-			 return "redirect:/Viajes";
-			 }
-						
+		 if(!elemento.isBlank()) {			
+							if(isValidDouble(elemento)) {
+								Double Dato = Double.parseDouble(elemento);
+									DecimalFormat formt = new DecimalFormat("0");
+									elemento = formt.format(Dato);
+									elemento = elemento.replaceAll(",","");	
+							};
+					
+							
+
+					elementof = elemento.toUpperCase();
+					Page<Viaje> viajespage= viajeService.ViajeElemVehiPage(id_vehi, elementof, pageRequest);
+					PageRender<Viaje> pageRender = new PageRender<>("/formViajBuscarPv?elemento="+elementof, viajespage);
+					if(viajeService.totalviajeElem(elementof)>= 9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+					model.addAttribute("viajes",viajespage);
+					model.addAttribute("page",pageRender);
+					model.addAttribute("auxiliar", aux);
+					model.addAttribute("elemento",elementof);
+					model.addAttribute("id_vehiculo",id_vehi);
+					return "Viajes";
+					}
+					else{
+					return "redirect:/Viajes";
+					}						
 	}
 	
 	
+	@RequestMapping(value="/formViajBuscar")
+	public String Buscartabla(@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication,
+		@RequestParam(value="elemento") String elemento,Model model){	
+		
+		 aux=false;
+		 Pageable pageRequest = PageRequest.of(page, 100);
+		 var ads="";
+		 ads = authentication.getName();
+		 String elementof="";
+		 
+		 if(hasRole("ROLE_ADMIN")) {user ="ROLE_ADMIN";	model.addAttribute("usuario",user);
+			}else {if(hasRole("ROLE_USER")) user = "ROLE_USER"; model.addAttribute("usuario",user);}
+				
+		 if(!elemento.isBlank()) {			
+							if(isValidDouble(elemento)) {
+								Double Dato = Double.parseDouble(elemento);
+									DecimalFormat formt = new DecimalFormat("0");
+									elemento = formt.format(Dato);
+									elemento = elemento.replaceAll(",","");	
+							};
+					
+		if(user == "ROLE_USER") {
+		Usuario usus = new Usuario();
+		usus = usuarioService.findbyAdscripcion(ads);
+		elementof = elemento.toUpperCase(); 
+									
+		Page<Viaje> viajespage = viajeService.ViajesElemAreaPage(usus.getAdscripcion().getId_adscripcion(), elementof, pageRequest);
+								
+		PageRender<Viaje> pageRender = new PageRender<>("/formViajBuscar?elemento="+elementof, viajespage);
+		if(viajeService.totalViajesElemArea(usus.getAdscripcion().getId_adscripcion(), elementof)>= 9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+		model.addAttribute("viajes",viajespage);
+		model.addAttribute("page",pageRender);
+		model.addAttribute("auxiliar", aux);
+		model.addAttribute("elemento",elementof);
+		return "Viajes";
+		};
+
+
+		elementof = elemento.toUpperCase();
+		Page<Viaje> viajespage= viajeService.ViajeElemPage(elementof, pageRequest);			 			
+					 
+		PageRender<Viaje> pageRender = new PageRender<>("/formViajBuscar?elemento="+elementof, viajespage);
+		if(viajeService.totalviajeElem(elementof)>= 9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+		model.addAttribute("viajes",viajespage);
+		model.addAttribute("page",pageRender);
+		model.addAttribute("auxiliar", aux);
+		model.addAttribute("elemento",elementof);
+		model.addAttribute("id_vehiculo",id_vehi);
+		return "Viajes";
+		}
+	    else{
+		 return "redirect:/Viajes";
+		 }				
+						
+	}
+
 	private static boolean isValidDouble(String s) {
 		
 		  final String Digits     = "(\\p{Digit}+)";
