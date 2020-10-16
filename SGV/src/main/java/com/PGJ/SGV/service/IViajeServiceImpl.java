@@ -103,7 +103,7 @@ public class IViajeServiceImpl implements IViajeService {
 	@Override
 	public  Page<Viaje> FindviajeVehi(Long id_vehiculo,Pageable pageable) {
 		// TODO Auto-generated method stub
-		return viajeDao.FindviajeVehi(id_vehiculo,pageable);
+		return viajeDao.FindviajeVehi(id_vehiculo,pageable); 
 	}
 	
 	@Override

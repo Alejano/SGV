@@ -37,6 +37,6 @@ public interface IViajeService {
 	
 	public Page<Viaje> FindviajeVehi(Long id_vehiculo,Pageable pageable);
 
-	public Page<Viaje> ViajeElemVehiPage(Long id_vehiculo,String elemento,Pageable pageable);
+	public Page<Viaje> ViajeElemVehiPage(Long id_vehiculo,String elemento,Pageable pageable); 
 
 }

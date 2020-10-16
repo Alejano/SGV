@@ -302,7 +302,7 @@ public class ViajeCotroller {
 		model.addAttribute("page",pageRender);
 		model.addAttribute("auxiliar", aux);
 		model.addAttribute("elemento",elementof);
-		return "Viajes";
+		return "Viajes"; 
 		};
 
 

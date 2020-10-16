@@ -270,7 +270,7 @@
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{Mantenimientos/} " id="man" th:text="'Ver y asignar mantenimiento'" ></a>
 				</div>
 				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER'}"  data-value="5" class="optionModal">
-					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/VehiViaj/} " id="via" th:text="'Agregar viajes mensuales'" ></a>
+					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/ListarViajes/} " id="via" th:text="'Ver y asignar viajes mensuales'" ></a>
 				</div>
 				<div th:if="${usuario == 'ROLE_ADMIN' or usuario == 'ROLE_USER' or usuario == 'ROLE_SEGURO'}"  data-value="6" class="optionModal">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/ListarSeguros/}" th:text="'Ver y asignar seguros'" id="eg" ></a>
@@ -442,7 +442,8 @@
 		 $("#edi").prop("href","/SGV/formVehi/"+id);
 		 $("#baj").prop("href","/SGV/formBaja/"+id);
 		 $("#man").prop("href","/SGV/Mantenimientos/"+id);
-		 $("#via").prop("href","/SGV/VehiViaj/"+id);
+		 $("#via").prop("href","/SGV/ListarViajes/"+id);
+		 //$("#via").prop("href","/SGV/VehiViaj/"+id);
 		 $("#eg").prop("href","/SGV/ListarSeguros/"+id);
 		 $("#resg").prop("href","/SGV/infoResguardante/"+id);
 		 $("#sin").prop("href","/SGV/ListarSiniestros/"+id);

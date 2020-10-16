@@ -232,7 +232,7 @@ public class ConductorController {
 			
 			if(enabled) {
 				seteo=false;
-				cond.setEnabled(seteo);
+				cond.setEnabled(seteo); 
 				}else {
 					seteo=true;
 					cond.setEnabled(seteo);	
