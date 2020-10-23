@@ -154,6 +154,17 @@ public class Aseguradora implements Serializable {
 	   public void setEnabled(boolean enabled) {
 			this.enabled = enabled;
 		}
+	   
+	   @Override
+	 		public String toString() {
+	 			return "ID ASEG:"+id_aseguradora+ " ; " +"NOMBRE ASEG:" + nombre_aseguradora + " ; " + "POLIZA PADRE:" + no_poliza_padre + " ; " +
+	 					"NO CONTRATO:"+ no_contrato + " ; " + "RFC ASEG:"+ rfc_aseguradora + " ; " +"FECHA INICIO:"+ fecha_inicio + " ; " +
+	 					"FECHA FIN:"+ fecha_fin+ " ; " +  "TEL:" + tel_aseguradora+ " ; " +
+	 					"DIRECCION:"+ calle_domicilio + ", " + numero_domicilio + ", "+ colonia_domicilio + ", " + codigopos_domicilio + ", "+
+	 					alcaldia_domicilio  + " ; "  +"ENABLED:" + enabled;
+
+	 		}
+	 		
 		
 }
 

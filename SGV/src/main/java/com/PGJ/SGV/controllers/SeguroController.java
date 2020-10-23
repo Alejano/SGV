@@ -23,15 +23,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.PGJ.SGV.models.entity.Aseguradora;
+import com.PGJ.SGV.models.entity.LogsAudit;
 import com.PGJ.SGV.models.entity.Seguro;
 import com.PGJ.SGV.models.entity.Usuario;
 import com.PGJ.SGV.models.entity.Vehiculo;
 import com.PGJ.SGV.service.IAseguradoraService;
+import com.PGJ.SGV.service.ILogsAuditService;
 import com.PGJ.SGV.service.ISeguroService;
 import com.PGJ.SGV.service.IUploadFileService;
 import com.PGJ.SGV.service.IUsuarioService;
 import com.PGJ.SGV.service.IVehiculoService;
 import com.PGJ.SGV.util.paginador.PageRender;
+import com.PGJ.SGV.utilities.ObtenHour;
+import com.PGJ.SGV.utilities.SystemDate;
 
 
 @Controller
@@ -53,7 +57,8 @@ public class SeguroController {
 	@Autowired
 	private IUsuarioService usuarioService;
 	@Autowired
-	private IAseguradoraService asegService;
+	private ILogsAuditService logsauditService;
+
 	
 	boolean editar = false;
 	boolean aux=false;
@@ -257,8 +262,25 @@ public class SeguroController {
 	
 	
 	@RequestMapping(value = "/formSeg", method = RequestMethod.POST)
-	public String guardar(Seguro seguro, @RequestParam("file") MultipartFile documento) {
+	public String guardar(Seguro seguro, @RequestParam("file") MultipartFile documento,Authentication authentication) {
 		
+		   var user="";
+		   var no_user ="";
+		   no_user = authentication.getName();
+				
+			
+					if(hasRole("ROLE_ADMIN")) {
+						user ="ROLE_ADMIN";
+						}else {
+							if(hasRole("ROLE_USER")) {
+								user = "ROLE_USER";
+							}else {
+								if(hasRole("ROLE_SEGURO")) {
+									user = "ROLE_SEGURO";
+								}
+							}	
+						}
+					
 		Vehiculo vehiculos =new Vehiculo();
 		
 		if (!documento.isEmpty()) {
@@ -276,10 +298,33 @@ public class SeguroController {
 		}
 				
 		if(editar == true) {
+			
+			//Seguro OLD
+		    
+			Seguro seguro_old = null;
+			seguro_old = seguroService.findOne(seguro.getId_seguro());
+		    System.err.println("old:"+seguro_old.toString());
+		    String valor_old = seguro_old.toString();
+		    		    
 			System.err.println("entroeditar: "+seguro.getId_seguro());
 			vehiculos = vehiculoService.findOne(seguro.getVehiculo().getId_vehiculo());	
 			seguro.setVehiculo(vehiculos);
 			seguroService.save(seguro);
+			
+			//Auditoria
+			
+         	LogsAudit logs = new LogsAudit();
+         	
+            logs.setId_usuario(no_user);
+			logs.setTipo_role(user);
+			logs.setFecha(SystemDate.obtenFecha());
+			logs.setHora(ObtenHour.obtenHour());
+			logs.setName_table("SEGUROS");
+			logs.setValor_viejo(valor_old);
+			logs.setTipo_accion("UPDATE");
+									
+			logsauditService.save(logs);
+			
 			editar = false;	
 			
 		}else {
@@ -288,6 +333,22 @@ public class SeguroController {
 		vehiculos = vehiculoService.findOne(seguro.getVehiculo().getId_vehiculo());						
 		seguro.setVehiculo(vehiculos);
 		seguroService.save(seguro);
+		String valor_nuevo=seguro.toString();
+		
+		//Auditoria
+		
+     	LogsAudit logs = new LogsAudit();
+     	
+        logs.setId_usuario(no_user);
+		logs.setTipo_role(user);
+		logs.setFecha(SystemDate.obtenFecha());
+		logs.setHora(ObtenHour.obtenHour());
+		logs.setName_table("SEGUROS");
+		logs.setValor_viejo(valor_nuevo);
+		logs.setTipo_accion("INSERT");
+								
+		logsauditService.save(logs);
+		
 		}
 		
 		return "redirect:ListarSeguros/"+seguro.getVehiculo().getId_vehiculo();
@@ -444,6 +505,7 @@ public class SeguroController {
 		 
 	}
 
+	
 	private static boolean isValidDouble(String s) {
 		final String Digits     = "(\\p{Digit}+)";
 		  final String HexDigits  = "(\\p{XDigit}+)";
@@ -492,5 +554,4 @@ public class SeguroController {
 		}
 		return false;
 	}
-
 }

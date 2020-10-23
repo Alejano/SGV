@@ -106,6 +106,12 @@ public class AsigCombustible implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 	
+	@Override
+	public String toString() {
+		return "ID_ASIGNACION:"+id_asignacion+ " ; " +"PRESUPUESTO:" + presupuesto_ord + " ; " + "NO TARJETA:" + no_tarjeta + " ; " +
+				"FECHA INICIO:"+ fecha_ini_ord + " ; " + "FECHA FINAL:"+ fecha_fin_ord + " ; " +
+				"KILOMETRAJE:"+ kilometraje_ord ;
+	}
+
 }

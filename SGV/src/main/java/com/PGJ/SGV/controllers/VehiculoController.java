@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.PGJ.SGV.models.entity.Adscripcion;
 import com.PGJ.SGV.models.entity.Conductor;
+import com.PGJ.SGV.models.entity.LogsAudit;
 import com.PGJ.SGV.models.entity.Resguardante;
 import com.PGJ.SGV.models.entity.Seguro;
 import com.PGJ.SGV.models.entity.TipoResguardante;
@@ -39,6 +40,7 @@ import com.PGJ.SGV.models.entity.VehiculoMarca;
 import com.PGJ.SGV.models.entity.VehiculoTransmision;
 import com.PGJ.SGV.service.IAdscripcionService;
 import com.PGJ.SGV.service.IConductorService;
+import com.PGJ.SGV.service.ILogsAuditService;
 import com.PGJ.SGV.service.IResguardanteService;
 import com.PGJ.SGV.service.ISeguroService;
 import com.PGJ.SGV.service.ITipoResguardanteService;
@@ -46,6 +48,8 @@ import com.PGJ.SGV.service.IUploadFileService;
 import com.PGJ.SGV.service.IUsuarioService;
 import com.PGJ.SGV.service.IVehiculoService;
 import com.PGJ.SGV.util.paginador.PageRender;
+import com.PGJ.SGV.utilities.ObtenHour;
+import com.PGJ.SGV.utilities.SystemDate;
 
 
 @Controller
@@ -88,6 +92,8 @@ public class VehiculoController {
 	private ITipoResguardanteService tiporesguardoService;
 	@Autowired
 	private IResguardanteService reguardanteservice;
+	@Autowired
+	private ILogsAuditService logsauditService;
 	
 
 	
@@ -542,9 +548,40 @@ public class VehiculoController {
 	}
 	
 	
+
 	@RequestMapping(value="/formVehi",method = RequestMethod.POST)
 	public String guardar(Authentication authentication,Vehiculo vehiculox,@RequestParam("file") MultipartFile tarjeta_circulacion){		
-						
+	
+		 var user="";
+		 var no_user ="";
+		 no_user = authentication.getName();
+		 
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";						
+		}else {
+			if(hasRole("ROLE_USER")) {
+				user = "ROLE_USER";
+			}
+		}
+		
+		
+		VehiculoDetalle detalle = new VehiculoDetalle();
+		
+		detalle.setId_detalle(vehiculox.getId_vehiculo());
+		detalle.setBalisado(vehiculox.getVehiculo_detalle().getBalisado());
+		detalle.setBlindaje(vehiculox.getVehiculo_detalle().getBlindaje());
+		detalle.setColor(vehiculox.getVehiculo_detalle().getColor());
+		detalle.setFecha_compra(vehiculox.getVehiculo_detalle().getFecha_compra());
+		detalle.setNo_cilindros(vehiculox.getVehiculo_detalle().getNo_cilindros());
+		detalle.setNo_economico(vehiculox.getVehiculo_detalle().getNo_economico());
+		detalle.setNo_motor(vehiculox.getVehiculo_detalle().getNo_motor());
+		detalle.setNo_personas(vehiculox.getVehiculo_detalle().getNo_personas());
+		detalle.setNo_puertas(vehiculox.getVehiculo_detalle().getNo_puertas());
+		detalle.setTipo_combustible(vehiculox.getVehiculo_detalle().getTipo_combustible());
+		detalle.setValor_compra(vehiculox.getVehiculo_detalle().getValor_compra());
+		detalle.setVigencia_circulacion(vehiculox.getVehiculo_detalle().getVigencia_circulacion());
+		detalle.setRin(vehiculox.getVehiculo_detalle().getRin());
+		
 		if (!tarjeta_circulacion.isEmpty()) {
 
 			if (vehiculox.getVehiculo_detalle().getTarjeta_circulacion() != null 
@@ -575,18 +612,56 @@ public class VehiculoController {
 				Sresguardante.setActivo(true);
 				Presguardante.setVehiculo(vehiculox);		
 				Sresguardante.setVehiculo(vehiculox);
+				Tresguardante.setVehiculo(vehiculox);
 				
+				vehiculox.setVehiculo_detalle(detalle);	
 				vehiculoService.save(vehiculox);
 				
 				reguardanteservice.save(Presguardante);
 				reguardanteservice.save(Sresguardante);
 				return "redirect:Vehiculos";
 		}else{
+			
+
 				if(!coche.equals(vehiculox.getPlaca())) {
 							return "redirect:/idDuplicadoVehiCrea/"+vehiculox.getPlaca()+"/"+coche;
 					};
+				    
+					vehiculox.setVehiculo_detalle(detalle);	
+									
+					Vehiculo vehiculo_old = new Vehiculo();
+					vehiculo_old=vehiculoService.findOne(vehiculox.getId_vehiculo());
+					String valor_olvehi = vehiculo_old.toString();
 					
-					vehiculoService.save(vehiculox);		
+			
+					VehiculoDetalle detalle_old =  new VehiculoDetalle();
+					detalle_old=vehiculoService.findByVehiculoDetalle(vehiculox.getId_vehiculo());
+					String valor_oldetalle = detalle_old.toString();
+					
+					vehiculoService.save(vehiculox);	
+						
+					 LogsAudit logsv = new LogsAudit();
+					 LogsAudit logsd = new LogsAudit();
+			         
+			            logsv.setId_usuario(no_user);
+						logsv.setTipo_role(user);
+						logsv.setFecha(SystemDate.obtenFecha());
+						logsv.setHora(ObtenHour.obtenHour());
+						logsv.setName_table("VEHICULOS");
+						logsv.setValor_viejo(valor_olvehi);
+						logsv.setTipo_accion("UPDATE");
+						
+						logsd.setId_usuario(no_user);
+						logsd.setTipo_role(user);
+						logsd.setFecha(SystemDate.obtenFecha());
+						logsd.setHora(ObtenHour.obtenHour());
+						logsd.setName_table("VEHICULO_DETALLE");
+						logsd.setValor_viejo(valor_oldetalle);
+						logsd.setTipo_accion("UPDATE");
+														
+						logsauditService.save(logsv);
+						logsauditService.save(logsd);
+		
 		};		
 		
 		editar = false;						

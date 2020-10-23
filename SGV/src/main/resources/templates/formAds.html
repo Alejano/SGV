@@ -10,7 +10,8 @@
 	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
-		<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
+	<link rel="stylesheet" th:href="@{/assets/SweetAlert2/sweetalert2.css}">
+    <script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
@@ -76,24 +77,18 @@
 	                                        <form th:action="@{/formAds}" th:object="${adscripcion}" method="post" id="formulario"  name="visitas" data-toggle="validator" class="popup-form">
 	                                            <div class="row">
 	                                            
-	                                            <!--Id adscripcion-->
+	                                    
+	                                                    <!--nombre Adscripcion-->
 	                                                    <div class="form-group col-sm-9">
 	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{id_adscripcion}" id="Id_Ads" placeholder="Numero unico de Adscripcion" class="form-control signos" type="number" required data-error="Ingrese su Adscripcion"/>
-	                                                            <div class="input-group-icon"><i class="fa fa-user"></i></div>
-	                                                    </div>
-	
-	                                                    <!--Numero de Empleado-->
-	                                                    <div class="form-group col-sm-9">
-	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{nombre_adscripcion}" max=50 id="Nom_Ads" placeholder="Nombre de Adscripcion" class="form-control soloLetras" type="text" required data-error="Ingrese el nombre de la Adscripcion"/>
+	                                                            <input th:field="*{nombre_adscripcion}" max=50 id="Nom_Ads" placeholder="Nombre de Adscripcion"  onkeypress="return letras(event);" class="form-control" type="text" required data-error="Ingrese el nombre de la Adscripcion"/>
 	                                                            <div class="input-group-icon"><i class="fa fa-user"></i></div>
 	                                                    </div>
 	                                                    <!--Calle-->
 	
 	                                                    <div class="form-group col-sm-9">
 	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{calle}"  id="Calle" placeholder="Calle" max=30 class="form-control soloLetras" type="text" required data-error="Ingrese su Calle"/>
+	                                                            <input th:field="*{calle}"  id="Calle" placeholder="Calle" max=30  onkeypress="return letras(event);" class="form-control" type="text" required data-error="Ingrese su Calle"/>
 	                                                            <div class="input-group-icon"><i class="fas fa-map-marker-alt"></i></div>
 	                                                    </div>
 	
@@ -107,14 +102,14 @@
 	                                                    <!--Alcaldia-->
 	                                                    <div class="form-group col-sm-9">
 	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{alcaldia}"  id="Alc" placeholder="Alcaldia" class="form-control soloLetras" type="text" required data-error="Ingrese Alcaldia Correspondiente"/>
+	                                                            <input th:field="*{alcaldia}"  id="Alc" placeholder="Alcaldia"  onkeypress="return letras(event);" class="form-control" type="text" required data-error="Ingrese Alcaldia Correspondiente"/>
 	                                                            <div class="input-group-icon"><i class="fas fa-thumbtack"></i></div>
 	                                                    </div>
 	
 	                                                    <!--Codigo Postal-->
 	                                                    <div class="form-group col-sm-9">
 	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{codigo_postal}" min=1 max=99999 onchange="codigo()" id="Co_po" placeholder="Codigo Postal signos" class="form-control" type="number" required data-error="Ingrese Codigo Postal Valido"/>
+	                                                            <input th:field="*{codigo_postal}" min=1 max=99999 onchange="codigo()" id="Co_po" placeholder="Codigo Postal" class="form-control signos" type="number" required data-error="Ingrese Codigo Postal Valido"/>
 	                                                            <div class="input-group-icon"><i class="fas fa-hashtag"></i>	</div>
 	                                                    </div>
 	
@@ -122,9 +117,12 @@
 	                                                    <!--Entidad -->
 	                                                    <div class="form-group col-sm-9">
 	                                                            <div class="help-block with-errors"></div>
-	                                                            <input th:field="*{entidad}"  id="Enti" placeholder="Ingrese Entidad" class="form-control soloLetras" type="text" required data-error="Ingrese Entidad Valida"/>
+	                                                            <input th:field="*{entidad}"  id="Enti" placeholder="Ingrese Entidad"  onkeypress="return letras(event);" class="form-control" type="text" required data-error="Ingrese Entidad Valida"/>
 	                                                            <div class="input-group-icon"><i class="fas fa-atlas"></i></div>
 	                                                    </div>
+	                                                    	    
+	                                                    	    
+	                                                <input type="hidden" th:field="*{id_adscripcion}" />
 	                                                    	                                                    	                                                    													    													    	                                                    									
 	                                                    <!--Boton Guardar-->
 	                                                    <div class="form-group last col-sm-12">
@@ -172,6 +170,7 @@
 	<script src="/SGV/assets/js/validator.min.js"></script>
 	<!-- Contact Form Js -->
 	<script src="/SGV/assets/js/contact-form.js"></script>
+    <script src="/SGV/assets/SweetAlert2/sweetalert2.min.js"></script>
  
 </body>
 </html>

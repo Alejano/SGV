@@ -1,15 +1,25 @@
 package com.PGJ.SGV.controllers;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.PGJ.SGV.models.entity.Adscripcion;
+import com.PGJ.SGV.models.entity.LogsAudit;
 import com.PGJ.SGV.service.IAdscripcionService;
+import com.PGJ.SGV.service.ILogsAuditService;
+import com.PGJ.SGV.utilities.ObtenHour;
+import com.PGJ.SGV.utilities.SystemDate;
 
 
 
@@ -19,6 +29,8 @@ public class AdscripcionController {
 	
 	@Autowired
 	private IAdscripcionService adscripService;
+	@Autowired
+	private ILogsAuditService logsauditService;
 	
 	boolean editar = false;
 	Long ID;
@@ -26,6 +38,9 @@ public class AdscripcionController {
 	@RequestMapping(value="/Adscripciones", method = RequestMethod.GET)
 	public String listar(Model model) {
 		adscripciones = adscripService.findAll();
+		
+		if(adscripService.adscripcionestotales()>= 4) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};	
+
 		model.addAttribute("titulo","Listado de Adscripciones");
 		model.addAttribute("adscripciones",adscripciones);
 		
@@ -60,27 +75,82 @@ public class AdscripcionController {
 	}
 	
 	
+	
 	@RequestMapping(value="/formAds",method = RequestMethod.POST)
-	public String guardar(Adscripcion adscripcion){
+	public String guardar(Adscripcion adscripcion,Authentication authentication){
+		
+		
+		var user="";
+		var no_empleado ="";
+		no_empleado = authentication.getName();
 				
-		if(editar==false) {
-			for(Adscripcion ads:adscripciones) {
-				if(adscripcion.getId_adscripcion().equals(ads.getId_adscripcion())) {					
-					return "redirect:/idDuplicadoAds/"+adscripcion.getId_adscripcion();
-				};	
+		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER";
+				}else {
+					if(hasRole("ROLE_SEGURO")) {
+						user = "ROLE_SEGURO";
+					}
+				}	
 			}
-		}else{
-																
-				if( !ID.equals(adscripcion.getId_adscripcion())) {		
-					//System.out.println(usuario.getNo_empleado()+" "+ empleado);
-					return "redirect:/idDuplicadoAdsCrea/"+adscripcion.getId_adscripcion()+"/"+ID;
-				}									
-			
-		};
-		adscripService.save(adscripcion);			
+		
+		if(editar == true) {
+		
+		//Adscripciones OLD
+	    
+		Adscripcion adscripcion_old = null;
+		adscripcion_old = adscripService.findOne(adscripcion.getId_adscripcion());
+				
+	    System.err.println("old:"+adscripcion_old.toString());
+	    String valor_old = adscripcion_old.toString();
+	    
+	    adscripService.save(adscripcion);			
 		editar = false;	
+		
+		//Auditoria
+		
+     	LogsAudit logs = new LogsAudit();
+     	
+        logs.setId_usuario(no_empleado);
+		logs.setTipo_role(user);
+		logs.setFecha(SystemDate.obtenFecha());
+		logs.setHora(ObtenHour.obtenHour());
+		logs.setName_table("ADSCRIPCIONES");
+		logs.setValor_viejo(valor_old);
+		logs.setTipo_accion("UPDATE");
+								
+		logsauditService.save(logs);
+		
+		editar = false;	
+		
+		}else {
+			
+			adscripService.save(adscripcion);	
+			String valor_nuevo = adscripcion.toString();
+			
+			//Auditoria
+			
+			LogsAudit logs = new LogsAudit();
+			
+			logs.setId_usuario(no_empleado);
+			logs.setTipo_role(user);
+			logs.setFecha(SystemDate.obtenFecha());
+			logs.setHora(ObtenHour.obtenHour());
+			logs.setName_table("ADSCRIPCIONES");
+			logs.setValor_viejo(valor_nuevo);
+			logs.setTipo_accion("INSERT");
+			
+			logsauditService.save(logs);
+			
+		}
+		
 		return "redirect:Adscripciones";
-	}
+
+	} 
+		
 	
 	@RequestMapping(value="/elimAds/{id_adscripcion}")
 	public String eliminar (@PathVariable(value="id_adscripcion")Long id_adscripcion) {
@@ -91,8 +161,27 @@ public class AdscripcionController {
 		return "redirect:/Adscripciones";
 	}
 	
-	
-	
+
+	public static boolean hasRole(String role) {
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		if(context==null) {
+		return false;
+		}
+		
+		Authentication auth = context.getAuthentication();
+		
+		if(auth == null) {
+			return false;
+		}
+		
+		Collection<? extends GrantedAuthority> autorithies = auth.getAuthorities();
+		for(GrantedAuthority authority: autorithies) {
+			if(role.equals(authority.getAuthority())) {return true;}
+		}
+		return false;
+	}
+
 }
 
 

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.PGJ.SGV.models.entity.LogsAudit;
 import com.PGJ.SGV.models.entity.Mantenimiento;
 import com.PGJ.SGV.models.entity.Resguardante;
 import com.PGJ.SGV.models.entity.Seguro;
@@ -34,12 +35,16 @@ import com.PGJ.SGV.service.IUploadFileService;
 import com.PGJ.SGV.service.IUsuarioService;
 import com.PGJ.SGV.service.IVehiculoService;
 import com.PGJ.SGV.util.paginador.PageRender;
+import com.PGJ.SGV.utilities.ObtenHour;
+import com.PGJ.SGV.utilities.SystemDate;
+import com.PGJ.SGV.service.ILogsAuditService;
 import com.PGJ.SGV.service.IResguardanteService;
 import com.PGJ.SGV.service.ISiniestroService;
 
 @Controller
 public class SiniestroController {
  
+
 	List<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
 	List<Siniestro> siniestros = new ArrayList<Siniestro>();
 
@@ -54,6 +59,8 @@ public class SiniestroController {
 	private IUsuarioService usuarioService;
 	@Autowired
 	private IResguardanteService resguardanteService;
+	@Autowired
+	private ILogsAuditService logsauditService;
 	
 	boolean editar = false;
 	boolean aux=false;
@@ -62,7 +69,7 @@ public class SiniestroController {
 	
 	@RequestMapping(value="/Siniestros", method = RequestMethod.GET)
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page,Model model,Authentication authentication) {	
-			
+		
 		aux=false;
 		var ads="";			
 		if(hasRole("ROLE_ADMIN")) {
@@ -188,7 +195,7 @@ public class SiniestroController {
 	
 	@RequestMapping(value="/formSin/{id_siniestro}")
 	public String editar(@PathVariable(value="id_siniestro") Long id_siniestro,Map<String,Object>model) {
-		
+				
 		if(hasRole("ROLE_ADMIN")) {
 			user ="ROLE_ADMIN";	model.put("usuario",user);
 			}else {
@@ -207,11 +214,11 @@ public class SiniestroController {
 		
 		editar=true;
 		Siniestro siniestro = null;
+		
 	
 		if(!id_siniestro.equals(null)) {
 			siniestro = siniestroService.findOne(id_siniestro);
-			id_sin=siniestro.getId_siniestro();
-			System.err.println("prueba"+id_siniestro);
+			id_sin=siniestro.getId_siniestro();			
 		}else {
 			return "redirect:/Siniestros";
 		}
@@ -227,9 +234,22 @@ public class SiniestroController {
 	@RequestMapping(value="/formSin",method = RequestMethod.POST)
 	public String guardar(Siniestro siniestro, @RequestParam("file_ide") MultipartFile identificacion,@RequestParam("file_ine") MultipartFile ine,
 			@RequestParam("file_licencia") MultipartFile licencia, @RequestParam("file_declaracion") MultipartFile declaracion_universal,
-			@RequestParam("file_ingreso") MultipartFile constancia_ingreso, @RequestParam("file_salida") MultipartFile constancia_salida) {
+			@RequestParam("file_ingreso") MultipartFile constancia_ingreso, @RequestParam("file_salida") MultipartFile constancia_salida
+			,Authentication authentication) {
 		
-
+		    var user="";
+			var no_user ="";
+			no_user = authentication.getName();
+		
+	
+		   if(hasRole("ROLE_ADMIN")) {
+				user ="ROLE_ADMIN";						
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER";
+				}
+			};
+			
 			Vehiculo vehiculoselect =new Vehiculo();
 			
 			//IDENTIFICACION
@@ -252,7 +272,6 @@ public class SiniestroController {
 					e.printStackTrace();
 				}								
 			}
-			
 			
 			//INE
 			
@@ -295,7 +314,6 @@ public class SiniestroController {
 					e.printStackTrace();
 				}								
 			}
-			
 			
 			//DECLARACION UNIVERSAL
 			
@@ -411,21 +429,58 @@ public class SiniestroController {
 			
 					if(editar == true) {
 						
+						//Siniestro OLD
+					    
+						Siniestro siniestro_old = null;
+						siniestro_old = siniestroService.findOne(siniestro.getId_siniestro());
+					    System.err.println("old:"+siniestro_old.toString());
+					    String valor_old = siniestro_old.toString();
+					    
 						System.err.println("entroeditar: "+siniestro.getId_siniestro());
-						System.err.println(siniestro.getUrl_identificacion_fgjcdmx());
-
 						vehiculoselect = vehiculoService.findOne(siniestro.getVehiculo().getId_vehiculo());	
 						siniestro.setVehiculo(vehiculoselect);
 						siniestroService.save(siniestro);
-						editar = false;	
+						
+						//Auditoria
+						
+                     	LogsAudit logs = new LogsAudit();
+                     	
+                        logs.setId_usuario(no_user);
+						logs.setTipo_role(user);
+						logs.setFecha(SystemDate.obtenFecha());
+						logs.setHora(ObtenHour.obtenHour());
+						logs.setName_table("SINIESTROS");
+						logs.setValor_viejo(valor_old);
+						logs.setTipo_accion("UPDATE");
+												
+						logsauditService.save(logs);
+						
+					    editar = false;	
 						
 					}else {
 					
-						System.err.println("entrocrear: "+siniestro.getId_siniestro());
+					System.err.println("entrocrear: "+siniestro.getId_siniestro());
 				
 					vehiculoselect = vehiculoService.findOne(siniestro.getVehiculo().getId_vehiculo());							
 					siniestro.setVehiculo(vehiculoselect);
+					System.err.println("CREA:"+siniestro.toString());
 					siniestroService.save(siniestro);
+					String valor_nuevo=siniestro.toString();
+					
+					//Auditoria
+					
+                 	LogsAudit logs = new LogsAudit();
+                 	
+                    logs.setId_usuario(no_user);
+					logs.setTipo_role(user);
+					logs.setFecha(SystemDate.obtenFecha());
+					logs.setHora(ObtenHour.obtenHour());
+					logs.setName_table("SINIESTROS");
+					logs.setValor_viejo(valor_nuevo);
+					logs.setTipo_accion("INSERT");
+											
+					logsauditService.save(logs);
+
 					}				
 				
 	    return "redirect:/ListarSiniestros/"+siniestro.getVehiculo().getId_vehiculo();
@@ -634,7 +689,6 @@ public class SiniestroController {
 		return false;
 	}
 
-	
 	
 	
 }

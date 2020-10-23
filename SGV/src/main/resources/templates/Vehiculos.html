@@ -254,9 +254,8 @@
         <hr>
 
         <!-- opction -->
-        
-        <div class="modal-body btnModal">
-                  	<div class="col-sm-12">	
+      <div class="modal-body btnModal">
+          	<div class="col-sm-12">	
 				<div th:if="${usuario} == 'ROLE_ADMIN'" data-value="1" class="optionModal ">
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/formVehi/} " th:text="'Editar la informacion del vehiculo'" id="edi" ></a>
 				</div>
@@ -285,8 +284,9 @@
 					<a class="btn btn-primary btn-xs btn-stilo btnModalb" th:href="@{/infoResguardante/}" id="resg" th:text="'Ver y asignar resguardantes del vehiculo'" ></a>
 				</div>																															 		
 			</div>
-          	</div>
+        </div>
         
+     
 
         <p class="text-center">
           <strong>...</strong>
@@ -439,15 +439,15 @@
 		 var Dato = id;
 		 var estado = Nombre_estado;
 		 $("#titulo").text("Seleccionaste el vehiculo con placa: "+placa);
-		 $("#edi").prop("href","/SGV/formVehi/"+id);
-		 $("#baj").prop("href","/SGV/formBaja/"+id);
-		 $("#man").prop("href","/SGV/Mantenimientos/"+id);
-		 $("#via").prop("href","/SGV/ListarViajes/"+id);
-		 //$("#via").prop("href","/SGV/VehiViaj/"+id);
-		 $("#eg").prop("href","/SGV/ListarSeguros/"+id);
-		 $("#resg").prop("href","/SGV/infoResguardante/"+id);
-		 $("#sin").prop("href","/SGV/ListarSiniestros/"+id);
-
+		 $("#edi").prop("href","/formVehi/"+id);
+		 $("#baj").prop("href","/formBaja/"+id);
+		 $("#comb").prop("href","/ListarCombustible/"+id);
+		 $("#man").prop("href","Mantenimientos/"+id);
+		 $("#via").prop("href","/ListarViajes/"+id);
+		 $("#eg").prop("href","/ListarSeguros/"+id);
+		 $("#resg").prop("href","/infoResguardante/"+id);
+		 $("#sin").prop("href","/ListarSiniestros/"+id);
+ 
 	 }
 	 
 	

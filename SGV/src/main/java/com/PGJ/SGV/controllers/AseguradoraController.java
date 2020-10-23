@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.PGJ.SGV.models.entity.Aseguradora;
+import com.PGJ.SGV.models.entity.LogsAudit;
 import com.PGJ.SGV.models.entity.Vehiculo;
 import com.PGJ.SGV.service.IAseguradoraService;
+import com.PGJ.SGV.service.ILogsAuditService;
+import com.PGJ.SGV.utilities.ObtenHour;
+import com.PGJ.SGV.utilities.SystemDate;
 
 
 
@@ -27,6 +31,8 @@ public class AseguradoraController {
 			
 	@Autowired
 	private IAseguradoraService asegService;
+	@Autowired
+	private ILogsAuditService logsauditService;
 	
 	Vehiculo vehiculo = new Vehiculo();
 	static String user="";
@@ -52,6 +58,9 @@ public class AseguradoraController {
 					}
 
 		aseguradora = asegService.findAll();
+		
+		if(asegService.aseguradorastotales()>= 5) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};	
+
 		model.addAttribute("titulo","Listado de Aseguradoras");
 		model.addAttribute("aseguradoras",aseguradora);
 		return "Aseguradoras/Aseguradoras";
@@ -91,11 +100,24 @@ public class AseguradoraController {
 	}
 	
 	@RequestMapping(value="/estadoAseg/{id_aseguradora}/{enabled}")
-	public String estado (@PathVariable(value="id_aseguradora")Long id_aseguradora,@PathVariable(value="enabled")boolean enabled) {
+	public String estado (@PathVariable(value="id_aseguradora")Long id_aseguradora,@PathVariable(value="enabled")boolean enabled,Authentication authentication) {
+		
+		var user="";
+		var no_user ="";
+		no_user = authentication.getName();
+		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER";
+				}
+			}
 		
 		Aseguradora aseguradora = null;
 		boolean seteo = false;
-		aseguradora = asegService.findOne(id_aseguradora);			
+		aseguradora = asegService.findOne(id_aseguradora);	
+		
 		if(enabled) {
 			seteo=false;
 			aseguradora.setEnabled(seteo);
@@ -104,7 +126,29 @@ public class AseguradoraController {
 				aseguradora.setEnabled(seteo);	
 				}
 		
-		asegService.save(aseguradora);		
+		Aseguradora aseguradora_old = null;
+		aseguradora_old = asegService.findOne(aseguradora.getId_aseguradora());
+	    System.err.println("old:"+aseguradora_old.toString());
+	    String valor_old = aseguradora_old.toString();
+	    
+	    asegService.save(aseguradora);	
+	
+		//Auditoria
+		
+     	LogsAudit logs = new LogsAudit();
+     	
+        logs.setId_usuario(no_user);
+		logs.setTipo_role(user);
+		logs.setFecha(SystemDate.obtenFecha());
+		logs.setHora(ObtenHour.obtenHour());
+		logs.setName_table("ASEGURADORAS");
+		logs.setValor_viejo(valor_old);
+		logs.setTipo_accion("UPDATE");
+								
+		logsauditService.save(logs);
+		
+		editar = false;		
+			
 	    return "redirect:/Aseguradoras";
 	    
 	}
@@ -129,14 +173,74 @@ public class AseguradoraController {
 	}
 	
 	@RequestMapping(value="/formAseg",method = RequestMethod.POST)
-	public String guardar(Aseguradora aseguradora) {	
+	public String guardar(Aseguradora aseguradora,Authentication authentication) {	
 
+		var user="";
+		var no_user ="";
+		no_user = authentication.getName();
+		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER";
+				}
+			}
+		
+		
+		if(editar == true) {
+			
+			//Aseguradora OLD
+			
+			Aseguradora aseguradora_old = null;
+		    aseguradora_old = asegService.findOne(aseguradora.getId_aseguradora());	
+		    System.err.println("old:"+aseguradora_old.toString());
+		    String valor_old = aseguradora.toString();
+		    
+			asegService.save(aseguradora);
+			
+			//Auditoria
+			
+         	LogsAudit logs = new LogsAudit();
+         	
+            logs.setId_usuario(no_user);
+			logs.setTipo_role(user);
+			logs.setFecha(SystemDate.obtenFecha());
+			logs.setHora(ObtenHour.obtenHour());
+			logs.setName_table("ASEGURADORAS");
+			logs.setValor_viejo(valor_old);
+			logs.setTipo_accion("UPDATE");
+									
+			logsauditService.save(logs);
+			editar = false;	
+			
+		
+		}else {
+		
 		asegService.save(aseguradora);
-		editar = false;	
+		String valor_nuevo=aseguradora.toString();
+		
+		//Auditoria
+		
+     	LogsAudit logs = new LogsAudit();
+     	
+        logs.setId_usuario(no_user);
+		logs.setTipo_role(user);
+		logs.setFecha(SystemDate.obtenFecha());
+		logs.setHora(ObtenHour.obtenHour());
+		logs.setName_table("ASEGURADORAS");
+		logs.setValor_viejo(valor_nuevo);
+		logs.setTipo_accion("INSERT");
+								
+		logsauditService.save(logs);
+		
+		}
+		
+		//asegService.save(aseguradora);
+		//editar = false;	
 		
 		return "redirect:Aseguradoras";
 	}
-	
 	
 	@RequestMapping(value="/elimAseg/{id_aseguradora}")
 	public String eliminar (@PathVariable(value="id_aseguradora")Long id_aseguradora) {

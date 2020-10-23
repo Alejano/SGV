@@ -148,4 +148,10 @@ public class Conductor implements Serializable {
 		return serialVersionUID;
 	}
 	
+	@Override
+	public String toString() {
+		return "NO EMPLEADO:"+no_empleado+ " ; " + "NOMBRE:" + nombre + " " + apellido1 + " " + apellido2 + " ; " + "ENABLED:" + enabled + " ; " +
+				"FECHA ALTA:"+ fecha_alta + " ; " + "FECHA BAJA:"+ fecha_baja + " ; " + "NO INE:"+ no_ine + " ; " + "VIG INE:"+ vig_ine + " ; " + 
+				"NO LICENCIA:"+ no_licencia + " ; " + "VIG LICENCIA: "+ vig_licencia ;
+	}
 }

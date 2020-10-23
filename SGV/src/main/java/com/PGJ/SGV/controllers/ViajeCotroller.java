@@ -23,13 +23,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.PGJ.SGV.models.entity.LogsAudit;
 import com.PGJ.SGV.models.entity.Usuario;
 import com.PGJ.SGV.models.entity.Vehiculo;
 import com.PGJ.SGV.models.entity.Viaje;
+import com.PGJ.SGV.service.ILogsAuditService;
 import com.PGJ.SGV.service.IUsuarioService;
 import com.PGJ.SGV.service.IVehiculoService;
 import com.PGJ.SGV.service.IViajeService;
 import com.PGJ.SGV.util.paginador.PageRender;
+import com.PGJ.SGV.utilities.ObtenHour;
+import com.PGJ.SGV.utilities.SystemDate;
 
 
 @Controller
@@ -44,6 +48,9 @@ public class ViajeCotroller {
 	private IVehiculoService vehiculoService;
 	@Autowired
 	private IUsuarioService usuarioService;
+	@Autowired
+	private ILogsAuditService logsauditService;
+	
 	
 	static String user="";
 	boolean editar = false;
@@ -51,6 +58,7 @@ public class ViajeCotroller {
 	Long id_vehi=null;
 	Double kilom_final;
 	//Long id_vehi_edit=null;
+	
 
 	@RequestMapping(value="/Viajes", method = RequestMethod.GET)
 	public String listar(@RequestParam(name="page", defaultValue = "0") int page,Model model, HttpServletRequest request,Authentication authentication) {	
@@ -102,6 +110,7 @@ public class ViajeCotroller {
 		
 	}
 		
+	
 	@RequestMapping(value="/ListarViajes/{id_vehiculo}", method = RequestMethod.GET)
 	public String listarpv(@PathVariable(value="id_vehiculo") Long id_vehiculo,@RequestParam(name="page", defaultValue = "0") int page,Model model,HttpServletRequest request,Authentication authentication) {	
 
@@ -172,7 +181,6 @@ public class ViajeCotroller {
 	    		}else {
 	    			return "formViaj";
 	    			}
-	    			    			
 	}
 	
 	
@@ -198,11 +206,77 @@ public class ViajeCotroller {
 	
 	
 	@RequestMapping(value="/formViaj",method = RequestMethod.POST)
-	public String guardar(Viaje viaje){		
+	public String guardar(Viaje viaje,Authentication authentication){
+		
+		var user="";
+		var no_user ="";
+		no_user = authentication.getName();
+		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER";
+				}
+			}
 		
 		Vehiculo vehi= new Vehiculo();
 		 
-		if(editar==false) {
+		
+            if(editar == true) {
+			
+			//VIAJES OLD
+		    
+			Viaje viaje_old = null;
+			viaje_old = viajeService.findOne(viaje.getId_viaje());
+		    System.err.println("old:"+viaje_old.toString());
+		    String valor_old = viaje_old.toString();
+		    
+		    viajeService.save(viaje);
+			
+			//Auditoria
+			
+         	LogsAudit logs = new LogsAudit();
+         	
+            logs.setId_usuario(no_user);
+			logs.setTipo_role(user);
+			logs.setFecha(SystemDate.obtenFecha());
+			logs.setHora(ObtenHour.obtenHour());
+			logs.setName_table("VIAJES");
+			logs.setValor_viejo(valor_old);
+			logs.setTipo_accion("UPDATE");
+									
+			logsauditService.save(logs);
+			
+		}else {
+		
+			
+			vehi=vehiculoService.findOne(id_vehi);
+      	    viaje.setVehiculo(vehi);
+    		kilom_final=viaje.getKilometraje_final();
+      	    vehi.setKilometraje_inicial(kilom_final);
+      	    vehiculoService.save(vehi);
+		    viajeService.save(viaje);
+		    
+			String valor_nuevo=viaje.toString();
+			
+			//Auditoria
+			
+	     	LogsAudit logs = new LogsAudit();
+	     	
+	        logs.setId_usuario(no_user);
+			logs.setTipo_role(user);
+			logs.setFecha(SystemDate.obtenFecha());
+			logs.setHora(ObtenHour.obtenHour());
+			logs.setName_table("VIAJES");
+			logs.setValor_viejo(valor_nuevo);
+			logs.setTipo_accion("INSERT");
+									
+			logsauditService.save(logs);
+			
+			}
+		
+	     /*	if(editar==false) {
 	     	vehi=vehiculoService.findOne(id_vehi);
       	    viaje.setVehiculo(vehi);
     		kilom_final=viaje.getKilometraje_final();
@@ -211,11 +285,10 @@ public class ViajeCotroller {
 		    viajeService.save(viaje);	
 		    } else {
 		    	viajeService.save(viaje);
-		    	}
+		    	}*/
 		
 		return "redirect:ListarViajes/"+viaje.getVehiculo().getId_vehiculo();
 	}
-	
 	
 	
 	@RequestMapping(value="/elimViaj/{id_viaje}")
@@ -249,8 +322,6 @@ public class ViajeCotroller {
 									elemento = elemento.replaceAll(",","");	
 							};
 					
-							
-
 					elementof = elemento.toUpperCase();
 					Page<Viaje> viajespage= viajeService.ViajeElemVehiPage(id_vehi, elementof, pageRequest);
 					PageRender<Viaje> pageRender = new PageRender<>("/formViajBuscarPv?elemento="+elementof, viajespage);
@@ -264,9 +335,9 @@ public class ViajeCotroller {
 					}
 					else{
 					return "redirect:/Viajes";
-					}						
+					}		
+						
 	}
-	
 	
 	@RequestMapping(value="/formViajBuscar")
 	public String Buscartabla(@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication,
@@ -302,7 +373,7 @@ public class ViajeCotroller {
 		model.addAttribute("page",pageRender);
 		model.addAttribute("auxiliar", aux);
 		model.addAttribute("elemento",elementof);
-		return "Viajes"; 
+		return "Viajes";
 		};
 
 
@@ -324,6 +395,7 @@ public class ViajeCotroller {
 						
 	}
 
+	
 	private static boolean isValidDouble(String s) {
 		
 		  final String Digits     = "(\\p{Digit}+)";

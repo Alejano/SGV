@@ -168,11 +168,12 @@ public class VehiculoDetalle implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-		
-
-
 	
-	
-
+	@Override
+	public String toString() {
+		return "ID DETALLE:" +id_detalle+ " " + "RIN:" + rin + " " + "MOTOR:"+ no_motor + " " +"NO ECONOMICO:"+no_economico+ " "+
+				"CILINDROS:"+ no_cilindros + " " +  "PERS:" + no_personas + " " + "PUERTAS:" + no_puertas + " " + "COMBUS:" + tipo_combustible + " " +
+			     "COLOR:" + color;
+	}
 
 }
