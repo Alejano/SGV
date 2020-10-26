@@ -546,7 +546,9 @@
 												  	<input type="hidden" th:field="*{id_vehiculo}"/>
 												  	<input type="hidden" th:field="*{motivo}" value="Alta Servicio"/>
 												  	<input type="hidden" th:field="*{vehiculo_estado.id_estado}"/>
-												  	<input type="hidden" th:field="*{vehiculo_marca.id_marca}"/>
+												  	<div id="marcaid">
+												  		<input type="hidden" th:field="*{vehiculo_marca.id_marca}"/>
+												  	</div>
 												  	<input type="hidden" th:field="*{vehiculo_funcion}"/>
 												  	<input type="hidden" th:field="*{vehiculo_transmision}"/>
 												  	<input type="hidden" th:field="*{vehiculo_detalle}"/>
@@ -599,6 +601,10 @@
 	$( '#Tipo' ).change(function() {
 		$('#Clase').load('refreshClase',"nombre_marca="+$('#marca').val()+"&nombre_submarca="+$('#Submarca').val()+"&modelo="+$('#Modelo').val()+"&tipo="+$('#Tipo').val());
 		$('#Clase').prop("disabled",false);
+	});
+	
+	$( '#Clase' ).change(function() {		
+		$('#marcaid').load('refreshID',"nombre_marca="+$('#marca').val()+"&nombre_submarca="+$('#Submarca').val()+"&modelo="+$('#Modelo').val()+"&tipo="+$('#Tipo').val()+"&clase="+$('#Clase').val());		
 	});
 		
 	

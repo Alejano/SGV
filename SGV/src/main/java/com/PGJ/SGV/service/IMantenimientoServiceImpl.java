@@ -91,9 +91,11 @@ public class IMantenimientoServiceImpl implements IMantenimientoService {
 
 	@Override
 	public Page<Mantenimiento> FindMantElemPage(String elemento, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return imantDao.FindMantElemPage(elemento, pageable);
+		
+			return imantDao.FindMantElemPageL(elemento, pageable);
+		
 	}
+	
 
 	@Override
 	public Long totalMantenimiento() {

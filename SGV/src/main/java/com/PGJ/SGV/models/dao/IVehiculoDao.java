@@ -16,7 +16,7 @@ public interface IVehiculoDao extends PagingAndSortingRepository<Vehiculo,Long >
 	@Query("select v from Vehiculo v inner join VehiculoMarca m on v.vehiculo_marca.id_marca = m.id_marca inner join VehiculoEstado e on v.vehiculo_estado.id_estado = e.id_estado where m.clase like ?1 and e.id_estado='1'")
 	public Page<Vehiculo> findTVechiulo(String vehiculo,Pageable pageable);
 	
-	@Query("select p from Vehiculo p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion where a.id_adscripcion like ?1")
+	@Query("select p from Vehiculo p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion inner join VehiculoEstado e on p.vehiculo_estado.id_estado = e.id_estado where a.id_adscripcion = ?1 and e.id_estado != '5'")
 	public List<Vehiculo> findVehiculosArea(Long id_adscripcion);
 	
 	@Query("select p from Vehiculo p inner join Adscripcion a on p.adscripcion.id_adscripcion = a.id_adscripcion where a.id_adscripcion = ?1")

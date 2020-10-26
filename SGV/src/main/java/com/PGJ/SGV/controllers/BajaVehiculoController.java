@@ -37,7 +37,7 @@ public class BajaVehiculoController {
 		BajaVehiculo bajavehiculo = new BajaVehiculo();
 		
 	
-		if(!id_vehiculo.equals("")) {
+		if(!id_vehiculo.equals(null)) {
 			vehiculo = vehiculoService.findOne(id_vehiculo);			
 			cocheid = vehiculo.getId_vehiculo();
 		}else {
@@ -63,7 +63,7 @@ public class BajaVehiculoController {
 		String estado = "Baja";
 		String motivo =  "baja";
 		
-		if(!cocheid.equals("")) {
+		if(!cocheid.equals(null)) {
 			vehiculo = vehiculoService.findOne(cocheid);			
 			
 		}else {
@@ -110,6 +110,7 @@ public class BajaVehiculoController {
 			baja.setUrl_oficio_baja(nombreUnico2);
 			baja.setUrl_dictamen(nombreUnico3);
 			baja.setVehiculo(vehiculo);			
+			vehiculo.setMotivo(motivo);
 			vehiculo.setVehiculo_estado(vehiculoestado);
 			vehiculoService.save(vehiculo);
 			bajaservice.save(baja);

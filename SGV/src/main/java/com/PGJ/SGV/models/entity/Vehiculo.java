@@ -48,11 +48,18 @@ public class Vehiculo implements Serializable {
 		@JoinColumn(name ="id_vehiculo")
 		private VehiculoDetalle vehiculo_detalle;
 		
+		@OneToOne(cascade = CascadeType.ALL)	
+		@JoinColumn(name ="id_vehiculo")
+		private BajaVehiculo bajavehiculo;
+		
 		@ManyToOne(fetch = FetchType.LAZY)
 		private Adscripcion adscripcion;
 		
 		@OneToMany(mappedBy = "vehiculo",fetch = FetchType.LAZY)
 		private List<Seguro> seguros;
+		
+		@OneToMany(mappedBy = "vehiculo",fetch = FetchType.LAZY)
+		private List<Revista> revistas;
 			
 		
 		//SQL
@@ -81,6 +88,22 @@ public class Vehiculo implements Serializable {
 			return vehiculo_estado;
 		}
 		
+		public BajaVehiculo getBajavehiculo() {
+			return bajavehiculo;
+		}
+
+		public void setBajavehiculo(BajaVehiculo bajavehiculo) {
+			this.bajavehiculo = bajavehiculo;
+		}
+
+		public List<Revista> getRevistas() {
+			return revistas;
+		}
+
+		public void setRevistas(List<Revista> revistas) {
+			this.revistas = revistas;
+		}
+
 		public double getKilometraje_inicial() {
 			return kilometraje_inicial;
 		}
@@ -115,7 +138,8 @@ public class Vehiculo implements Serializable {
 			vehiculo_transmision = new VehiculoTransmision();
 			resguardante = new ArrayList<Resguardante>();
 		}
-					
+		
+				
 
 		public long getId_vehiculo() {
 			return id_vehiculo;
@@ -269,11 +293,10 @@ public class Vehiculo implements Serializable {
 			this.seguros = seguros;
 		}
 		
-		 @Override
-			public String toString() {
-				return "ID VEHICULO:"  +id_vehiculo+ " ; " +"PLACA:" + placa + " ; " + "NO SERIE:" + no_serie + " ; " +
-						"NO INVENTARIO:" + no_inventario + " ; " + "FECHA TARJETA:"+ fecha_tarjeta + " ; " +"VALE:"+ vale + " ; " +
-						"KILO INI:"+ kilometraje_inicial + " ; " +  "ADSCRIPCION:" + adscripcion.getId_adscripcion();
-			}			
+		
+		
+	
+				
+				
 		
 }

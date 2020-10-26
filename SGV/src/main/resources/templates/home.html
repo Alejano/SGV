@@ -9,7 +9,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="CSS/home.css" />
-		<link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/SGV/assets/css/font-awesome.min.css">
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
@@ -25,6 +25,7 @@
 	<div class="loader" style="display:none">
 		<div class="preloader" ></div>
 	</div>
+	<!--  
 	   <div style="    position: absolute;width: 50%;height: 560px;">
 			<div style="position: relative;display: block;" >
 				<button class="btn-minimize" style="background: repeating-linear-gradient(186deg, #2e4e4f, transparent 172px); box-shadow: none;">Entra A Hablar con nosotros</button>
@@ -32,7 +33,7 @@
 			<div id="VC" style="display: block;position: relative;z-index: 5;height: 560px; display: none;">
 			 <iframe allow="camera; microphone; display-capture" src="https://conferencia.fgjcdmx.gob.mx/Pruebaallowfullscreen=true" style="height: 100%; width: 100%; border: 0px;"></iframe>	
 			</div>			
-	   </div>
+	   </div>-->
 		<!-- Wrapper -->
 	<div id="wrapper">
 	
@@ -232,15 +233,15 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('/gs-guide-websocket');
+    var socket = new SockJS('/SGV/gs-guide-websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/SGV/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
-        stompClient.subscribe('/topic/MantTimeReal', function (greeting) {
+        stompClient.subscribe('/SGV/topic/MantTimeReal', function (greeting) {
             showMantRegistros(JSON.parse(greeting.body).content);
         });
     });
@@ -258,12 +259,12 @@ function disconnect() {
 
 function sendName2() {
 	//alert("Mande la peticion al server ");
-    stompClient.send("/app/TimeReal", {}, JSON.stringify({'name': '110690'}));
+    stompClient.send("/SGV/app/TimeReal", {}, JSON.stringify({'name': '110690'}));
 }
 
 function sendName() {
 	sendName2();
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': '110690'}));
+    stompClient.send("/SGV/app/hello", {}, JSON.stringify({'name': '110690'}));
 }
 
 function showMantRegistros(message2) {

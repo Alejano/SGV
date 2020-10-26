@@ -15,7 +15,7 @@
 	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>	
 </head>
-<body>
+<body onload="datos();">
 	<header>
 		<div class="heades">
 			<img th:src="@{../images/pgj.png}" style="width: 20%">			
@@ -71,7 +71,7 @@
 	                                    <div class="col-md-12">
 	                                    <form th:action="@{/TResguardante/}+${placa}" th:object="${Tresguardante}" method="post" id="formulario" data-toggle="validator" class="popup-form">
 	                                        <div class="col-sm-12">
-                                           		<h1>Selecciona el Resguardante del vehiculo</h1>
+                                           		<h1>Selecciona el Tercer Resguardante del vehiculo</h1>
                                            	</div>	
                                            	
                                            	<div class="Paso1 col-sm-12" >
@@ -373,6 +373,13 @@
 			
 			$("#finishP1").show();
 		};
+    }
+    
+    function datos(){
+    	$("#Nombre3").val(" ");
+    	$("#A_pa3").val(" ");
+    	$("#A_ma3").val(" ");
+    	$("#cargo3").val(" ");
     }
 
     </script>

@@ -28,7 +28,7 @@
       </button>
       <!-- Brand -->
       <a class="navbar-brand pt-0" th:href="@{/}">
-        <img src="/SGV/dashboardAssets/img/brand/PGJLOGO.png" class="navbar-brand-img" alt="...">
+        <img src="/dashboardAssets/img/brand/PGJLOGO.png" class="navbar-brand-img" alt="...">
       </a>
       <!-- Collapse -->
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
@@ -51,22 +51,22 @@
         <h6 class="navbar-heading text-muted">Paginas</h6>
         <!-- Navigation -->
         <ul class="navbar-nav mb-md-3">
-          <li class="nav-item">
+          <li class="nav-item" th:if="${us == 'ROLE_ADMIN' or us == 'ROLE_USER'}">
             <a class="nav-link" th:href="@{/Viajes}">
               <i class="ni ni-spaceship"></i> Viajes
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" th:if="${us == 'ROLE_ADMIN' or us == 'ROLE_USER'}">
             <a class="nav-link" th:href="@{/Vehiculos}">
               <i class="ni ni-ui-04"></i> Vehiculos
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" th:if="${us == 'ROLE_ADMIN' or us == 'ROLE_USER'}">
             <a class="nav-link" th:href="@{/Conductores}">
               <i class="ni ni-ui-04"></i> Conductores
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" th:if="${us == 'ROLE_ADMIN' or us == 'ROLE_USER' or us == 'SEGURO'}">
             <a class="nav-link" th:href="@{/Seguros}">
               <i class="ni ni-ui-04"></i> Seguros
             </a>
@@ -76,7 +76,7 @@
               <i class="ni ni-ui-04"></i> Usuarios
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" th:if="${us == 'ROLE_ADMIN' or us == 'ROLE_USER'}">
             <a class="nav-link" th:href="@{/Mantenimientos}">
               <i class="ni ni-ui-04"></i> Mantenimiento
             </a>
@@ -101,7 +101,7 @@
     </nav>
     <!-- End Navbar -->
     <!-- Header -->
-    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="background-image: url(/SGV/dashboardAssets/img/theme/fondo.png); padding-top: 10px !important;padding-bottom: 10px !important; min-height: 328px;  background-size: cover; background-position: center top;">
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="background-image: url(/dashboardAssets/img/theme/fondo.png); padding-top: 10px !important;padding-bottom: 10px !important; min-height: 328px;  background-size: cover; background-position: center top;">
       <!-- Mask -->
       <span class="mask bg-gradient-default opacity-8"></span>
       <!-- Header container -->
@@ -123,7 +123,7 @@
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                   <a href="#">
-                    <img src="/SGV/dashboardAssets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                    <img src="/dashboardAssets/img/theme/team-4-800x800.jpg" class="rounded-circle">
                   </a>
                 </div>
               </div>
@@ -241,11 +241,11 @@
 		}
 	</script>
   <!--   Core   -->
-  <script src="/SGV/dashboardAssets/js/plugins/jquery/dist/jquery.min.js"></script>
-  <script src="/SGV/dashboardAssets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/dashboardAssets/js/plugins/jquery/dist/jquery.min.js"></script>
+  <script src="/dashboardAssets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <!--   Optional JS   -->
   <!--   Argon JS   -->
-  <script src="/SGV/dashboardAssets/js/argon-dashboard.min.js?v=1.1.0"></script>
+  <script src="/dashboardAssets/js/argon-dashboard.min.js?v=1.1.0"></script>
   <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
     window.TrackJS &&

@@ -75,7 +75,6 @@ public class ResguardanteController {
 	public String Agregar(Map<String,Object> model,@PathVariable(value="placa") String placa) {
 		Resguardante Presguardante = new Resguardante();
 		Resguardante Sresguardante = new Resguardante();
-		Resguardante Tresguardante = new Resguardante();
 		
 		TipoResguardante tiposResguardoP = new TipoResguardante();
 		TipoResguardante tiposResguardoS = new TipoResguardante();
@@ -90,8 +89,7 @@ public class ResguardanteController {
 		
 		model.put("placa", placa);
 		model.put("Presguardante", Presguardante);
-		model.put("Sresguardante", Sresguardante);
-		model.put("Tresguardante", Tresguardante);
+		model.put("Sresguardante", Sresguardante);		
 		model.put("tiposResguardoP", tiposResguardoP);
 		model.put("tiposResguardoS", tiposResguardoS);
 		model.put("conductores", conductoresdb);
@@ -209,8 +207,11 @@ public class ResguardanteController {
 		
 		List<Usuario> usuariosdb = new ArrayList<Usuario>();
 		List<Conductor> conductoresdb = new ArrayList<Conductor>();	
+		
+		
 		usuariosdb = usuarioService.findAll();
 		conductoresdb = conductorService.findAll();
+	
 		model.put("conductores", conductoresdb);
 		model.put("usuarios",usuariosdb);
 		model.put("placa", placa);					
@@ -225,7 +226,7 @@ public class ResguardanteController {
 	public String tresPOST(Map<String,Object> model,Resguardante resguardante,
 			@PathVariable(value="placa") String placa
 			) {
-		
+		Long id = Sresguardante.getId_resguardante();
 		Tresguardante.setNombre(resguardante.getNombre());			
 		Tresguardante.setApellido1(resguardante.getApellido1());					
 		Tresguardante.setApellido2(resguardante.getApellido2());					
@@ -233,9 +234,11 @@ public class ResguardanteController {
 		Date ahora = new Date();
 		SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
 		Tresguardante.setFecha_inicio(formateador.format(ahora));
-		Tresguardante.setId_resguardante(Sresguardante.getId_resguardante()+1);	
+		Tresguardante.setId_resguardante(id +1);	
 		Tresguardante.setTipo_resguardante_id(tiporesguardoService.findOne((long) 3));
-		
+		System.out.println(Presguardante.getId_resguardante());
+		System.out.println(Sresguardante.getId_resguardante());
+		System.out.println(Tresguardante.getId_resguardante());
 		
 		Presguardante.setActivo(true);
 		Sresguardante.setActivo(true);
@@ -245,6 +248,7 @@ public class ResguardanteController {
 		res = reguardanteservice.findActivos();
 		
 		for(Resguardante re:res) {
+			re.setFecha_fin(formateador.format(ahora));
 			re.setActivo(false);
 			reguardanteservice.save(re);
 		}

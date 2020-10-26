@@ -32,8 +32,8 @@ public interface IMantenimientoDao extends PagingAndSortingRepository<Mantenimie
 	
 	//busquedas en tablas
 	
-	@Query("select m from Mantenimiento m inner join Vehiculo v on m.vehiculo.id_vehiculo = v.id_vehiculo inner join Adscripcion a on v.adscripcion.id_adscripcion=a.id_adscripcion where v.id_vehiculo = ?1 or m.costo_mantenimiento like %?1% or m.fecha_entrega like %?1% or m.fecha_ingreso like %?1% or m.kilometraje like %?1% or m.observaciones like %?1%")
-	public Page<Mantenimiento> FindMantElemPage(String elemento,Pageable pageable);
+	@Query("select m from Mantenimiento m inner join Vehiculo v on m.vehiculo.id_vehiculo = v.id_vehiculo inner join Adscripcion a on v.adscripcion.id_adscripcion=a.id_adscripcion where v.placa like %?1% or m.fecha_entrega like %?1% or m.fecha_ingreso like %?1% or m.observaciones like %?1%")
+	public Page<Mantenimiento> FindMantElemPageL(String elemento,Pageable pageable);
 	
 	@Query("select m from Mantenimiento m inner join Vehiculo v on m.vehiculo.id_vehiculo = v.id_vehiculo inner join Adscripcion a on v.adscripcion.id_adscripcion=a.id_adscripcion where a.id_adscripcion like ?1 and (v.placa like %?2% or m.costo_mantenimiento like %?2% or m.fecha_entrega like %?2% or m.fecha_ingreso like %?2% or m.kilometraje like %?2% or m.observaciones like %?2%)")
 	public Page<Mantenimiento> FindMantelemntAreaPage(Long id_adscripcion,String elemento ,Pageable pageable);

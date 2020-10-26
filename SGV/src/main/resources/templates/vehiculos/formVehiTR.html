@@ -344,6 +344,7 @@
           		$("#A_pa3").val(A1);
           		$("#A_ma3").val(A2);    		    	
     			$("#clean3").show();
+    			limpiarTR();
     	});
     });
     
@@ -362,7 +363,7 @@
     	          		$("#A_pa3").val(A1);
     	          		$("#A_ma3").val(A2);    		    	
     	    			$("#clean3").show();    	    			
-    	    			
+    	    			limpiarTR();
     	    	});
     	    });
               
@@ -374,6 +375,26 @@
 			$("#finishP1").show();
 		};
     }
+    
+    $("#Nombre3").change(function(){
+    	limpiarTR();
+    	
+    });
+    
+    $("#A_pa3").change(function(){
+    	limpiarTR();
+    	
+    });
+    
+    $("#A_ma3").change(function(){
+    	limpiarTR();
+    	
+    });
+    
+    $("#cargo3").change(function(){
+    	limpiarTR();
+    	
+    });
 
     </script>
 	

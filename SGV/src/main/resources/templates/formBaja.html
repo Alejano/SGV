@@ -74,14 +74,14 @@
 	                                            <!--Numero de placa-->
 													<div class="form-group col-sm-4">
 														<div class="help-block with-errors" style="width: 261px;"></div>
-														<input th:field="${vehiculo.placa}" name="fname" id="N_Placa" placeholder="Placa" class="form-control soloLetras" type="text" required data-error="Ingrese El Numero de Placa">
+														<input th:field="${vehiculo.placa}" name="fname" id="N_Placa" placeholder="Placa" class="form-control soloLetras" type="text" required data-error="Ingrese El Numero de Placa" disabled>
 														<div class="input-group-icon"><i class="fa fa-user"></i></div>
 													</div>
 
 													<!--kilometros-->
 													<div class="form-group col-sm-2">
 														<div class="help-block with-errors" style="width: 261px;"></div>
-														<input th:field="${vehiculo.kilometraje}" id="D_re" class="form-control signos" type="number" min="1" max="100000000000000" required data-error="Ingrese La Distancia Recorrida">
+														<input th:field="${vehiculo.kilometraje_inicial}" id="D_re" class="form-control signos" type="number" min="1" max="100000000000000" data-error="Ingrese La Distancia Recorrida" disabled>
 														<div class="input-group-icon"><i class="fas fa-tachometer-alt"></i></div>
 													</div>
 													<div class="form-group col-sm-2">
@@ -100,7 +100,7 @@
 													</div>
 													<div class="form-group col-sm-2">
 														
-														<input placeholder="Kilometros" class="form-control" disabled>
+														<input placeholder="Fecha de Baja " class="form-control" disabled>
 														
 													</div>
 													
@@ -111,7 +111,7 @@
 															<label for="file1" class="col-sm-2 col-form-label">Acta FNQ</label>
 															<div class="col-sm-4">
 																<div class="help-block with-errors"></div>
-																<input type="file" name="file1" class="form-control" accept="application/pdf" required data-error="Ingresa el documento PDF menor a 10 MB."/>
+																<input id="doc1" type="file" name="file1" class="form-control" accept="application/pdf" required data-error="Ingresa el documento PDF menor a 10 MB."/>
 															</div>
 														</div>
 														
@@ -119,7 +119,7 @@
 															<label for="file2" class="col-sm-2 col-form-label">Oficio Baja</label>
 															<div class="col-sm-4">
 																<div class="help-block with-errors"></div>
-																<input type="file" name="file2" class="form-control" accept="application/pdf" required data-error="Ingresa el documento PDF menor a 10 MB."/>
+																<input id="doc2" type="file" name="file2" class="form-control" accept="application/pdf" required data-error="Ingresa el documento PDF menor a 10 MB."/>
 															</div>
 														</div>
 														
@@ -127,7 +127,7 @@
 															<label for="file3" class="col-sm-2 col-form-label">Dictamen</label>
 															<div class="col-sm-4">
 																<div class="help-block with-errors"></div>
-																<input type="file" name="file3" class="form-control" accept="application/pdf" required data-error="Ingresa el documento PDF menor a 10 MB."/>
+																<input id="doc3" type="file" name="file3" class="form-control" accept="application/pdf" required data-error="Ingresa el documento PDF menor a 10 MB."/>
 															</div>
 														</div>
 	                                                    
@@ -160,6 +160,113 @@
 		</div>
 	</section>
 	
+	<script>
+$( document ).ready(function() {
+
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $("#fecha").val(today);
+    
+    
+    $("#doc1").change(function(){
+    	var fileName = this.files[0].name;
+    	var fileSize = this.files[0].size;
+
+    	if(fileSize > 3000000){
+    		swal("", "El archivo no debe superar los 3MB", "error");
+    		this.value = '';
+    		this.files[0].name = '';
+    	}else{
+    		// recuperamos la extensión del archivo
+    		var ext = fileName.split('.').pop();
+    		
+    		// Convertimos en minúscula porque 
+    		// la extensión del archivo puede estar en mayúscula
+    		ext = ext.toLowerCase();
+        
+    		// console.log(ext);
+    		switch (ext) {
+    			case 'jpg':
+    			case 'jpeg':
+    			case 'png':
+    			case 'pdf': break;
+    			default:
+    				swal("", "El archivo no tiene la extensión adecuada", "error");
+    				this.value = ''; // reset del valor
+    				this.files[0].name = '';
+    		}
+    	}
+    	
+    });
+    
+  $("#doc2").change(function(){
+	  var fileName = this.files[0].name;
+		var fileSize = this.files[0].size;
+
+		if(fileSize > 3000000){
+			swal("", "El archivo no debe superar los 3MB", "error");
+			this.value = '';
+			this.files[0].name = '';
+		}else{
+			// recuperamos la extensión del archivo
+			var ext = fileName.split('.').pop();
+			
+			// Convertimos en minúscula porque 
+			// la extensión del archivo puede estar en mayúscula
+			ext = ext.toLowerCase();
+	    
+			// console.log(ext);
+			switch (ext) {
+				case 'jpg':
+				case 'jpeg':
+				case 'png':
+				case 'pdf': break;
+				default:
+					swal("", "El archivo no tiene la extensión adecuada", "error");
+					this.value = ''; // reset del valor
+					this.files[0].name = '';
+			}
+		}
+    	
+    });
+  
+  $("#doc3").change(function(){
+	  var fileName = this.files[0].name;
+		var fileSize = this.files[0].size;
+
+		if(fileSize > 3000000){
+			swal("", "El archivo no debe superar los 3MB", "error");
+			this.value = '';
+			this.files[0].name = '';
+		}else{
+			// recuperamos la extensión del archivo
+			var ext = fileName.split('.').pop();
+			
+			// Convertimos en minúscula porque 
+			// la extensión del archivo puede estar en mayúscula
+			ext = ext.toLowerCase();
+	    
+			// console.log(ext);
+			switch (ext) {
+				case 'jpg':
+				case 'jpeg':
+				case 'png':
+				case 'pdf': break;
+				default:
+					swal("", "El archivo no tiene la extensión adecuada", "error");
+					this.value = ''; // reset del valor
+					this.files[0].name = '';
+			}
+		}
+  	
+  });
+    
+});
+</script>
 	<script src="/SGV/assets/js/CambiosEstado.js"></script>
 	<!-- jQuery Library -->
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
@@ -170,21 +277,9 @@
 	<!-- Form Validator -->
 	<script src="/SGV/assets/js/validator.min.js"></script>
 	<!-- Contact Form Js -->
-	<script src="/SGV/assets/js/contact-form.js"></script>
+<script src="/SGV/assets/js/contact-form.js"></script>
 	
-	
-<script>
-$( document ).ready(function() {
 
-    var now = new Date();
-
-    var day = ("0" + now.getDate()).slice(-2);
-    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-
-    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
-    $("#fecha").val(today);
-});
-</script>
  
 </body>
 </html>

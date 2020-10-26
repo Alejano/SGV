@@ -268,11 +268,17 @@ public class VehiculoController {
 			) {
 		
 									
-		//long ultimo_resguardo = resguardoService.ultipoid()+1;
+		var user="";				
 		
-		//Presguardante.setId_resguardante(ultimo_resguardo);
-		//Sresguardante.setId_resguardante(ultimo_resguardo+1);
-		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";	
+			model.put("usuario",user);
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER"; 
+					model.put("usuario",user);
+				}
+			}
 								
 		transmision = vehiculoService.findAllTransmision();
 		funcion = vehiculoService.findAllFuncion();					

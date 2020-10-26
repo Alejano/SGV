@@ -29,7 +29,6 @@ import com.PGJ.SGV.models.entity.Mantenimiento;
 import com.PGJ.SGV.models.entity.Taller;
 import com.PGJ.SGV.models.entity.Usuario;
 import com.PGJ.SGV.models.entity.Vehiculo;
-import com.PGJ.SGV.service.ICatalogoServicioService;
 import com.PGJ.SGV.service.IMantenimientoService;
 import com.PGJ.SGV.service.ITallerService;
 import com.PGJ.SGV.service.IUploadFileService;
@@ -53,8 +52,7 @@ public class MantenimintoController {
 	private IVehiculoService vehiculoService;	
 	@Autowired
 	private IUsuarioService usuarioService;	
-	@Autowired
-	private ICatalogoServicioService serviciosservice;
+
 	@Autowired
 	private ITallerService tallerService;
 	@Autowired
@@ -312,7 +310,7 @@ public class MantenimintoController {
 						return "Mantenimientos";
 				 };
 			
-				 Page<Mantenimiento> mantspage= mantService.FindMantElemPage("%"+elemento+"%", pageRequest);			 									 
+			Page<Mantenimiento> mantspage= mantService.FindMantElemPage(elemento, pageRequest);			 									 
 			PageRender<Mantenimiento> pageRender = new PageRender<>("/formMantBuscar?elemento="+elemento, mantspage);
 			model.addAttribute("mantenimientos",mantspage);
 			model.addAttribute("page",pageRender);

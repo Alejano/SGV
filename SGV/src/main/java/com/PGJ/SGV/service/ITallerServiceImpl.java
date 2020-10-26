@@ -3,6 +3,8 @@ package com.PGJ.SGV.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +42,12 @@ public class ITallerServiceImpl implements ITallerService{
 	public void delete(Long id_taller) {
 		// TODO Auto-generated method stub
 		tallerdao.deleteById(id_taller);
+	}
+
+	@Override
+	public Page<Taller> FindTallerElemPageL(String elemento, Pageable page) {
+		// TODO Auto-generated method stub
+		return tallerdao.FindTallerElemPageL(elemento, page);
 	}
 
 }
