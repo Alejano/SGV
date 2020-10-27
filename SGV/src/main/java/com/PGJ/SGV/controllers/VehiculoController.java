@@ -65,6 +65,8 @@ public class VehiculoController {
 	List<VehiculoFuncion> funcion = new ArrayList<VehiculoFuncion>();
 	List<String> clase = new ArrayList<String>();
 	
+	Vehiculo detalle_old = new Vehiculo();
+	
 	public static Resguardante Presguardante = new Resguardante();
 	public static Resguardante Sresguardante = new Resguardante();
 	public static Resguardante Tresguardante = new Resguardante();
@@ -540,6 +542,7 @@ public class VehiculoController {
 		}
 		
 		vehiculo.setVehiculo_detalle(detalle);
+		detalle_old.setVehiculo_detalle(detalle);
 		
 		model.put("transmisiones", transmision);
 		model.put("funciones", funcion);
@@ -558,6 +561,8 @@ public class VehiculoController {
 	@RequestMapping(value="/formVehi",method = RequestMethod.POST)
 	public String guardar(Authentication authentication,Vehiculo vehiculox,@RequestParam("file") MultipartFile tarjeta_circulacion){		
 	
+		String valor_oldetalle = detalle_old.getVehiculo_detalle().toString();
+		
 		 var user="";
 		 var no_user ="";
 		 no_user = authentication.getName();
@@ -633,17 +638,16 @@ public class VehiculoController {
 							return "redirect:/idDuplicadoVehiCrea/"+vehiculox.getPlaca()+"/"+coche;
 					};
 				    
-					vehiculox.setVehiculo_detalle(detalle);	
-									
 					Vehiculo vehiculo_old = new Vehiculo();
-					vehiculo_old=vehiculoService.findOne(vehiculox.getId_vehiculo());
+					vehiculo_old = vehiculoService.findOne(vehiculox.getId_vehiculo());					
+
 					String valor_olvehi = vehiculo_old.toString();
 					
-			
-					VehiculoDetalle detalle_old =  new VehiculoDetalle();
-					detalle_old=vehiculoService.findByVehiculoDetalle(vehiculox.getId_vehiculo());
-					String valor_oldetalle = detalle_old.toString();
+					System.err.println("BSM_VEHICULO: "+valor_olvehi);
+					System.err.println("BSM_VEHICULO DETALLE: "+valor_oldetalle);
 					
+					
+					vehiculox.setVehiculo_detalle(detalle);	
 					vehiculoService.save(vehiculox);	
 						
 					 LogsAudit logsv = new LogsAudit();
