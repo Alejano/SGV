@@ -99,7 +99,7 @@ public class SiniestroController {
 	
 		Page<Siniestro> SiniestroPage = siniestroService.findAll(pageRequest);
 		PageRender<Siniestro> SiniestroRender = new PageRender<>("/Siniestros",SiniestroPage);
-		if(siniestroService.totalSiniestro()>=6) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+		if(siniestroService.totalSiniestro()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
 		
 		model.addAttribute("titulo","Listado de Siniestros");
 		model.addAttribute("auxiliar", aux);

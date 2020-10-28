@@ -2,6 +2,7 @@ package com.PGJ.SGV.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,16 +22,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.PGJ.SGV.models.entity.Conductor;
+import com.PGJ.SGV.models.entity.LogsAudit;
 import com.PGJ.SGV.models.entity.Resguardante;
 import com.PGJ.SGV.models.entity.TipoResguardante;
 import com.PGJ.SGV.models.entity.Usuario;
 import com.PGJ.SGV.models.entity.Vehiculo;
 import com.PGJ.SGV.service.IConductorService;
+import com.PGJ.SGV.service.ILogsAuditService;
 import com.PGJ.SGV.service.IResguardanteService;
 import com.PGJ.SGV.service.ITipoResguardanteService;
 import com.PGJ.SGV.service.IUsuarioService;
 import com.PGJ.SGV.service.IVehiculoService;
 import com.PGJ.SGV.util.paginador.PageRender;
+import com.PGJ.SGV.utilities.ObtenHour;
+import com.PGJ.SGV.utilities.SystemDate;
 
 @Controller
 public class ResguardanteController {
@@ -42,6 +50,9 @@ public class ResguardanteController {
 	private IConductorService conductorService;
 	@Autowired
 	private IVehiculoService vehiculoService;
+	@Autowired
+	private ILogsAuditService logsauditService;
+	
 	
 	public static Resguardante Presguardante = new Resguardante();
 	public static Resguardante Sresguardante = new Resguardante();
@@ -101,9 +112,21 @@ public class ResguardanteController {
 	
 	@RequestMapping(value="/AddResguardo/{placa}",method = RequestMethod.POST)
 	public String saveR(Map<String,Object> model,Resguardante resguardante,
-			@PathVariable(value="placa") String placa
+			@PathVariable(value="placa") String placa,Authentication authentication
 			) {			
 
+		 var user="";
+		   var no_user ="";
+		   no_user = authentication.getName();
+				
+					if(hasRole("ROLE_ADMIN")) {
+						user ="ROLE_ADMIN";
+						}else {
+							if(hasRole("ROLE_USER")) {
+								user = "ROLE_USER";
+							}
+						}
+					
 		String nombres = resguardante.getNombre();
 		String apellidos1 = resguardante.getApellido1();
 		String apellidos2 = resguardante.getApellido2();
@@ -159,6 +182,34 @@ public class ResguardanteController {
 		reguardanteservice.save(Presguardante);
 		reguardanteservice.save(Sresguardante);
 		
+System.err.println("Primero: "+Presguardante.toString());
+		
+		String valor_oldp = Presguardante.toString();
+		LogsAudit logsp = new LogsAudit();
+     	
+        logsp.setId_usuario(no_user);
+		logsp.setTipo_role(user);
+		logsp.setFecha(SystemDate.obtenFecha());
+		logsp.setHora(ObtenHour.obtenHour());
+		logsp.setName_table("RESGUARDANTE");
+		logsp.setValor_viejo(valor_oldp);
+		logsp.setTipo_accion("INSERT");
+								
+		System.err.println("Segundo: "+Sresguardante.toString());
+		
+		String valor_olds = Sresguardante.toString();
+		LogsAudit logss = new LogsAudit();
+     	
+        logss.setId_usuario(no_user);
+		logss.setTipo_role(user);
+		logss.setFecha(SystemDate.obtenFecha());
+		logss.setHora(ObtenHour.obtenHour());
+		logss.setName_table("RESGUARDANTE");
+		logss.setValor_viejo(valor_olds);
+		logss.setTipo_accion("INSERT");
+								
+		logsauditService.save(logsp);
+		logsauditService.save(logss);
 		
 		return "redirect:/infoResguardante/"+vehi.getId_vehiculo();
 	}
@@ -224,8 +275,22 @@ public class ResguardanteController {
 	
 	@RequestMapping(value="/TResguardante/{placa}",method = RequestMethod.POST)
 	public String tresPOST(Map<String,Object> model,Resguardante resguardante,
-			@PathVariable(value="placa") String placa
+			@PathVariable(value="placa") String placa,Authentication authentication
 			) {
+		
+		 var user="";
+		   var no_user ="";
+		   no_user = authentication.getName();
+				
+			      if(hasRole("ROLE_ADMIN")) {
+						user ="ROLE_ADMIN";
+						}else {
+							if(hasRole("ROLE_USER")) {
+								user = "ROLE_USER";
+							}
+						}
+		
+	
 		Long id = Sresguardante.getId_resguardante();
 		Tresguardante.setNombre(resguardante.getNombre());			
 		Tresguardante.setApellido1(resguardante.getApellido1());					
@@ -262,7 +327,49 @@ public class ResguardanteController {
 		reguardanteservice.save(Presguardante);
 		reguardanteservice.save(Sresguardante);
 		reguardanteservice.save(Tresguardante);
-
+		
+		System.err.println("Primero: "+Presguardante.toString());
+		 
+		String valor_oldp = Presguardante.toString();
+		LogsAudit logsp = new LogsAudit();
+     	
+        logsp.setId_usuario(no_user);
+		logsp.setTipo_role(user);
+		logsp.setFecha(SystemDate.obtenFecha());
+		logsp.setHora(ObtenHour.obtenHour());
+		logsp.setName_table("RESGUARDANTE");
+		logsp.setValor_viejo(valor_oldp);
+		logsp.setTipo_accion("INSERT");
+								
+		System.err.println("Segundo: "+Sresguardante.toString());
+		
+		String valor_olds = Sresguardante.toString();
+		LogsAudit logss = new LogsAudit();
+     	
+        logss.setId_usuario(no_user);
+		logss.setTipo_role(user);
+		logss.setFecha(SystemDate.obtenFecha());
+		logss.setHora(ObtenHour.obtenHour());
+		logss.setName_table("RESGUARDANTE");
+		logss.setValor_viejo(valor_olds);
+		logss.setTipo_accion("INSERT");
+		
+        System.err.println("Tercero: "+Tresguardante.toString());
+		
+		String valor_oldt = Tresguardante.toString();
+		LogsAudit logst = new LogsAudit();
+     	
+        logst.setId_usuario(no_user);
+		logst.setTipo_role(user);
+		logst.setFecha(SystemDate.obtenFecha());
+		logst.setHora(ObtenHour.obtenHour());
+		logst.setName_table("RESGUARDANTE");
+		logst.setValor_viejo(valor_oldt);
+		logst.setTipo_accion("INSERT");
+	
+		logsauditService.save(logsp);
+		logsauditService.save(logss);
+		logsauditService.save(logst);
 		
 		model.put("Presguardante", Presguardante);
 		model.put("Sresguardante", Sresguardante);
@@ -270,5 +377,23 @@ public class ResguardanteController {
 		return "redirect:/infoResguardante/"+vehi.getId_vehiculo();
 	}
 	
-
+	public static boolean hasRole(String role) {
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		if(context==null) {
+		return false;
+		}
+		
+		Authentication auth = context.getAuthentication();
+		
+		if(auth == null) {
+			return false;
+		}
+		
+		Collection<? extends GrantedAuthority> autorithies = auth.getAuthorities();
+		for(GrantedAuthority authority: autorithies) {
+			if(role.equals(authority.getAuthority())) {return true;}
+		}
+		return false;
+	}
 }
