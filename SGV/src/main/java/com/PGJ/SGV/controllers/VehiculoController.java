@@ -438,6 +438,7 @@ public class VehiculoController {
 		Date ahora = new Date();
 		SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
 		Tresguardante.setFecha_inicio(formateador.format(ahora));
+		Tresguardante.setTipo_resguardante_id(tiporesguardoService.findOne((long)3));
 		Tresguardante.setId_resguardante(Sresguardante.getId_resguardante()+1);				
 		
 		transmision = vehiculoService.findAllTransmision();
@@ -621,6 +622,7 @@ public class VehiculoController {
 				
 				Presguardante.setActivo(true);
 				Sresguardante.setActivo(true);
+				Tresguardante.setActivo(true);
 				Presguardante.setVehiculo(vehiculox);		
 				Sresguardante.setVehiculo(vehiculox);
 				Tresguardante.setVehiculo(vehiculox);
@@ -630,6 +632,80 @@ public class VehiculoController {
 				
 				reguardanteservice.save(Presguardante);
 				reguardanteservice.save(Sresguardante);
+				reguardanteservice.save(Tresguardante);
+				
+
+				 System.err.println("Primero: "+Presguardante.toString());
+				 
+					String valor_oldp = Presguardante.toString();
+					LogsAudit logsp = new LogsAudit();
+			     	
+			        logsp.setId_usuario(no_user);
+					logsp.setTipo_role(user);
+					logsp.setFecha(SystemDate.obtenFecha());
+					logsp.setHora(ObtenHour.obtenHour());
+					logsp.setName_table("RESGUARDANTE");
+					logsp.setValor_viejo(valor_oldp);
+					logsp.setTipo_accion("INSERT");
+											
+					System.err.println("Segundo: "+Sresguardante.toString());
+					
+					String valor_olds = Sresguardante.toString();
+					LogsAudit logss = new LogsAudit();
+			     	
+			        logss.setId_usuario(no_user);
+					logss.setTipo_role(user);
+					logss.setFecha(SystemDate.obtenFecha());
+					logss.setHora(ObtenHour.obtenHour());
+					logss.setName_table("RESGUARDANTE");
+					logss.setValor_viejo(valor_olds);
+					logss.setTipo_accion("INSERT");
+					
+		            System.err.println("Tercero: "+Tresguardante.toString());
+					
+					String valor_oldt = Tresguardante.toString();
+					LogsAudit logst = new LogsAudit();
+			     	
+			        logst.setId_usuario(no_user);
+					logst.setTipo_role(user);
+					logst.setFecha(SystemDate.obtenFecha());
+					logst.setHora(ObtenHour.obtenHour());
+					logst.setName_table("RESGUARDANTE");
+					logst.setValor_viejo(valor_oldt);
+					logst.setTipo_accion("INSERT");
+				
+					logsauditService.save(logsp);
+					logsauditService.save(logss);
+					logsauditService.save(logst);
+				 
+
+				System.out.println("ALTA: "+vehiculox.toString());
+				String valor_nuevov = vehiculox.toString();
+				String valor_nuevod = vehiculox.getVehiculo_detalle().toString();
+				
+				 LogsAudit logsv = new LogsAudit();
+				 LogsAudit logsd = new LogsAudit();
+		         
+		            logsv.setId_usuario(no_user);
+					logsv.setTipo_role(user);
+					logsv.setFecha(SystemDate.obtenFecha());
+					logsv.setHora(ObtenHour.obtenHour());
+					logsv.setName_table("VEHICULOS");
+					logsv.setValor_viejo(valor_nuevov);
+					logsv.setTipo_accion("INSERT");
+					
+					logsd.setId_usuario(no_user);
+					logsd.setTipo_role(user);
+					logsd.setFecha(SystemDate.obtenFecha());
+					logsd.setHora(ObtenHour.obtenHour());
+					logsd.setName_table("VEHICULO_DETALLE");
+					logsd.setValor_viejo(valor_nuevod);
+					logsd.setTipo_accion("INSERT");
+													
+					logsauditService.save(logsv);
+					logsauditService.save(logsd);
+				
+
 				return "redirect:Vehiculos";
 		}else{
 			
