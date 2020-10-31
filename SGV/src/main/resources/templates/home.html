@@ -121,7 +121,7 @@
 						    </div>
 						 </div>
 						 
-						 <div class="card-image">
+						 <div th:if="${usuario == 'ROLE_ADMIN' or usuario== 'ROLE_USER' or usuario== 'ROLE_SINIESTRO' or usuario== 'ROLE_SEGURO'}"  class="card-image">
 							   <form th:action="@{/Vehiculos}"  class="F" name="salir">		 		
 	                                  <button class="btn btn-lg btn-primary btn-block btn-signin ingresolog " id="IngresoLog" type="submit" value="enviar" >
 							          <img src="images/vehiculos.png" class="card-img-top imgboton" alt="..." style="border-radius: inherit; width: 180px; left: -11px; top:-5px;">

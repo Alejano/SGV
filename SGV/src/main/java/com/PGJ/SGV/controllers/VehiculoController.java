@@ -137,7 +137,7 @@ public class VehiculoController {
 			//vehiculoArea = vehiculoService.findVehiculosArea(usus.getAdscripcion().getId_adscripcion());
 			Page<Vehiculo> vehiculoPageAra = vehiculoService.findVehiculosAreaPage(usus.getAdscripcion().getId_adscripcion(), pageRequest);
 			PageRender<Vehiculo> pageRender = new PageRender<>("/Vehiculos", vehiculoPageAra);
-			if(vehiculoService.totalVehiculo()>=7) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+			if(vehiculoService.totalVehiculo()>=4) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
 			//model.addAttribute("vehiculos",vehiculoArea);						
 			
 			model.addAttribute("Corddocu",Corddocu);
@@ -156,7 +156,7 @@ public class VehiculoController {
 		
 		Page<Vehiculo> vehiculopage = vehiculoService.findTVechiulo("AUTOMOVIL", pageRequest);
 		PageRender<Vehiculo> pageRender = new PageRender<>("/Vehiculos", vehiculopage);
-		int tamaño = 7;
+		int tamaño = 4;
 		if(vehiculoService.totalVehiculo()>= tamaño) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
 	
 		
@@ -823,6 +823,8 @@ public class VehiculoController {
 				usus = usuarioService.findbyAdscripcion(ads);					
 				Page<Vehiculo> vehiculopage = vehiculoService.findVehElemAreaPage(usus.getAdscripcion().getId_adscripcion(), elemento, pageRequest);
 				PageRender<Vehiculo> pageRender = new PageRender<>("/formVehBuscar?elemento="+elemento, vehiculopage);
+				if(vehiculoService.totalVehiculo()>=4) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+
 		
 				model.addAttribute("marca",clase);
 				model.addAttribute("vehiculos",vehiculopage);
@@ -832,6 +834,8 @@ public class VehiculoController {
 			};					
 			Page<Vehiculo> vehiculopage= vehiculoService.findVehElemntoPage("%"+elemento+"%", pageRequest);		 									
 			PageRender<Vehiculo> pageRender = new PageRender<>("/formVehBuscar?elemento="+elemento, vehiculopage);
+			if(vehiculoService.totalVehiculo()>=4) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+
 			
 			
 			model.addAttribute("marca",clase);

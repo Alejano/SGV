@@ -11,9 +11,8 @@
 	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/assets/SweetAlert2/sweetalert2.css}">
-    <script th:src="@{/assets/js/jquery-3.4.1.min.js}"></script>
-	
-	
+    <script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
+
 </head>
 <body>
 	<header>
@@ -257,103 +256,9 @@
 			
 		</div>
 	</section>	
-	
-   <!-- <div class="modal fade right" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true" data-backdrop="false">
-  <div class="modal-dialog modal-full-height modal-right modal-notify modal-info" role="document">
-    <div class="modal-content">
-      <!--Header-->
-    <!--   <div class="modal-header">
-        <p class="heading lead " id="titulo">
-        </p>
 
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" class="white-text">×</span>
-        </button>
-      </div>
-
-      <!--Body-->
-     <!--  <div class="modal-body">
-    <form th:action="@{/formAseg}"  method="post"id="formulario">      
-        <div class="text-center">          
-          <p>
-            <strong>Aseguradoras</strong>
-          </p>                  
-        </div>
-
-        <hr>
-
-        <!-- opction -->
-        
-       <!--  <div class="modal-body btnModal">
-				
-				 <div class="form-group">
-                   <label for="nombre_aseguradora" class="col-form-label">Nombre Aseguradora:</label>
-                   <input th:field="*{seguros.aseguradora.nombre_aseguradora}"  id="nombre_aseg" placeholder="Nombre Aseguradora" onkeypress="return letras(event);" class="form-control" type="text" required data-error="Ingrese El Nombre de la Aseguradora"/>
-                   <div class="help-block with-errors"></div>
-                 </div>
-                 <div class="form-group">
-                   <label for="no_poliza_padre" class="col-form-label">Poliza Padre:</label>
-	               <input th:field="*{seguros.aseguradora.no_poliza_padre}"  id="No_po" placeholder="Numero de Poliza Padre" class="form-control signos" type="text" required data-error="Ingrese El Numero De Poliza"/>
-                   <div class="help-block with-errors"></div>
-                 </div>	
-                 <div class="form-group">
-                   <label for="no_contrato" class="col-form-label">No_contrato:</label>
-	               <input th:field="*{seguros.aseguradora.no_contrato}"  id="No_contrato" placeholder="Numero de Contrato" class="form-control Contrato" type="text" required data-error="Ingrese El Numero de Contrato"/>
-                   <div class="help-block with-errors"></div>
-                 </div>		
-                 <div class="form-group">
-                   <label for="rfc_aseguradora" class="col-form-label">RFC Aseguradora:</label>
-                   <input th:field="*{seguros.aseguradora.rfc_aseguradora}"  id="rfc_aseg" placeholder="RFC Aseguradora" class="form-control Letrasnum" type="text" required data-error="Ingrese El RFC de la Aseguradora"/>
-                   <div class="help-block with-errors"></div>
-                 </div>																															 		
-			</div>
-			
-			<div class="modal-footer">
-        <button type="submit" id="guardar" class="btn btn-custom btn-stilo"><i class='fa fa-envelope' th:if="${error == 'F'}"></i>Guardar</button>
-       </div>
-			
-			
-			</form>
-        </div> 
-      </div>
-    
-        
-    </div>
-    
-  
-  </div>-->
-         
-         
          <script type="text/javascript" th:inline="javascript">
- 	
-			$(document).on('change','input[type="file"]',function(){
-				// this.files[0].size recupera el tamaño del archivo
-				// alert(this.files[0].size);
-				
-				var fileName = this.files[0].name;
-				var fileSize = this.files[0].size;
-		
-				if(fileSize > 3000000){
-					alert('El archivo no debe superar los 3MB');
-					this.value = '';
-					this.files[0].name = '';
-				}else{
-					// recuperamos la extensión del archivo
-					var ext = fileName.split('.').pop();
-		
-					// console.log(ext);
-					switch (ext) {			
-						case 'pdf': break;
-						default:
-							alert('El archivo no tiene la extensión adecuada');
-							this.value = ''; // reset del valor
-							this.files[0].name = '';
-					}
-				}
-			});
-	    
-			
+
 			$('#aBtnGroup button').on('click', function() {
 				var thisBtn = $(this);
 				var btnText = thisBtn.text();
@@ -375,14 +280,12 @@
 			   }
 			});
 	</script>
-
-	<script src="/SGV/assets/js/CambiosEstado.js"></script>
-	<!-- jQuery Library -->
-	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
+    <script th:src="@{/assets/fontawesome/js/all.js}"></script>	
+    <script src="/SGV/assets/js/CambiosEstado.js"></script>
 	<!-- Popper js -->
 	<script src="/SGV/assets/js/popper.min.js"></script>
 	<!-- Bootstrap Js -->
-	<script src="/SGV/assets/js/bootstrap.min.js"></script>
+	<script src="/SGV/assets/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Form Validator -->
 	<script src="/SGV/assets/js/validator.min.js"></script>
 	<!-- Contact Form Js -->
@@ -390,7 +293,5 @@
     <!-- SweetAlert-->
 	<script src="/SGV/assets/SweetAlert2/sweetalert2.min.js"></script>
 	<!-- fontawesome -->
-	<script th:src="@{/assets/fontawesome/js/all.js}"></script>	
- 
 </body>
 </html>

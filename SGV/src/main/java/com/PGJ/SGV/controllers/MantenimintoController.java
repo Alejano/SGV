@@ -103,7 +103,7 @@ public class MantenimintoController {
 		model.addAttribute("page",MantRender);
 		model.addAttribute("Mplaca",Mplaca);
 		
-		
+		 
 		return "Mantenimientos";
 	}
 	

@@ -299,10 +299,6 @@ public class Vehiculo implements Serializable {
 					"NO INVENTARIO:" + no_inventario + " ; " + "FECHA TARJETA:"+ fecha_tarjeta + " ; " +"VALE:"+ vale + " ; " +
 					"KILO INI:"+ kilometraje_inicial + " ; " +  "ADSCRIPCION:" + adscripcion.getId_adscripcion();
 		}	
-
-
-	
-				
-				
+			
 		
 }

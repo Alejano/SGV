@@ -25,7 +25,7 @@ public interface IVehiculoDao extends PagingAndSortingRepository<Vehiculo,Long >
 	@Query("select v from Vehiculo v inner join Adscripcion a on v.adscripcion.id_adscripcion = a.id_adscripcion inner join VehiculoEstado e on v.vehiculo_estado.id_estado = e.id_estado where a.nombre_adscripcion like %?1% or v.placa like %?1% or v.no_serie like %?1% or v.no_inventario like %?1% or v.fecha_tarjeta like %?1% or v.vale like %?1% and e.id_estado = '1'")
 	public Page<Vehiculo> findVehElemntoPage(String elemento,Pageable pageable);
 	
-	@Query("select v from Vehiculo v inner join Adscripcion a on v.adscripcion.id_adscripcion = a.id_adscripcion inner join VehiculoEstado e on v.vehiculo_estado.id_estado = e.id_estado where a.id_adscripcion like ?1 and (v.placa like %?2% or v.no_serie like %?2% or v.no_inventario like %?2% or v.fecha_tarjeta like %?2% or v.vale like %?2%)")
+	@Query("select v from Vehiculo v inner join Adscripcion a on v.adscripcion.id_adscripcion = a.id_adscripcion inner join VehiculoEstado e on v.vehiculo_estado.id_estado = e.id_estado where a.id_adscripcion = ?1 and (v.placa like %?2% or v.no_serie like %?2% or v.no_inventario like %?2% or v.fecha_tarjeta like %?2% or v.vale like %?2%)")
 	public Page<Vehiculo> findVehElemAreaPage(Long id_adscripcion,String elemento,Pageable pageable);
 	
 	@Query("select count(v) from Vehiculo v")
