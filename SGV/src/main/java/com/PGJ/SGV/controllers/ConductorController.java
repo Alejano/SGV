@@ -417,7 +417,7 @@ public class ConductorController {
 			//ConductorArea = conductorService.findConductorArea(usus.getAdscripcion().getId_adscripcion());
 			Page<Conductor> conductorareapage = conductorService.findConductorAreaBajasPage(usus.getAdscripcion().getId_adscripcion(), pageRequest);
 			PageRender<Conductor> pageRenderArea = new PageRender<> ("/Conductores",conductorareapage);
-			if(conductorService.totalConductorAreaBajas(usus.getAdscripcion().getId_adscripcion())>=6) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};	
+			if(conductorService.totalConductorAreaBajas(usus.getAdscripcion().getId_adscripcion())>=5) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};	
 			model.addAttribute("conductores",conductorareapage);
 			model.addAttribute("page",pageRenderArea);			
 			return "BajasCond";
@@ -426,7 +426,7 @@ public class ConductorController {
 		// ADMINISTRADOR
 		Page<Conductor> conductorPage = conductorService.findByCNn(pageRequest);
 		PageRender<Conductor> pageRender = new PageRender<>("/Conductores",conductorPage);
-		if(conductorService.totalConductoresBajas()>=6) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};	
+		if(conductorService.totalConductoresBajas()>=5) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};	
 		model.addAttribute("Corddocu",Corddocu);
 		model.addAttribute("Cordtabla",Cordtabla);
 		model.addAttribute("conductores",conductorPage);

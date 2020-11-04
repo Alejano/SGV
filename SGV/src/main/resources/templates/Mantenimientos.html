@@ -139,8 +139,8 @@
 													<td th:text="${mantenimientossql.fecha_entrega}" class="celda"></td>
 													<td th:if="${usuario} == 'ROLE_ADMIN' " class="celda">
 															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formMant/} +${mantenimientossql.id_mantenimiento}" th:text="editar"></a>
-															<a th:if="${Mplaca} == true " class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimMant/} +${mantenimientossql.id_mantenimiento}+'/'+${placa}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar"></a>
-														    <a th:if="${Mplaca} == false " class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimMant/} +${mantenimientossql.id_mantenimiento}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar"></a>
+															<!--<a th:if="${Mplaca} == true " class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimMant/} +${mantenimientossql.id_mantenimiento}+'/'+${placa}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar"></a> -->
+														    <!--<a th:if="${Mplaca} == false " class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimMant/} +${mantenimientossql.id_mantenimiento}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar"></a>  -->
 													</td>
 												</tr>
 											</tbody>

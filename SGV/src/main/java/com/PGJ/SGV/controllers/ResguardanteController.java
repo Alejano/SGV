@@ -64,6 +64,15 @@ public class ResguardanteController {
 	public String infoResguardo(Model model,Authentication authentication,@RequestParam(name="page", defaultValue = "0") int page
 			,@PathVariable(value="id_vehiculo") long id_vehiculo) {						
 				
+		var user="";
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";	model.addAttribute("usuario",user);
+			}else {
+				if(hasRole("ROLE_USER")) {
+					user = "ROLE_USER"; model.addAttribute("usuario",user);
+				}
+			}
+		
 		Pageable pageRequest = PageRequest.of(page, 500);
 		Vehiculo placa = new Vehiculo();
 		

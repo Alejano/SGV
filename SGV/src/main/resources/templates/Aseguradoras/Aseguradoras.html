@@ -13,7 +13,7 @@
 	
 </head>
 <body>
-	<header>
+ <header>
 		<div>
 		<div class="heades" >
 			<img th:src="@{/images/pgj.png}" class="logopgj">
@@ -29,13 +29,13 @@
 				    </form>	
 				    <form  th:action="@{/perfil}" style="margin-bottom: 3px; margin-left: 5px;">
 						        <button class="btn btn-outline-success" type="submit" value="enviar" style="color:green !important">Perfil</button>					    	
-				   </form>
-				   <form th:action="@{/Adscripciones}" th:if="${usuario} == 'ROLE_ADMIN' " style="margin-bottom: 3px; margin-left: 5px;">
+				    </form>
+				    <form th:action="@{/Adscripciones}" th:if="${usuario} == 'ROLE_ADMIN' " style="margin-bottom: 3px; margin-left: 5px;">
 						        <button class="btn btn-outline-success" type="submit" value="enviar" style="color:green !important">Adscripciones</button>					    	
-				   </form>
-				   <form th:action="@{/Seguridad}" th:if="${usuario} == 'ROLE_ADMIN' " style="margin-bottom: 3px; margin-left: 5px;">
+					</form>
+					<form th:action="@{/Seguridad}" th:if="${usuario} == 'ROLE_ADMIN' " style="margin-bottom: 3px; margin-left: 5px;">
 						        <button class="btn btn-outline-success" type="submit" value="enviar" style="color:green !important">Seguridad</button>					    	
-				   </form>
+				    </form>
 				  </div>
 			</div>			
 		</div>
@@ -78,11 +78,12 @@
  				</div>
  			</div> 			
 		</div>
+		<div class="titulocontainer">
 			<h1 class="item-title text-right StituloCon">Aseguradoras</h1>
 		</div>
+		</div>
 	</header>
-
-	
+ 
 	<section>
 	 <div class="tab-content">
 	      <div class="form-group last col-sm-12 fondolistado">
@@ -120,7 +121,7 @@
 													<th class="celda">Teléfono</th>
 													<th class="celda">Estado</th>
 													<th style="width:210px" class="celda">Opciones</th>
-													<th style="width:10px" th:if="${tamano} == 'mostrar'"></th>
+													<th style="width:1.4%;" th:if="${tamano} == 'mostrar'"></th>
 												</tr>
 											</thead>
 											<tbody>

@@ -11,8 +11,7 @@
 	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
-	<script src="https://kit.fontawesome.com/4b484f74be.js"></script>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>	
+	<script src="/SGV/assets/fontawesome/js/all.js"></script>
 </head>
 <body th:onload="'Scrol(\''+${Corddocu}+'\',\'' +${Cordtabla}+'\');'">
 	<header>
@@ -46,7 +45,7 @@
 	                <div class="TituloCon"></div>
 			<div class="form-group last col-sm-12 nav-listado">
 		
-			<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/home}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-home fa-2x" style="margin-top: 10%;"></i></a>
+		    <a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/home}' style="width: 48px; height: 34px; float: right; margin-right: 5%;font-size:14 px;"><i class="fas fa-home fa-2x" style="font-size:14 px;margin-left:-152%;"></i></a>
 			<div id="button" class="form-group last col-sm-4 " style="margin-bottom: 5px;margin-top: 5px;"> 
 				<div class="container" style="width: 314px;">
   							 				 					 			
@@ -88,7 +87,6 @@
 		</div>
 	</header>
 
-	
 	<section>
 	 <div class="tab-content">
 	      <div class="form-group last col-sm-12 fondolistado">
@@ -98,13 +96,13 @@
 	                            <div class="item-wrap">
 	                                <div class="row" style="text-align: center;">
 	                                	<div class=" col-md-12" id="Contenedorbuscar" >
-	                                			<div class="col-md-5" > <p style="text-align: right;">Buscar</p></div> 
-	                                			
-	                                        	<form id="Busqueda" class="col-md-6" th:action="@{/formCondBuscar}">											       											       
-											         <input id="searchTerm" th:value=*{elemento} class="form-control col-md-5" name="elemento" type="text" onkeyup="doSearch()" onkeypress="return pulsar(event)" required="required"/>												           
-											           <button type="submit" class="btn btn-primary btn-xs col-sm-3 btn-stilo" style="margin-top: 1%;margin-left: 1%;margin-right: 1%;">Buscar</button>										
-											    		<a class="btn btn-primary btn-xs col-sm-1 btn-stilo" th:href="@{/BajasCond}" style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-user-times fa-2x" style="margin-top: 10%;"></i></a>
-											    		<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/Conductores}' style="width: 48px; height: 34px; float: right; margin-right: 5%;margin-top: 5px;"><i class="fas fa-sync-alt fa-2x" style="margin-top: 10%;"></i></a>
+	                                	      <form id="Busqueda" class="col-md-12" th:action="@{/formCondBuscar}">	
+	                                			<div  class="col-sm-1 enlinea"> <p>Buscar</p></div> 
+                   										       											       
+											         <input id="searchTerm" th:value=*{elemento} class="form-control col-md-3" name="elemento" type="text" onkeyup="doSearch()" onkeypress="return pulsar(event)" required="required" style="display:inline-block;"/>												           
+											           <button type="submit" class="btn btn-primary btn-xs col-sm-1 btn-stilo"  style="margin-left: 1%;margin-right: -11%;font-size: 14px;">Buscar</button>										
+											    		<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href="@{/BajasCond}" style="width: 47px; height: 42px; float: right; margin-right: 2%;padding : 6px 6px;"><i class="fas fa-user-times fa-2x" style="margin-top: 10%; padding: unset; font-size:25px;"></i></a>
+											    		<a class="btn btn-primary btn-xs col-sm-4 btn-stilo" th:href='@{/Conductores}' style="width: 47px; height: 42px; float: right; margin-right: 2%;padding : 6px 6px;"><i class="fas fa-sync-alt fa-2x"  style="margin-top: 10%; padding: unset; font-size:25px;"></i></a>
 											    </form>
 											    
 								
@@ -113,23 +111,21 @@
 											
 	                                    <div class="col-md-12">
 	                                        <h2 th:text="${titulo_conductores}"  class="titulotabla"  ></h2>
-										<table class="table table-striped table-bordered fixed_header" id="conductoresT">
+										<table class="table table-striped table-bordered fixed_header" id="conductoresT"  style="font-size: 14px;">
 											<thead class="table-success">
 												<tr>
 													<th class="celda">Numero de empleado</th>
 													<th class="celda">Nombre</th>
 													<th class="celda">Apellido 1</th>
 													<th class="celda">Apellido 2</th>
-													<th class="celda" style="width:300px">Adscripcion</th>
+													<th class="celda" style="width:250px">Adscripcion</th>
 													<th class="celda">No INE</th>
-													<th class="celda">Vig INE</th>
 													<th class="celda">No Lic</th>
-													<th class="celda">Vig Lic</th>
 													<th class="celda">Estado</th>
-													<th th:if="${usuario} == 'ROLE_ADMIN'" class="celda">Opciones</th>
-												    <th th:if="${usuario} == 'ROLE_USER'" class="celda">Opcion</th>
+													<th th:if="${usuario} == 'ROLE_ADMIN'" style="width:230px" class="celda">Opciones</th>
+												    <th th:if="${usuario} == 'ROLE_USER'" style="width:230px" class="celda">Opcion</th>
 													
-													<th style="width:10px" id="tamano" th:if="${tamano} == 'mostrar'"></th>													
+													<th style="width:1.4%" id="tamano" th:if="${tamano} == 'mostrar'"></th>													
 												</tr>
 											</thead>
 											<tbody>
@@ -138,16 +134,14 @@
 													<td th:text="${conductoressql.nombre}" class="celda"></td>
 													<td th:text="${conductoressql.apellido1}" class="celda"></td>
 													<td th:text="${conductoressql.apellido2}" class="celda"></td>											
-													<td th:text="${conductoressql.adscripcion.nombre_adscripcion}" style="width:300px" class="celda"></td>	
+													<td th:text="${conductoressql.adscripcion.nombre_adscripcion}" style="width:250px" class="celda"></td>	
 													<td th:text="${conductoressql.no_ine}" class="celda"></td>
-													<td th:text="${conductoressql.vig_ine}" class="celda"></td>
 													<td th:text="${conductoressql.no_licencia}" class="celda"></td>
-													<td th:text="${conductoressql.vig_licencia}" class="celda"></td>																																																
-													<td class="celda">
+													<td class="celda"  >
 													
 															<div th:if="${usuario} == 'ROLE_ADMIN'">
-																<a th:id="estCon+${conductoressql.no_empleado}"  th:if="${conductoressql.enabled} == true" class="btn btn-success btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Inactivo');" th:text="Activo" style="width: 70px;"></a>
-																<a th:id="estCon+${conductoressql.no_empleado}" th:if="${conductoressql.enabled} == false" class="btn btn-danger btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Activo');" th:text="'Inactivo'" style="width: 70px;"></a>
+																<a th:id="estCon+${conductoressql.no_empleado}"  th:if="${conductoressql.enabled} == true" class="btn btn-success btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Inactivo');" th:text="Activo" style="font-size:smaller;"></a>
+																<a th:id="estCon+${conductoressql.no_empleado}" th:if="${conductoressql.enabled} == false" class="btn btn-danger btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Activo');" th:text="'Inactivo'" style="font-size:smaller;"></a>
 															</div>													
 																													
 															<div th:if="${usuario} == 'ROLE_USER'">
@@ -156,21 +150,21 @@
 															</div>	
 													</td>
 													
-													<td th:if="${usuario} == 'ROLE_ADMIN' " class="celda">
-															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/FormCond/} +${conductoressql.no_empleado}" th:text="editar" style="width:70px"></a>
+													<td th:if="${usuario} == 'ROLE_ADMIN' " class="celda" style="width:230px">
+															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/FormCond/} +${conductoressql.no_empleado}" th:text="editar" style="width:100px;font-size:smaller;"></a>
 															<!-- <a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimCond/} +${conductoressql.no_empleado}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar" style="width:100px"></a>-->
-															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimCond/} +${conductoressql.no_empleado}" onclick="return confirm('Seguro que desea dar de baja al conductor?');" th:text="Baja" style="width:70px"></a>													
+															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimCond/} +${conductoressql.no_empleado}" onclick="return confirm('Seguro que desea dar de baja al conductor?');" th:text="Baja" style="width:100px;font-size:smaller;"></a>													
 													
 													</td>
 													
-													<td th:if="${usuario} == 'ROLE_USER' " class="celda">
+													<td th:if="${usuario} == 'ROLE_USER' " class="celda" style="width:230px">
 															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/FormCond/} +${conductoressql.no_empleado}" th:text="datos" style="width:70px"></a>													
 													</td>
 												</tr>																							
 												
 											</tbody>										
 										</table>
-										<nav th:replace="paginator-nav :: paginator"></nav>
+										<div class="col-sm-1 enlinea"><nav th:replace="paginator-nav :: paginator"></nav></div>
 										
 										<div class="form-group last col-sm-12"  th:if="${usuario} == 'ROLE_ADMIN'">
 										<a class="btn btn-primary btn-xs col-sm-2 btn-stilo" th:href="@{/FormCond}" style="float:right;margin-left: 1%;margin-right: 1%;">Agregar</a>										
@@ -282,7 +276,7 @@
 	<!-- Popper js -->
 	<script src="/SGV/assets/js/popper.min.js"></script>
 	<!-- Bootstrap Js -->
-	<script src="/SGV/assets/js/bootstrap.min.js"></script>
+	<script src="/SGV/assets/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Form Validator -->
 	<script src="/SGV/assets/js/validator.min.js"></script>
 	<!-- Contact Form Js -->
