@@ -7,8 +7,8 @@
 	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
 	<link href="favicon.html" rel="icon">
 	<link rel="stylesheet" th:href="@{/assets/css/estilos.css}">
-	<link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
-	<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/fontawesome/css/fontawesome.min.css}">
 	<link rel="stylesheet" th:href="@{/assets/css/contact-form.css}" type="text/css">
 	<script src="/SGV/assets/js/jquery-3.4.1.min.js"></script>
 	<script src="/SGV/assets/fontawesome/js/all.js"></script>
@@ -123,7 +123,7 @@
 													<th class="celda">No Lic</th>
 													<th class="celda">Estado</th>
 													<th th:if="${usuario} == 'ROLE_ADMIN'" style="width:230px" class="celda">Opciones</th>
-												    <th th:if="${usuario} == 'ROLE_USER'" style="width:230px" class="celda">Opcion</th>
+												    <th th:if="${usuario} == 'ROLE_USER'" class="celda">Opcion</th>
 													
 													<th style="width:1.4%" id="tamano" th:if="${tamano} == 'mostrar'"></th>													
 												</tr>
@@ -145,8 +145,8 @@
 															</div>													
 																													
 															<div th:if="${usuario} == 'ROLE_USER'">
-																<h6  th:if="${conductoressql.enabled} == true" class="celda">Activo</h6>
-																<h6  th:if="${conductoressql.enabled} == false" class="celda">Inactivo</h6>
+																<h4  th:if="${conductoressql.enabled} == true" class="celda">Activo</h4>
+																<h4  th:if="${conductoressql.enabled} == false" class="celda">Inactivo</h4>
 															</div>	
 													</td>
 													
@@ -157,7 +157,7 @@
 													
 													</td>
 													
-													<td th:if="${usuario} == 'ROLE_USER' " class="celda" style="width:230px">
+													<td th:if="${usuario} == 'ROLE_USER' " class="celda">
 															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/FormCond/} +${conductoressql.no_empleado}" th:text="datos" style="width:70px"></a>													
 													</td>
 												</tr>																							
