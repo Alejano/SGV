@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<title>Mantenimiento</title>
+<title>Talleres</title>
 <head>
 	<meta charset="utf-8">
 	<meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -114,7 +114,7 @@
 											
 	                                    <div class="col-md-12">
 	                                        <h2 th:text="${titulo}" class="titulotabla"  ></h2>
-										<table class="table table-striped table-bordered fixed_header " id="MantenimientoT">
+										<table class="table table-striped table-bordered fixed_header " id="TalleresT">
 											<thead class="table-success">
 												<tr>
 													<th class="celda">Nombre</th>
@@ -124,24 +124,18 @@
 													<th class="celda">Alcaldia</th>
 													<th class="celda">Entidad</th>
 													<th class="celda">Numero de Contrato</th>
-													<th th:if="${usuario} == 'ROLE_ADMIN'" class="celda">Opciones</th>
 													<th style="width:10px" th:if="${tamano} == 'mostrar'"></th>
 												</tr>
 											</thead>
 											<tbody>
-												<tr th:each="mantenimientossql: ${talleres}">													
-													<td th:text="${mantenimientossql.nombre}" class="celda"></td>
-													<td th:text="${mantenimientossql.calle}" class="celda"></td>
-													<td th:text="${mantenimientossql.numero}" class="celda"></td>
-													<td th:text="${mantenimientossql.cp}" class="celda"></td>
-													<td th:text="${mantenimientossql.alcaldia}" class="celda"></td>
-													<td th:text="${mantenimientossql.entidad}" class="celda"></td>
-													<td th:text="${mantenimientossql.no_contrato}" class="celda"></td>
-													<td th:if="${usuario} == 'ROLE_ADMIN' " class="celda">
-															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/formMant/} +${mantenimientossql.id_mantenimiento}" th:text="editar"></a>
-															<a class="btn btn-primary btn-xs btn-stilo" th:href="@{/elimMant/} +${mantenimientossql.id_mantenimiento}" onclick="return confirm('Seguro que desea eliminar?');" th:text="eliminar"></a>
-														
-													</td>
+												<tr th:each="talleressql: ${talleres}">													
+													<td th:text="${talleressql.nombre}" class="celda"></td>
+													<td th:text="${talleressql.calle}" class="celda"></td>
+													<td th:text="${talleressql.numero}" class="celda"></td>
+													<td th:text="${talleressql.cp}" class="celda"></td>
+													<td th:text="${talleressql.alcaldia}" class="celda"></td>
+													<td th:text="${talleressql.entidad}" class="celda"></td>
+													<td th:text="${talleressql.no_contrato}" class="celda"></td>
 												</tr>
 											</tbody>
 										</table>										

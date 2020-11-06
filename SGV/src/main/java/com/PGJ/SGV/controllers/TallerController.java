@@ -2,6 +2,7 @@ package com.PGJ.SGV.controllers;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.PGJ.SGV.models.entity.Authority;
-import com.PGJ.SGV.models.entity.Mantenimiento;
 import com.PGJ.SGV.models.entity.Taller;
 import com.PGJ.SGV.models.entity.Usuario;
 import com.PGJ.SGV.service.IAutoridadService;
@@ -45,9 +48,25 @@ public class TallerController {
 	@RequestMapping(value="/Talleres", method = RequestMethod.GET)
 	public String listar(Model model, Authentication authentication) {				
 				
+		
+	var user="";
+		
+		if(hasRole("ROLE_ADMIN")) {
+			user ="ROLE_ADMIN";						
+			model.addAttribute("usuario",user);
+		}else {
+			if(hasRole("ROLE_USER")) {
+				user = "ROLE_USER";
+				model.addAttribute("usuario",user);				
+			}
+		}
+		
+		
 		List<Taller> talleres = new ArrayList<Taller>();
 		
 		talleres = tallerservice.findAll();
+		if(tallerservice.totalTalleres()>=9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
+
 				
 		model.addAttribute("talleres",talleres);		
 		
@@ -151,7 +170,26 @@ public class TallerController {
 		  return Pattern.matches(fpRegex, s);
 	}
 	
-	
+	public static boolean hasRole(String role) {
+		SecurityContext context = SecurityContextHolder.getContext();
+		
+		if(context==null) {
+		return false;
+		}
+		
+		Authentication auth = context.getAuthentication();
+		
+		if(auth == null) {
+			return false;
+		}
+		
+		Collection<? extends GrantedAuthority> autorithies = auth.getAuthorities();
+		for(GrantedAuthority authority: autorithies) {
+			if(role.equals(authority.getAuthority())) {return true;}
+		}
+		return false;
+	}
+
 	
 
 }

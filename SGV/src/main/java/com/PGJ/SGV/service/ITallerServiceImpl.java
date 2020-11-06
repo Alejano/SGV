@@ -49,5 +49,11 @@ public class ITallerServiceImpl implements ITallerService{
 		// TODO Auto-generated method stub
 		return tallerdao.FindTallerElemPageL(elemento, page);
 	}
+	
+	@Override
+	public Long totalTalleres() {
+		// TODO Auto-generated method stub
+		return tallerdao.totalTalleres();
+	}
 
 }
