@@ -53,7 +53,7 @@ public class ITallerServiceImpl implements ITallerService{
 	@Override
 	public Long totalTalleres() {
 		// TODO Auto-generated method stub
-		return tallerdao.totalTalleres();
+		return tallerdao.totalTalleres(); 
 	}
 
 }

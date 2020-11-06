@@ -13,6 +13,6 @@ public interface ITallerDao extends CrudRepository<Taller, Long>{
 	public Page<Taller> FindTallerElemPageL(String elemento,Pageable pageable);
 	
 	@Query("select count(t) from Taller t")
-	public Long totalTalleres();
+	public Long totalTalleres(); 
 
 }

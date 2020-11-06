@@ -67,8 +67,7 @@ public class TallerController {
 		talleres = tallerservice.findAll();
 		if(tallerservice.totalTalleres()>=9) {model.addAttribute("tamano","mostrar");}else{model.addAttribute("tamano","no mostrar");};
 
-				
-		model.addAttribute("talleres",talleres);		
+		model.addAttribute("talleres",talleres);	 	
 		
 		return "Talleres/Talleres";
 	}
