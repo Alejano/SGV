@@ -137,16 +137,16 @@
 													<td th:text="${conductoressql.adscripcion.nombre_adscripcion}" style="width:250px" class="celda"></td>	
 													<td th:text="${conductoressql.no_ine}" class="celda"></td>
 													<td th:text="${conductoressql.no_licencia}" class="celda"></td>
-													<td class="celda"  >
+														<td class="celda"  >
 													
-															<div th:if="${usuario} == 'ROLE_ADMIN'">
-																<a th:id="estCon+${conductoressql.no_empleado}"  th:if="${conductoressql.enabled} == true" class="btn btn-success btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Inactivo');" th:text="Activo" style="font-size:smaller;"></a>
-																<a th:id="estCon+${conductoressql.no_empleado}" th:if="${conductoressql.enabled} == false" class="btn btn-danger btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scroller(this.id,'Activo');" th:text="'Inactivo'" style="font-size:smaller;"></a>
+															<div th:if="${usuario} == 'ROLE_ADMIN'" th:switch="${conductoressql.enabled} == true">															
+															<a th:id="estCon+${conductoressql.no_empleado}" th:case="true" class="btn btn-success btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scrolleruc(this.id,'Inactivo');" th:text="Activo" style="width: 100px;font-size:smaller;"></a>
+															<a th:id="estCon+${conductoressql.no_empleado}" th:case="false" class="btn btn-danger btn-xs sel" th:href="@{/estadoCond/} +${conductoressql.no_empleado}+'/'+${conductoressql.enabled}" onclick="scrolleruc(this.id,'Activo');" th:text="Inactivo" style="width: 100px;font-size:smaller;"></a>																								
 															</div>													
 																													
 															<div th:if="${usuario} == 'ROLE_USER'">
-																<h4  th:if="${conductoressql.enabled} == true" class="celda">Activo</h4>
-																<h4  th:if="${conductoressql.enabled} == false" class="celda">Inactivo</h4>
+																<h4  th:if="${conductoressql.enabled} == true" class="celda" style="font-size: 14px;">Activo</h4>
+																<h4  th:if="${conductoressql.enabled} == false" class="celda" style="font-size: 14px;">Inactivo</h4>
 															</div>	
 													</td>
 													

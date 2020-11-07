@@ -280,17 +280,16 @@ public class ConductorController {
 	}	
 	
 	
-	@RequestMapping(value="/estadoCond/{no_empleado}/{enabled}/{Corddocu}/{Cordtabla}")
+	@RequestMapping(value="/estadoCond/{no_empleado}/{enabled}")
 	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")boolean enabled,
-			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication) {
+		@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication) {
 		
 		var user="";
 		var no_user ="";
 		no_user = authentication.getName();
 		
 		boolean seteo = false;
-		Corddocu =docu;
-		Cordtabla = tabla;
+
 		Conductor cond = new Conductor();
 	    cond = conductorService.findOne(no_empleado);
 	    
