@@ -226,19 +226,18 @@ public class UsuarioController {
 	 }	
 	
 	
-	@RequestMapping(value="/estadoUsu/{no_empleado}/{enabled}/{Corddocu}/{Cordtabla}")
-	public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")boolean enabled,
-			@PathVariable(value="Corddocu")int docu,@PathVariable(value="Cordtabla")int tabla,@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication) {
+	   @RequestMapping(value="/estadoUsu/{no_empleado}/{enabled}")
+	    public String estado (@PathVariable(value="no_empleado")String no_empleado,@PathVariable(value="enabled")boolean enabled,
+			@RequestParam(name="page", defaultValue = "0") int page,Authentication authentication) {
 		
 		var user="";
 		var no_user ="";
 		no_user = authentication.getName();
 		
+		
 		Usuario uss = new Usuario();
 		uss = usuarioService.findOne(no_empleado);
 		boolean seteo = false;
-		Corddocu =docu;
-		Cordtabla = tabla;
 		
 		 if(hasRole("ROLE_ADMIN")) {
 				user ="ROLE_ADMIN";
@@ -265,9 +264,9 @@ public class UsuarioController {
 	
 		//Auditoria
 		
-     	LogsAudit logs = new LogsAudit();
-     	
-        logs.setId_usuario(no_user);
+   	LogsAudit logs = new LogsAudit();
+   	
+      logs.setId_usuario(no_user);
 		logs.setTipo_role(user);
 		logs.setFecha(SystemDate.obtenFecha());
 		logs.setHora(ObtenHour.obtenHour());
